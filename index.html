@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* Dark grayscale — bigger + airier */
+    /* Dark grayscale — airy */
     --bg:#0b0d11;      /* page */
     --ink:#e7e9ee;     /* text */
     --muted:#9aa3ad;   /* secondary */
@@ -18,11 +18,11 @@
     --pane:#10141b;    /* media/inputs */
 
     --max: 1240px;     /* wider content width */
-    --pad: clamp(24px,6vw,68px);          /* bigger side padding */
-    --gap: clamp(28px,3.6vw,44px);        /* bigger gaps */
+    --pad: clamp(24px,6vw,68px);
+    --gap: clamp(28px,3.6vw,44px);
     --radius: 14px;
     --header: 84px;    /* taller sticky header */
-    --lh: 1.72;        /* looser line-height */
+    --lh: 1.72;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -39,9 +39,9 @@
   .container{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
   .center{text-align:center}
   .muted{color:var(--muted)}
-  .stack{max-width:920px;margin:0 auto} /* readable measure, a bit wider */
+  .stack{max-width:920px;margin:0 auto}
 
-  /* ===== Sticky Top Nav (floats while scrolling) ===== */
+  /* ===== Sticky Top Nav ===== */
   .site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:linear-gradient(180deg, rgba(11,13,17,.85), rgba(11,13,17,.55));backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);height:var(--header)}
   .nav{height:100%;display:flex;align-items:center;justify-content:space-between}
   .brand{font-weight:800;display:flex;align-items:center;gap:16px;font-size:1.05rem}
@@ -51,68 +51,54 @@
   main{padding-top:calc(var(--header) + 22px)}
 
   /* ===== Mobile bottom nav ===== */
-  .mnav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:12px;border-top:1px solid var(--rule);background:#0d1015;backdrop-filter:blur(8px);z-index:90}
+  .mnav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:12px;border-top:1px solid var(--rule);background:#0d1015;backdrop-filter:blur(8px);z-index:90}
   .mnav a{display:flex;align-items:center;justify-content:center;height:52px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;font-weight:800}
   @media (min-width:980px){.mnav{display:none} body{padding-bottom:0}}
 
-  /* Sections (more breathing room) */
+  /* Sections */
   section{padding:calc(var(--pad) * 2.0) 0;scroll-margin-top:28px}
   h1,h2{margin:0 0 14px}
   .title{font-weight:800;font-size:clamp(30px,5vw,56px);letter-spacing:.01em}
   .lead{max-width:74ch;color:#cfd5df;margin:0 auto;font-size:1.08rem}
 
-  /* Media placeholders (larger) */
-  
-  .media img, .svc-media img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
-  .media img, .svc-media img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+  /* ===== Hero media ===== */
+  .media{border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane);display:grid;place-items:center;color:#99a4b4;font-weight:800;font-size:1.05rem;overflow:hidden}
+  .media img{width:100%;height:100%;object-fit:cover;display:block}
   .hero{height:420px}
-  .row{height:300px}
-  .tall{height:600px}
 
-  /* Services — poster strips */
-  .svc-strips{display:grid;gap:calc(var(--gap) + 10px)}
-  .svc-row{position:relative;overflow:hidden;border-radius:var(--radius);border:1px solid var(--rule);background:var(--pane);min-height:260px;display:grid;align-items:end;padding:22px}
-  .svc-row::before{content:"";position:absolute;inset:0;background:
-      radial-gradient(60% 50% at 10% 0%, rgba(255,255,255,.03), transparent 60%),
-      radial-gradient(70% 50% at 100% 100%, rgba(255,255,255,.02), transparent 50%);
-      mix-blend-mode: screen;opacity:.7;z-index:0;pointer-events:none}
-  .svc-row > *{position:relative;z-index:1}
-  .svc-no{position:absolute;left:16px;top:14px;font-weight:800;font-size:clamp(20px,3vw,26px);color:#b4bcc9;letter-spacing:.2em}
-  .svc-title{font-weight:800;font-size:1.22rem;margin:0 0 4px}
-  .svc-desc{margin:0;color:#cfd5df}
-  .svc-media{position:absolute;right:12px;top:12px;width:min(38%,460px);height:72%;border:1px solid var(--rule);border-radius:12px;background:#0f141e;display:grid;place-items:center;color:#93a0b4;font-weight:800;overflow:hidden}
-  .svc-row:hover .svc-media{transform:translateY(-2px);transition:transform .25s ease}
-  /* Optional subtle variants */
-  .svc-row.prune{background:linear-gradient(180deg,#10161e,#0c1016)}
-  .svc-row.remove{background:linear-gradient(180deg,#0f151d,#0b1016)}
-  .svc-row.storm{background:linear-gradient(180deg,#0f1621,#0a0f16)}
-  .svc-row.brush{background:linear-gradient(180deg,#0e141c,#0a0f16)}
-  @media (max-width:760px){
-    .svc-row{padding:16px;min-height:unset}
-    .svc-media{position:relative;right:auto;top:auto;width:100%;height:220px;margin-top:12px}
-    .svc-no{left:12px;top:10px}
-  }
-    .svc-media{position:relative;right:auto;top:auto;width:100%;height:180px;margin-top:12px}
-    .svc-no{left:12px;top:10px}
-  
+  /* ===== Services: Carousel + Emoji list ===== */
+  /* Carousel shell (like voices: simple track, arrows, dots) */
+  .carousel{position:relative;margin:10px 0 24px}
+  .viewport{overflow:hidden;border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane)}
+  .track{display:flex;transition:transform .45s ease}
+  .slide{min-width:100%;height:520px;display:grid;place-items:center}
+  .slide img{width:100%;height:100%;object-fit:cover}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;display:grid;place-items:center;font-weight:800;color:#e7e9ee;cursor:pointer;opacity:.9}
+  .arrow:hover{opacity:1}
+  .prev{left:12px}
+  .next{right:12px}
+  .dots{display:flex;gap:8px;justify-content:center;margin-top:12px}
+  .dot{width:8px;height:8px;border-radius:999px;background:#3a4658;border:1px solid #4a586c;opacity:.7;cursor:pointer}
+  .dot.active{opacity:1;background:#cfd5df}
+  @media (max-width:900px){.slide{height:380px}}
 
-  /* Work grid (wider gutters) */
-  .work{display:grid;grid-template-columns:1.45fr .95fr;gap:calc(var(--gap) + 14px)}
-  .work > div{display:grid;gap:calc(var(--gap) + 14px)}
-  @media (max-width:1100px){.work{grid-template-columns:1fr}}
+  /* Emoji list */
+  .svc-emoji{list-style:none;margin:0 auto;padding:0;max-width:920px;display:grid;gap:10px}
+  .svc-emoji li{padding:6px 0;font-size:1.06rem;color:#e4e7ed}
+  .svc-emoji .e{display:inline-block;width:1.6em;text-align:center;margin-right:.35em}
 
-  /* Two-up info (spaced) */
+  /* Info lists */
   .twoup{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--gap) + 12px)}
   .list{list-style:none;margin:0;padding:0}
   .list li{padding:18px 0}
 
-  /* Form (larger inputs, taller spacing) */
+  /* Form */
   form{display:grid;gap:16px;max-width:800px;margin:0 auto}
   label{font-size:1.05rem;color:#c9d0da}
   input,select,textarea{width:100%;height:58px;padding:0 16px;border-radius:12px;border:1px solid #243041;background:#0c121b;color:#e9edf3;font-size:1.05rem}
   textarea{height:auto;padding:14px 16px}
   .cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:16px}
-  .btn{appearance:none;border:1px solid var(--rule);background:#141820;color:var(--ink);padding:14px 22px;border-radius:12px;font-weight:800;font-size:1.02rem}
+  .btn{appearance:none;border:1px solid var(--rule);background:#141820;color:#e7e9ee;padding:14px 22px;border-radius:12px;font-weight:800;font-size:1.02rem}
   .btn.alt{background:#e7e9ee;color:#0f1115;border-color:#e7e9ee}
 
   /* Footer */
@@ -125,11 +111,10 @@
   <!-- Sticky top nav -->
   <header class="site-header">
     <div class="container nav">
-      <div class="brand">Tree Trimming Services &amp; More LLC <span class="muted" style="font-weight:600;margin-left:12px"></span></div>
+      <div class="brand">Tree Trimming Services &amp; More LLC <span class="muted" style="font-weight:600;margin-left:12px">Insured · 16 yrs</span></div>
       <nav class="links" aria-label="Primary">
         <a href="#about">About</a>
         <a href="#services">Services</a>
-        <a href="#work">Work</a>
         <a href="#info">Info</a>
         <a href="#booking">Booking</a>
       </nav>
@@ -140,7 +125,6 @@
   <nav class="mnav" aria-label="Mobile navigation">
     <a href="#about">About</a>
     <a href="#services">Services</a>
-    <a href="#work">Work</a>
     <a href="#info">Info</a>
     <a href="#booking">Booking</a>
   </nav>
@@ -156,65 +140,29 @@
           <a class="btn" href="sms:+15739153370?body=Hi!%20Quote%20for%20tree%20work.">Text</a>
         </div>
       </div>
-      <div class="media hero"><img src="https://source.unsplash.com/1600x900/?arborist,climbing&sig=101" alt="Arborist climbing a tree" loading="lazy" decoding="async"></div>
+      <div class="media hero" style="margin-top:28px"><img src="images/hero.jpg" alt="Tree work hero"></div>
     </section>
 
-    <!-- SERVICES (roomier measure) -->
+    <!-- SERVICES (carousel + emoji list) -->
     <section id="services" class="container">
       <div class="stack">
         <h2 class="title" style="font-size:clamp(22px,2.4vw,24px)">Services</h2>
-      </div>
-      <div class="svc-strips" aria-label="Services">
-        <div class="svc-row prune">
-          <span class="svc-no">01</span>
-          <div class="svc-media" role="img" aria-label="Brush and haul-away image"><img src="https://source.unsplash.com/800x600/?brush,woodchips,chipper&sig=304" alt="Brush haul-away placeholder" loading="lazy" decoding="async"></div>
-          <div>
-            <h3 class="svc-title">Pruning</h3>
-            <p class="svc-desc">Health • clearance • structure</p>
+        <!-- Carousel -->
+        <div class="carousel" aria-label="Image carousel">
+          <button class="arrow prev" aria-label="Previous">‹</button>
+          <div class="viewport">
+            <div class="track" id="carouselTrack"></div>
           </div>
-          <a class="stretch" href="#booking" aria-label="Request quote for pruning"></a>
+          <button class="arrow next" aria-label="Next">›</button>
+          <div class="dots" id="carouselDots"></div>
         </div>
-        <div class="svc-row remove">
-          <span class="svc-no">02</span>
-          <div class="svc-media" role="img" aria-label="Removals placeholder">MEDIA</div>
-          <div>
-            <h3 class="svc-title">Removals</h3>
-            <p class="svc-desc">Sectional • tight spaces • stump options</p>
-          </div>
-          <a class="stretch" href="#booking" aria-label="Request quote for removals"></a>
-        </div>
-        <div class="svc-row storm">
-          <span class="svc-no">03</span>
-          <div class="svc-media" role="img" aria-label="Storm work placeholder">MEDIA</div>
-          <div>
-            <h3 class="svc-title">Storm</h3>
-            <p class="svc-desc">Hazards out • site safe & tidy</p>
-          </div>
-          <a class="stretch" href="#booking" aria-label="Request quote for storm work"></a>
-        </div>
-        <div class="svc-row brush">
-          <span class="svc-no">04</span>
-          <div class="svc-media" role="img" aria-label="Brush & haul-away placeholder">MEDIA</div>
-          <div>
-            <h3 class="svc-title">Brush</h3>
-            <p class="svc-desc">Cut • load • gone</p>
-          </div>
-          <a class="stretch" href="#booking" aria-label="Request quote for brush work"></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- WORK (asymmetric grid, wider gutters) -->
-    <section id="work" class="container">
-      <h2 class="title" style="font-size:clamp(22px,2.4vw,24px)">Work</h2>
-      <div class="work" style="margin-top:18px">
-        <div>
-          <div class="media row"><img src="https://source.unsplash.com/1600x900/?tree,crew,chipper&sig=202" alt="Tree crew with chipper" loading="lazy" decoding="async"></div>
-          <div class="media row">WIDE</div>
-        </div>
-        <div>
-          <div class="media tall"><img src="https://source.unsplash.com/900x1300/?tree,canopy,rigging&sig=203" alt="Tall tree canopy rigging" loading="lazy" decoding="async"></div>
-        </div>
+        <!-- Emoji service list -->
+        <ul class="svc-emoji" aria-label="Capabilities">
+          <li><span class="e">✂️</span> Pruning & Crown Care</li>
+          <li><span class="e">🪓</span> Controlled Removals (tight spaces, sectional)</li>
+          <li><span class="e">🌩️</span> Storm Damage & Hazard Cleanup</li>
+          <li><span class="e">🧹</span> Brush & Haul‑Away</li>
+        </ul>
       </div>
     </section>
 
@@ -313,7 +261,7 @@ Sent from website`);
   });
 
   // Active link highlight on scroll (top + mobile nav)
-  const anchors = ['#about','#services','#work','#info','#booking'];
+  const anchors = ['#about','#services','#info','#booking'];
   const topLinks = anchors.map(sel => document.querySelector(`.links a[href="${sel}"]`)).filter(Boolean);
   const mobileLinks = anchors.map(sel => document.querySelector(`.mnav a[href="${sel}"]`)).filter(Boolean);
   const sections = anchors.map(sel => document.querySelector(sel)).filter(Boolean);
@@ -328,7 +276,85 @@ Sent from website`);
     });
   }, { rootMargin:'-25% 0px -60% 0px', threshold:.1 });
   sections.forEach(s=>io.observe(s));
+
+  // ======== Image Carousel (reads from /images folder) ========
+  // Because browsers can't list folders, set your file names here.
+  // Just drop your files into /images and list them below.
+  // Example: ['job1.jpg','job2.jpg','rigging.png','storm.webp']
+  const IMAGE_PATH = 'images/';
+  const IMAGE_FILES = [
+    '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','disaster.jpg','disaster2.jpg'
+  ];
+
+  (function initCarousel(){
+    const track = document.getElementById('carouselTrack');
+    const dotsWrap = document.getElementById('carouselDots');
+    if(!track) return;
+
+    // Build slides
+    const slides = IMAGE_FILES.map(name => {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      const img = document.createElement('img');
+      img.alt = 'Tree work photo';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = IMAGE_PATH + name;
+      slide.appendChild(img);
+      track.appendChild(slide);
+      return slide;
+    });
+
+    // Dots
+    const dots = IMAGE_FILES.map((_,i)=>{
+      const d = document.createElement('button');
+      d.className = 'dot';
+      d.type = 'button';
+      d.setAttribute('aria-label', `Go to slide ${i+1}`);
+      d.addEventListener('click', ()=> go(i));
+      dotsWrap.appendChild(d);
+      return d;
+    });
+
+    let idx = 0; 
+    const prevBtn = document.querySelector('.carousel .prev');
+    const nextBtn = document.querySelector('.carousel .next');
+
+    function update(){
+      track.style.transform = `translateX(${-idx*100}%)`;
+      dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+      prevBtn.disabled = (idx===0);
+      nextBtn.disabled = (idx===slides.length-1);
+    }
+    function go(i){ idx = Math.max(0, Math.min(slides.length-1, i)); update(); }
+    function next(){ go(idx+1); }
+    function prev(){ go(idx-1); }
+
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
+
+    // Keyboard
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    });
+
+    // Swipe
+    let startX = 0, curX = 0, dragging = false;
+    track.addEventListener('pointerdown', (e)=>{ dragging=true; startX=e.clientX; track.style.transition='none'; });
+    track.addEventListener('pointermove', (e)=>{
+      if(!dragging) return; curX=e.clientX; const dx = curX-startX; track.style.transform = `translateX(${-idx*100 + (dx/window.innerWidth)*100}%)`;
+    });
+    const endDrag = ()=>{
+      if(!dragging) return; dragging=false; track.style.transition='transform .45s ease';
+      const dx = curX-startX; if(Math.abs(dx) > window.innerWidth*0.12){ dx<0 ? next() : prev(); } else update();
+    };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+
+    update();
+  })();
 </script>
 </body>
 </html>
-
