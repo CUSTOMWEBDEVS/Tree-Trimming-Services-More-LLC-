@@ -67,25 +67,31 @@
   .hero{height:420px}
 
   /* ===== Services: Carousel + Emoji list ===== */
-  /* Carousel shell (like voices: simple track, arrows, dots) */
+  /* Carousel shell (voices-style minimal) */
   .carousel{position:relative;margin:10px 0 24px}
-  .viewport{overflow:hidden;border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane)}
-  .track{display:flex;transition:transform .45s ease}
-  .slide{min-width:100%;height:520px;display:grid;place-items:center}
-  .slide img{width:100%;height:100%;object-fit:cover}
-  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;display:grid;place-items:center;font-weight:800;color:#e7e9ee;cursor:pointer;opacity:.9}
+  .viewport{position:relative;overflow:hidden;border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane)}
+  .track{display:flex;transition:transform .45s ease;will-change:transform;touch-action:pan-y;user-select:none}
+  .slide{min-width:100%;height:520px;display:grid;place-items:center;background:#0f1319}
+  .slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;display:grid;place-items:center;font-weight:800;color:#e7e9ee;cursor:pointer;opacity:.9;z-index:9}
+  .arrow[disabled]{opacity:.4;cursor:not-allowed}
   .arrow:hover{opacity:1}
   .prev{left:12px}
   .next{right:12px}
   .dots{display:flex;gap:8px;justify-content:center;margin-top:12px}
   .dot{width:8px;height:8px;border-radius:999px;background:#3a4658;border:1px solid #4a586c;opacity:.7;cursor:pointer}
   .dot.active{opacity:1;background:#cfd5df}
+  .arrow:focus-visible,.dot:focus-visible{outline:2px solid #cfd5df;outline-offset:2px}
   @media (max-width:900px){.slide{height:380px}}
 
-  /* Emoji list */
-  .svc-emoji{list-style:none;margin:0 auto;padding:0;max-width:920px;display:grid;gap:10px}
-  .svc-emoji li{padding:6px 0;font-size:1.06rem;color:#e4e7ed}
-  .svc-emoji .e{display:inline-block;width:1.6em;text-align:center;margin-right:.35em}
+  /* Pro service list */
+  .svc-pro{list-style:none;margin:0 auto;padding:0;max-width:920px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  @media (max-width:780px){.svc-pro{grid-template-columns:1fr}}
+  .svc-item{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border:1px solid var(--rule);border-radius:12px;background:linear-gradient(180deg,#0f1319,#0c1016)}
+  .svc-item:hover{transform:translateY(-1px);transition:transform .2s ease}
+  .ico{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:.85rem;letter-spacing:.08em;color:#e7e9ee;background:#0f1319;border:1px solid var(--rule)}
+  .svc-text h3{margin:0 0 4px;font-size:1.02rem}
+  .svc-text p{margin:0;color:#cfd5df;font-size:.96rem}
 
   /* Info lists */
   .twoup{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--gap) + 12px)}
@@ -157,12 +163,36 @@
           <div class="dots" id="carouselDots"></div>
         </div>
         <!-- Emoji service list -->
-        <ul class="svc-emoji" aria-label="Capabilities">
-          <li><span class="e">✂️</span> Pruning & Crown Care</li>
-          <li><span class="e">🪓</span> Controlled Removals (tight spaces, sectional)</li>
-          <li><span class="e">🌩️</span> Storm Damage & Hazard Cleanup</li>
-          <li><span class="e">🧹</span> Brush & Haul‑Away</li>
-        </ul>
+        <div class="svc-pro" aria-label="Capabilities">
+          <div class="svc-item">
+            <div class="ico" aria-hidden="true">PR</div>
+            <div class="svc-text">
+              <h3>Pruning &amp; Crown Care</h3>
+              <p>Selective cuts for health, clearance, and structure.</p>
+            </div>
+          </div>
+          <div class="svc-item">
+            <div class="ico" aria-hidden="true">RM</div>
+            <div class="svc-text">
+              <h3>Controlled Removals</h3>
+              <p>Sectional lowering for tight spaces; stump options on request.</p>
+            </div>
+          </div>
+          <div class="svc-item">
+            <div class="ico" aria-hidden="true">ST</div>
+            <div class="svc-text">
+              <h3>Storm Damage &amp; Hazard Cleanup</h3>
+              <p>Fast mitigation and safe takedown of broken or dangerous limbs.</p>
+            </div>
+          </div>
+          <div class="svc-item">
+            <div class="ico" aria-hidden="true">BR</div>
+            <div class="svc-text">
+              <h3>Brush &amp; Haul‑Away</h3>
+              <p>Cut, load, and gone. We leave the site tidy.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
