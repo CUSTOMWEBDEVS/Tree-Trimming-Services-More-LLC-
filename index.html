@@ -147,7 +147,7 @@
           <a class="btn" href="sms:+15739153370?body=Hi!%20Quote%20for%20tree%20work.">Text</a>
         </div>
       </div>
-      <div class="media hero" style="margin-top:28px"><img id="heroImg" src="images/hero.jpg" alt="Tree work hero"></div>
+      <div class="media hero" style="margin-top:28px"><img id="heroImg" alt="Tree work hero"></div>
     </section>
 
     <!-- SERVICES (carousel + emoji list) -->
@@ -314,7 +314,7 @@ Sent from website`);
   // Example: ['job1.jpg','job2.jpg','rigging.png','storm.webp']
   const IMAGE_PATH = 'images/';
   const IMAGE_FILES = [
-    '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','disaster.jpg','disaster2.jpg'
+    'job1.jpg','job2.jpg','job3.jpg','rigging.jpg','storm.jpg','crew.jpg'
   ];
 
   (function initCarousel(){
@@ -439,6 +439,126 @@ Sent from website`);
       }
     });
   })();
+</script>
+<script>
+(function(){
+  const IMAGE_PATH = 'images/';
+  let IMAGE_FILES = [];
+
+  async function getList(){
+    try{
+      const r = await fetch(IMAGE_PATH + 'manifest.json', {cache:'no-store'});
+      if(r.ok){
+        const list = await r.json();
+        if(Array.isArray(list)){
+          return list.filter(n=>/\.(jpe?g|png|webp|gif)$/i.test(n));
+        }
+      }
+    }catch(e){}
+    // Fallback common names
+    '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','disaster.jpg','disaster2.jpg'
+  }
+
+  function setHero(list){
+    const el = document.getElementById('heroImg');
+    if(!el) return;
+    const candidates = [IMAGE_PATH + 'hero.jpg', ...list.map(n=>IMAGE_PATH + n)];
+    (function tryNext(i){
+      if(i>=candidates.length){ el.alt = 'Add images to /images to show the hero.'; return; }
+      const test = new Image();
+      test.onload = ()=>{ el.src = candidates[i]; };
+      test.onerror = ()=> tryNext(i+1);
+      test.src = candidates[i];
+    })(0);
+  }
+
+  function initCarousel(list){
+    const track = document.getElementById('carouselTrack');
+    const dotsWrap = document.getElementById('carouselDots');
+    const viewport = document.querySelector('.carousel .viewport');
+    if(!track || !viewport || !dotsWrap) return;
+
+    track.innerHTML = '';
+    dotsWrap.innerHTML = '';
+
+    const slides = list.map(name => {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      const img = document.createElement('img');
+      img.alt = name;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = IMAGE_PATH + name;
+      slide.appendChild(img);
+      track.appendChild(slide);
+      img.addEventListener('load', setHeight);
+      return slide;
+    });
+
+    if(!slides.length){
+      viewport.style.minHeight = '260px';
+      viewport.innerHTML = '<div style="padding:22px;text-align:center;color:#b4bcc9">Add images to <code>/images</code> to see the carousel.</div>';
+      return;
+    }
+
+    const dots = slides.map((_,i)=>{
+      const d = document.createElement('button');
+      d.className = 'dot';
+      d.type = 'button';
+      d.setAttribute('aria-label', 'Go to slide ' + (i+1));
+      d.addEventListener('click', ()=> go(i));
+      dotsWrap.appendChild(d);
+      return d;
+    });
+
+    let idx = 0;
+    const prevBtn = document.querySelector('.carousel .prev');
+    const nextBtn = document.querySelector('.carousel .next');
+
+    function setHeight(){
+      const img = slides[idx]?.querySelector('img');
+      if(!img) return;
+      requestAnimationFrame(()=>{ viewport.style.height = img.clientHeight + 'px'; });
+    }
+
+    function update(){
+      track.style.transform = 'translateX(' + (-idx*100) + '%)';
+      dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+      if(prevBtn) prevBtn.disabled = (idx===0);
+      if(nextBtn) nextBtn.disabled = (idx===slides.length-1);
+      setHeight();
+    }
+    function go(i){ idx = Math.max(0, Math.min(slides.length-1, i)); update(); }
+    function next(){ go(idx+1); }
+    function prev(){ go(idx-1); }
+
+    prevBtn && prevBtn.addEventListener('click', prev);
+    nextBtn && nextBtn.addEventListener('click', next);
+
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    });
+
+    let startX = 0, curX = 0, dragging = false;
+    track.addEventListener('pointerdown', (e)=>{ dragging=true; startX=e.clientX; track.style.transition='none'; });
+    track.addEventListener('pointermove', (e)=>{
+      if(!dragging) return; curX=e.clientX; const dx = curX-startX; track.style.transform = 'translateX(' + (-idx*100 + (dx/window.innerWidth)*100) + '%)';
+    });
+    const endDrag = ()=>{
+      if(!dragging) return; dragging=false; track.style.transition='transform .45s ease';
+      const dx = curX-startX; if(Math.abs(dx) > window.innerWidth*0.12){ dx<0 ? next() : prev(); } else update();
+    };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+
+    window.addEventListener('resize', setHeight);
+    update();
+  }
+
+  getList().then(list=>{ IMAGE_FILES = list; initCarousel(list); setHero(list); });
+})();
 </script>
 </body>
 </html>
