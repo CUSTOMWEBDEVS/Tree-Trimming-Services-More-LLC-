@@ -64,15 +64,16 @@
   /* ===== Hero media ===== */
   .media{border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane);display:grid;place-items:center;color:#99a4b4;font-weight:800;font-size:1.05rem;overflow:hidden}
   .media img{width:100%;height:100%;object-fit:cover;display:block}
-  .hero{height:420px}
+  .media.hero img{object-fit:contain}
+  .hero{height:clamp(360px, 65vh, 820px)}
 
   /* ===== Services: Carousel + Emoji list ===== */
   /* Carousel shell (voices-style minimal) */
   .carousel{position:relative;margin:10px 0 24px}
   .viewport{position:relative;overflow:hidden;border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane)}
   .track{display:flex;transition:transform .45s ease;will-change:transform;touch-action:pan-y;user-select:none}
-  .slide{min-width:100%;height:520px;display:grid;place-items:center;background:#0f1319}
-  .slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .slide{min-width:100%;height:clamp(420px,70vh,900px);display:grid;place-items:center;background:#0f1319}
+  .slide img{width:100%;height:100%;object-fit:contain;display:block}
   .arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;display:grid;place-items:center;font-weight:800;color:#e7e9ee;cursor:pointer;opacity:.9;z-index:9}
   .arrow[disabled]{opacity:.4;cursor:not-allowed}
   .arrow:hover{opacity:1}
@@ -82,7 +83,7 @@
   .dot{width:8px;height:8px;border-radius:999px;background:#3a4658;border:1px solid #4a586c;opacity:.7;cursor:pointer}
   .dot.active{opacity:1;background:#cfd5df}
   .arrow:focus-visible,.dot:focus-visible{outline:2px solid #cfd5df;outline-offset:2px}
-  @media (max-width:900px){.slide{height:380px}}
+  @media (max-width:900px){.slide{height:clamp(320px,55vh,560px)}}
 
   /* Pro service list */
   .svc-pro{list-style:none;margin:0 auto;padding:0;max-width:920px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
