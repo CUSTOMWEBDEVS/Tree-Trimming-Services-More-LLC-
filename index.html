@@ -63,17 +63,17 @@
 
   /* ===== Hero media ===== */
   .media{border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane);display:grid;place-items:center;color:#99a4b4;font-weight:800;font-size:1.05rem;overflow:hidden}
-  .media img{width:100%;height:100%;object-fit:cover;display:block}
+  .media img{width:100%;height:auto;object-fit:contain;display:block}
   .media.hero img{object-fit:contain}
-  .hero{height:clamp(360px, 65vh, 820px)}
+  .hero{height:auto}
 
   /* ===== Services: Carousel + Emoji list ===== */
   /* Carousel shell (voices-style minimal) */
   .carousel{position:relative;margin:10px 0 24px}
   .viewport{position:relative;overflow:hidden;border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane)}
   .track{display:flex;transition:transform .45s ease;will-change:transform;touch-action:pan-y;user-select:none}
-  .slide{min-width:100%;height:clamp(420px,70vh,900px);display:grid;place-items:center;background:#0f1319}
-  .slide img{width:100%;height:100%;object-fit:contain;display:block}
+  .slide{min-width:100%;display:flex;align-items:center;justify-content:center;background:#0f1319}
+  .slide img{width:100%;height:auto;max-height:80vh;object-fit:contain;display:block}
   .arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;display:grid;place-items:center;font-weight:800;color:#e7e9ee;cursor:pointer;opacity:.9;z-index:9}
   .arrow[disabled]{opacity:.4;cursor:not-allowed}
   .arrow:hover{opacity:1}
@@ -83,7 +83,7 @@
   .dot{width:8px;height:8px;border-radius:999px;background:#3a4658;border:1px solid #4a586c;opacity:.7;cursor:pointer}
   .dot.active{opacity:1;background:#cfd5df}
   .arrow:focus-visible,.dot:focus-visible{outline:2px solid #cfd5df;outline-offset:2px}
-  @media (max-width:900px){.slide{height:clamp(320px,55vh,560px)}}
+  @media (max-width:900px){.slide img{max-height:65vh}}
 
   /* Pro service list */
   .svc-pro{list-style:none;margin:0 auto;padding:0;max-width:920px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -147,7 +147,7 @@
           <a class="btn" href="sms:+15739153370?body=Hi!%20Quote%20for%20tree%20work.">Text</a>
         </div>
       </div>
-      <div class="media hero" style="margin-top:28px"><img src="images/hero.jpg" alt="Tree work hero"></div>
+      <div class="media hero" style="margin-top:28px"><img id="heroImg" src="images/hero.jpg" alt="Tree work hero"></div>
     </section>
 
     <!-- SERVICES (carousel + emoji list) -->
@@ -320,6 +320,7 @@ Sent from website`);
   (function initCarousel(){
     const track = document.getElementById('carouselTrack');
     const dotsWrap = document.getElementById('carouselDots');
+    const viewport = document.querySelector('.carousel .viewport');
     if(!track) return;
 
     // Build slides
@@ -333,6 +334,8 @@ Sent from website`);
       img.src = IMAGE_PATH + name;
       slide.appendChild(img);
       track.appendChild(slide);
+      // adjust height when image loads
+      img.addEventListener('load', ()=> setViewportHeight());
       return slide;
     });
 
@@ -351,11 +354,22 @@ Sent from website`);
     const prevBtn = document.querySelector('.carousel .prev');
     const nextBtn = document.querySelector('.carousel .next');
 
+    function setViewportHeight(){
+      if(!viewport || !slides[idx]) return;
+      const img = slides[idx].querySelector('img');
+      if(!img) return;
+      // Use rendered height for accuracy
+      requestAnimationFrame(()=>{
+        viewport.style.height = img.clientHeight + 'px';
+      });
+    }
+
     function update(){
       track.style.transform = `translateX(${-idx*100}%)`;
       dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
       prevBtn.disabled = (idx===0);
       nextBtn.disabled = (idx===slides.length-1);
+      setViewportHeight();
     }
     function go(i){ idx = Math.max(0, Math.min(slides.length-1, i)); update(); }
     function next(){ go(idx+1); }
@@ -384,7 +398,46 @@ Sent from website`);
     track.addEventListener('pointerleave', endDrag);
     track.addEventListener('pointercancel', endDrag);
 
+    window.addEventListener('resize', setViewportHeight);
+    update(); }
+    function next(){ go(idx+1); }
+    function prev(){ go(idx-1); }
+
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
+
+    // Keyboard
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    });
+
+    // Swipe
+    let startX = 0, curX = 0, dragging = false;
+    track.addEventListener('pointerdown', (e)=>{ dragging=true; startX=e.clientX; track.style.transition='none'; });
+    track.addEventListener('pointermove', (e)=>{
+      if(!dragging) return; curX=e.clientX; const dx = curX-startX; track.style.transform = `translateX(${-idx*100 + (dx/window.innerWidth)*100}%)`;
+    });
+    const endDrag = ()=>{
+      if(!dragging) return; dragging=false; track.style.transition='transform .45s ease';
+      const dx = curX-startX; if(Math.abs(dx) > window.innerWidth*0.12){ dx<0 ? next() : prev(); } else update();
+    };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+
     update();
+  })();
+
+  // Hero fallback to first carousel image if hero.jpg is missing
+  (function heroFallback(){
+    const img = document.getElementById('heroImg');
+    if(!img) return;
+    img.addEventListener('error', ()=>{
+      if(Array.isArray(IMAGE_FILES) && IMAGE_FILES.length){
+        img.src = IMAGE_PATH + IMAGE_FILES[0];
+      }
+    });
   })();
 </script>
 </body>
