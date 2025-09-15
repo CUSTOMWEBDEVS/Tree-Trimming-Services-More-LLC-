@@ -1,309 +1,310 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tree Trimming Services & More LLC</title>
-<meta name="description" content="Insured, professional tree work. 16+ years experience. Text or call +1 (573) 915-3370." />
-<meta name="theme-color" content="#0b0d11" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0b0d11; --ink:#e7e9ee; --muted:#9aa3ad; --rule:#1a2230; --pane:#10141b;
-    --max:1240px; --pad:clamp(18px,5.5vw,68px); --gap:clamp(22px,3.6vw,44px);
-    --radius:14px; --header:clamp(64px,8vw,84px); --lh:1.72;
-    --carousel-max: clamp(260px, 80vh, 900px);
-  }
-  *{box-sizing:border-box} html,body{margin:0} html{scroll-behavior:smooth}
-  body{background:linear-gradient(180deg,#0a0c10,#0b0d11 42%);color:var(--ink);
-       -webkit-font-smoothing:antialiased;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-       line-height:var(--lh);padding-bottom:90px}
-  a{color:inherit;text-decoration:none}
-  a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{
-    outline:2px solid #6ea8ff;outline-offset:2px;border-radius:12px
-  }
-  .container{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
-  .center{text-align:center}.muted{color:var(--muted)}.stack{max-width:920px;margin:0 auto}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tree Trimming Services & More LLC</title>
+  <meta name="description" content="Insured, professional tree work. 16+ years experience. Call or text +1 (573) 915-3370." />
+  <meta name="theme-color" content="#0b0d11" />
+  <link rel="icon" href="images/weblogo.jpg" type="image/jpeg">
+  <style>
+    :root{
+      --bg:#0b0d11; --card:#15151e; --panel:#101014;
+      --text:#f1f1f1; --muted:#b9beca; --line:rgba(255,255,255,.1);
+      --ac1:#8f63ff; --ac2:#f0cc6d; --ring: 0 0 0 3px rgba(143,99,255,.25);
+      --maxw: 1100px;
+      /* NEW: larger visual cap for carousel images */
+      --carouselMax: min(70vh, 620px);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color:var(--text); background:var(--bg)}
+    a{color:#cfc7ff; text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:20px; display:grid; gap:28px}
 
-  /* Header */
-  .site-header{position:fixed;inset:0 0 auto;background:linear-gradient(180deg,rgba(11,13,17,.85),rgba(11,13,17,.55));
-    backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);height:var(--header);z-index:100}
-  .nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:14px}
-  .brand{font-weight:800;display:flex;align-items:center;gap:12px;font-size:clamp(1rem,2.8vw,1.05rem)}
-  .links{display:flex;align-items:center;gap:6px;white-space:nowrap}
-  .links a{margin-left:16px;font-weight:800;opacity:.9;font-size:clamp(.96rem,2.4vw,1.02rem)}
-  .links a:hover{opacity:1}.links a.active{text-decoration:underline}
-  .social a{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule);padding:8px 12px;border-radius:12px;background:#0f1319;font-weight:800}
-  .social svg{width:18px;height:18px;display:block}
-  @media (max-width:900px){.links{display:none}}
-  main{padding-top:calc(var(--header) + 14px)}
+    /* header */
+    header{text-align:center; padding:24px 0 8px}
+    header h1{margin:0; font-size:clamp(1.6rem,1.1rem + 1.6vw,2.2rem)}
+    header p{margin:.35rem 0 0; color:var(--muted)}
 
-  /* Mobile bottom nav */
-  .mnav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
-        padding:10px;border-top:1px solid var(--rule);background:#0d1015;backdrop-filter:blur(8px);z-index:90}
-  .mnav a{display:flex;align-items:center;justify-content:center;height:54px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;font-weight:800;font-size:.95rem}
-  .mnav svg{width:18px;height:18px;margin-right:6px}
-  @media (min-width:980px){.mnav{display:none} body{padding-bottom:0}}
+    /* hero */
+    .hero{background:linear-gradient(180deg, #1b1b25, var(--card)); border:1px solid var(--line); border-radius:14px; padding:16px; display:grid; gap:10px}
+    .hero .row{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; border:1px solid var(--line); font-weight:800; cursor:pointer; text-decoration:none}
+    .btn.primary{background:linear-gradient(180deg,#6f54e9,#5a45c9); color:#fff}
+    .btn.primary:hover{box-shadow:var(--ring)}
+    .btn.ghost{background:#181a22; color:#dfe3ef}
+    .btn.ghost:hover{border-color:rgba(143,99,255,.35)}
 
-  /* Sections */
-  section{padding:calc(var(--pad)*1.6) 0;scroll-margin-top:28px}
-  h1,h2{margin:0 0 12px}.title{font-weight:800;font-size:clamp(28px,6vw,56px);letter-spacing:.01em}
-  .lead{max-width:74ch;color:#cfd5df;margin:0 auto;font-size:clamp(1rem,2.8vw,1.08rem)}
+    /* carousel (BIGGER) */
+    .carousel{
+      border-radius:12px; overflow:hidden; background:#0e0f19;
+      max-width:var(--maxw); margin:0 auto;
+    }
+    .carousel-inner{
+      display:flex; justify-content:center; align-items:center;
+      padding:6px; /* smaller padding so the image can be larger */
+    }
+    .carousel img{
+      display:block;
+      max-width:100%;
+      max-height:var(--carouselMax); /* bigger cap, no cropping */
+      height:auto; width:auto;
+      object-fit:contain; border-radius:10px;
+      transition:opacity .35s ease;
+    }
+    .carousel.fading img{opacity:.08}
 
-  /* Carousel (no box, just images) */
-  .carousel{margin:10px 0 18px}
-  .track{display:flex;transition:transform .45s ease;will-change:transform;touch-action:pan-y;user-select:none}
-  .slide{min-width:100%;display:flex;align-items:center;justify-content:center}
-  .slide img{max-width:100%;max-height:var(--carousel-max);height:auto;width:auto;object-fit:contain;object-position:center;display:block}
-  .dots{display:flex;gap:8px;justify-content:center;margin-top:10px}
-  .dot{width:8px;height:8px;border-radius:999px;background:#3a4658;border:1px solid #4a586c;opacity:.7;cursor:pointer}
-  .dot.active{opacity:1;background:#cfd5df}
-  .dot:focus-visible{outline:2px solid #cfd5df;outline-offset:2px}
+    /* section titles */
+    .sect{display:grid; gap:14px}
+    .sect h3{margin:0; font-size:1.25rem; border-bottom:1px solid var(--line); padding-bottom:8px}
 
-  /* Centered 2-up services list */
-  .svc-2{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));
-         gap:10px;max-width:820px;justify-items:center;text-align:center}
-  .svc-2 li{padding:6px 0;font-size:clamp(1rem,2.8vw,1.06rem);color:#e4e7ed}
-  @media (max-width:720px){ .svc-2{grid-template-columns:1fr} }
+    /* services & info cards */
+    .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .card{background:linear-gradient(180deg, var(--card), var(--panel)); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:0 10px 34px rgba(0,0,0,.32)}
+    .card h4{margin:.1rem 0 .4rem; font-size:1.05rem}
+    .card p{margin:0; color:var(--muted)}
 
-  /* Info */
-  .twoup{display:grid;grid-template-columns:1fr;gap:calc(var(--gap)+10px)}
-  @media (min-width:760px){.twoup{grid-template-columns:1fr 1fr}}
-  .list{list-style:none;margin:0;padding:0}
-  .list li{padding:14px 0;font-size:clamp(1rem,2.6vw,1.02rem)}
+    /* badges / why us */
+    .badges{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+    .badge{display:flex; align-items:center; gap:10px; background:#0f1118; border:1px solid var(--line); border-radius:12px; padding:12px}
+    .badge .dot{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fff, #cfc7ff 60%, #8f63ff); box-shadow:0 0 16px rgba(143,99,255,.45)}
 
-  /* Form */
-  form{display:grid;gap:14px;max-width:800px;margin:0 auto}
-  label{font-size:clamp(.96rem,2.4vw,1.03rem);color:#c9d0da}
-  input,select,textarea{width:100%;height:56px;padding:0 14px;border-radius:12px;border:1px solid #243041;background:#0c121b;color:#e9edf3;font-size:clamp(1rem,2.6vw,1.05rem)}
-  textarea{height:auto;padding:12px 14px}
-  .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:12px}
-  .btn{appearance:none;border:1px solid var(--rule);background:#141820;color:#e7e9ee;padding:14px 20px;border-radius:12px;font-weight:800;font-size:clamp(.95rem,2.6vw,1.02rem)}
-  .btn.alt{background:#e7e9ee;color:#0f1115;border-color:#e7e9ee}
+    /* process timeline */
+    .steps{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .step{background:#11131c;border:1px solid var(--line); border-radius:12px; padding:14px}
+    .step .num{display:inline-block;background:#1f2140;color:#fff;padding:6px 10px;border-radius:999px;font-weight:800;margin-bottom:8px}
 
-  /* Footer */
-  footer{border-top:1px solid var(--rule);color:#b4bcc9}
-  .foot{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:12px;flex-wrap:wrap;font-size:clamp(.95rem,2.6vw,1.02rem)}
+    /* gallery thumbs */
+    .thumbs{display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .thumbs img{width:100%; height:120px; object-fit:cover; border-radius:10px; border:1px solid var(--line); filter:saturate(1.02) contrast(1.02)}
+    .thumbs figure{margin:0}
+    .thumbs figcaption{font-size:.85rem; color:var(--muted); margin-top:6px}
 
-  @media (prefers-reduced-motion:reduce){.track{transition:none} html{scroll-behavior:auto}}
-</style>
+    /* testimonials */
+    .quotes{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .quote{background:#121422;border:1px solid var(--line); border-radius:12px; padding:16px; position:relative}
+    .quote::before{content:"“"; position:absolute; left:12px; top:-8px; font-size:3rem; color:#4d4f66; opacity:.35}
+    .quote .by{margin-top:8px; color:#d6d8e3; font-weight:700}
+
+    /* FAQ (details/summary) */
+    .faqs details{background:#0f1118;border:1px solid var(--line); border-radius:12px; padding:12px 14px}
+    .faqs summary{cursor:pointer; font-weight:700}
+    .faqs p{color:var(--muted); margin:.5rem 0 0}
+
+    /* booking form (card) */
+    .quote-wrap{max-width:860px; margin:8px auto 0; width:100%}
+    .quote-title{text-align:center; font-weight:900; font-size:1.4rem; margin:2px 0 10px}
+    .quote-card{background:linear-gradient(180deg,#20202a,#1b1b24); border:1px solid var(--line); border-radius:16px; padding:18px}
+    .qgrid{display:grid; gap:14px}
+    .field{display:grid; gap:6px}
+    .label{color:var(--muted); font-size:.92rem}
+    .input,.select,.textarea{width:100%; background:#0f121a; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:12px 14px; outline:none; transition:border-color .15s ease, box-shadow .15s ease}
+    .input:focus,.select:focus,.textarea:focus{border-color:#8f63ff; box-shadow:var(--ring)}
+    .textarea{min-height:120px; resize:vertical}
+    .actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:6px}
+    .btnP{background:linear-gradient(180deg,#6f54e9,#5a45c9); color:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 18px; font-weight:800}
+    .btnS{background:#181a22; color:#dfe3ef; border:1px solid var(--line); border-radius:12px; padding:12px 18px; font-weight:800}
+    .help{text-align:center; color:var(--muted); font-size:.92rem; margin-top:6px}
+    @media(min-width:720px){ .qgrid{grid-template-columns:1fr 1fr}.span-2{grid-column:1/-1}}
+
+    /* CTA banner */
+    .cta{background:linear-gradient(90deg,#1c1d2f,#171828); border:1px solid var(--line); border-radius:14px; padding:18px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between}
+    .cta strong{font-size:1.05rem}
+
+    /* sticky mobile bar */
+    .sticky-call{position:fixed; left:0; right:0; bottom:0; background:#0d0e14cc; backdrop-filter:blur(8px); border-top:1px solid var(--line); padding:10px; display:flex; gap:10px; justify-content:center; z-index:50}
+    .sticky-call a{flex:1; max-width:420px; text-align:center}
+    @media(min-width:760px){ .sticky-call{display:none} }
+
+    /* footer */
+    footer{color:var(--muted); text-align:center; padding:18px 0 80px}
+  </style>
 </head>
 <body>
+  <div class="wrap">
 
-  <!-- Header -->
-  <header class="site-header">
-    <div class="container nav">
-      <div class="brand">Tree Trimming Services &amp; More LLC <span class="muted" style="font-weight:600;margin-left:8px">Insured · 16 yrs</span></div>
-      <nav class="links" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#info">Info</a>
-        <a href="#booking">Booking</a>
-        <span class="social">
-          <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 11.94 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.8 8.44-4.94 8.44-9.94Z"/></svg>
-            Facebook
-          </a>
-        </span>
-      </nav>
-    </div>
-  </header>
+    <!-- Header -->
+    <header>
+      <h1>Tree Trimming Services &amp; More LLC</h1>
+      <p>Insured • 16+ yrs experience • Call or text <strong>(573) 915-3370</strong></p>
+    </header>
 
-  <!-- Mobile bottom nav -->
-  <nav class="mnav" aria-label="Mobile navigation">
-    <a href="#about">About</a><a href="#services">Services</a><a href="#info">Info</a><a href="#booking">Booking</a>
-    <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener" aria-label="Facebook">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 11.94 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.8 8.44-4.94 8.44-9.94Z"/></svg> FB
-    </a>
-  </nav>
-
-  <main>
-    <!-- ABOUT -->
-    <section id="about" class="container center">
-      <div class="stack">
-        <h1 class="title">Precision tree work.</h1>
-        <p class="lead">Trim, remove, storm cleanup. Insured. 16 years. References on request.</p>
-        <div class="cta">
-          <a class="btn alt" href="tel:+15739153370" rel="nofollow">Call (573) 915-3370</a>
-          <a class="btn" href="sms:+15739153370?body=Hi!%20Quote%20for%20tree%20work.">Text</a>
-        </div>
-      </div>
-      <!-- hero image removed -->
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services" class="container">
-      <div class="stack">
-        <h2 class="title" style="font-size:clamp(20px,2.6vw,24px)">Services</h2>
-        <!-- Carousel -->
-        <div class="carousel" aria-label="Image carousel" id="carouselRoot">
-          <div class="track" id="carouselTrack"></div>
-          <div class="dots" id="carouselDots"></div>
-        </div>
-
-        <!-- Services list -->
-        <ul class="svc-2" aria-label="Capabilities">
-          <li>✂️ Pruning &amp; Crown Care</li>
-          <li>🪓 Controlled Removals (tight spaces, sectional)</li>
-          <li>🌩️ Storm Damage &amp; Hazard Cleanup</li>
-          <li>🧹 Brush &amp; Haul-Away</li>
-        </ul>
+    <!-- Carousel (bigger) -->
+    <section class="carousel" id="carousel" aria-label="Work gallery">
+      <div class="carousel-inner">
+        <img id="carousel-img" src="images/1.JPG" alt="Tree work photo 1" loading="eager" decoding="async">
       </div>
     </section>
 
-    <!-- INFO -->
-    <section id="info" class="container">
-      <div class="twoup" style="margin-top:6px">
-        <div class="stack">
-          <h2 class="title" style="font-size:clamp(20px,2.6vw,24px)">Service area</h2>
-          <ul class="list">
-            <li><strong>Based in Valles Mines, MO 63087</strong></li>
-            <li>Nearby counties by request</li>
-          </ul>
-        </div>
-        <div class="stack">
-          <h2 class="title" style="font-size:clamp(20px,2.6vw,24px)">Hours</h2>
-          <ul class="list">
-            <li>Mon–Sat · 7:00–6:00</li>
-            <li>Sun · by appointment</li>
-            <li>Fastest reply: call or text</li>
-          </ul>
-        </div>
+    <!-- Why Choose Us -->
+    <section class="sect">
+      <h3>Why choose us</h3>
+      <div class="badges">
+        <div class="badge"><span class="dot"></span><div><strong>Insured &amp; local</strong><div style="color:var(--muted)">Based in Valles Mines, MO</div></div></div>
+        <div class="badge"><span class="dot"></span><div><strong>16+ yrs experience</strong><div style="color:var(--muted)">Precision &amp; safety focused</div></div></div>
+        <div class="badge"><span class="dot"></span><div><strong>Clean job sites</strong><div style="color:var(--muted)">Brush &amp; haul-away available</div></div></div>
+        <div class="badge"><span class="dot"></span><div><strong>Fair, clear pricing</strong><div style="color:var(--muted)">Free quotes, no surprises</div></div></div>
       </div>
     </section>
 
-    <!-- BOOKING -->
-    <section id="booking" class="container center">
-      <div class="stack">
-        <h2 class="title" style="font-size:clamp(20px,2.6vw,24px)">Request a quote</h2>
-        <form id="qf" novalidate>
-          <div><label for="name">Name</label><input id="name" name="name" placeholder="Jane Doe" required autocomplete="name" /></div>
-          <div><label for="phone">Phone</label><input id="phone" name="phone" placeholder="(573) 555-0123" required inputmode="tel" autocomplete="tel" /></div>
-          <div><label for="address">Address</label><input id="address" name="address" placeholder="Street • City • ZIP — e.g., Valles Mines, MO 63087" autocomplete="street-address" /></div>
-          <div>
-            <label for="service">Service</label>
-            <select id="service" name="service" required>
-              <option value="">Choose…</option><option>Pruning</option><option>Removal</option><option>Storm</option><option>Brush</option><option>Other</option>
+    <!-- Services -->
+    <section class="sect">
+      <h3>Services</h3>
+      <div class="grid">
+        <article class="card"><h4>✂️ Pruning &amp; Crown Care</h4><p>Health-first trimming, deadwood removal, canopy shaping, and structural balance to protect trees and property.</p></article>
+        <article class="card"><h4>🪓 Controlled Removals</h4><p>Tight-space sectional takedowns with rigging and lowering—precision work where heavy equipment can’t go.</p></article>
+        <article class="card"><h4>🌩️ Storm Damage &amp; Hazard Cleanup</h4><p>Emergency response, hangers cleared, broken limbs secured, and debris hauled—safely and quickly.</p></article>
+        <article class="card"><h4>🧹 Brush &amp; Haul-Away</h4><p>Clean work sites every time—chip, stack, or full removal. We leave your yard ready to enjoy.</p></article>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="sect">
+      <h3>Our process</h3>
+      <div class="steps">
+        <div class="step"><span class="num">1</span><h4>Walk-through</h4><p class="muted">We listen, assess trees, and discuss options on-site or via photos.</p></div>
+        <div class="step"><span class="num">2</span><h4>Clear quote</h4><p class="muted">Written scope, price, and timing—no surprises.</p></div>
+        <div class="step"><span class="num">3</span><h4>Safe execution</h4><p class="muted">Professional rigging, sectional removals, and careful protection of your property.</p></div>
+        <div class="step"><span class="num">4</span><h4>Clean finish</h4><p class="muted">Brush/wood handled as requested. We leave it tidy.</p></div>
+      </div>
+    </section>
+
+    <!-- Recent Jobs (thumb gallery) -->
+    <section class="sect">
+      <h3>Recent jobs</h3>
+      <div class="thumbs">
+        <figure><img src="images/1.JPG" alt="Job 1"><figcaption>Selective pruning</figcaption></figure>
+        <figure><img src="images/2.JPG" alt="Job 2"><figcaption>Sectional removal</figcaption></figure>
+        <figure><img src="images/3.JPG" alt="Job 3"><figcaption>Storm cleanup</figcaption></figure>
+        <figure><img src="images/4.JPG" alt="Job 4"><figcaption>Brush &amp; haul-away</figcaption></figure>
+        <figure><img src="images/5.JPG" alt="Job 5"><figcaption>Canopy balance</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="sect">
+      <h3>What neighbors say</h3>
+      <div class="quotes">
+        <div class="quote"><div>“Fast, careful, and the yard looked cleaner when they left. 10/10.”</div><div class="by">— M. Carter</div></div>
+        <div class="quote"><div>“Took a huge oak down by sections with zero lawn damage. Pros.”</div><div class="by">— M. Jensen</div></div>
+        <div class="quote"><div>“Clear pricing and great communication. Highly recommend.”</div><div class="by">— M. Rivera</div></div>
+      </div>
+    </section>
+
+    <!-- Service Area & Hours -->
+    <section class="sect">
+      <h3>Info</h3>
+      <div class="grid">
+        <article class="card">
+          <h4>📍 Service area</h4>
+          <p><strong>Valles Mines, MO 63087</strong><br>Nearby counties by request.</p>
+        </article>
+        <article class="card">
+          <h4>⏰ Hours</h4>
+          <p><strong>Mon–Sat:</strong> 7:00–6:00<br><strong>Sun:</strong> by appointment<br><strong>Fastest reply:</strong> call or text.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sect faqs">
+      <h3>FAQ</h3>
+      <details>
+        <summary>Are you insured?</summary>
+        <p>Yes. We carry full liability insurance and can provide proof on request.</p>
+      </details>
+      <details>
+        <summary>Do you handle tight spaces?</summary>
+        <p>Yes—sectional removals with rigging and controlled lowering where equipment can’t reach.</p>
+      </details>
+      <details>
+        <summary>What about cleanup?</summary>
+        <p>We can chip, stack, or haul away brush/logs depending on your preference.</p>
+      </details>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="quote-wrap" id="booking">
+      <h2 class="quote-title">Request a quote</h2>
+      <form id="quoteForm" class="quote-card" novalidate>
+        <div class="qgrid">
+          <div class="field">
+            <label class="label" for="name">Name</label>
+            <input id="name" name="name" class="input" type="text" placeholder="Jane Doe" required>
+          </div>
+          <div class="field">
+            <label class="label" for="phone">Phone</label>
+            <input id="phone" name="phone" class="input" type="tel" placeholder="(573) 555-0123" required>
+          </div>
+          <div class="field span-2">
+            <label class="label" for="address">Address</label>
+            <input id="address" name="address" class="input" type="text" placeholder="Street • City • ZIP — e.g., Valles Mines, MO 63087">
+          </div>
+          <div class="field">
+            <label class="label" for="service">Service</label>
+            <select id="service" name="service" class="select" required>
+              <option value="" selected>Choose…</option>
+              <option>Pruning & Crown Care</option>
+              <option>Controlled Removal</option>
+              <option>Storm Damage & Hazard Cleanup</option>
+              <option>Brush & Haul-Away</option>
             </select>
           </div>
-          <div><label for="details">Details</label><textarea id="details" name="details" rows="6" placeholder="Trees, access, timing…"></textarea></div>
-          <div class="cta"><button class="btn alt" type="submit">Send</button><a class="btn" href="sms:+15739153370?body=Hi!%20Quote%20for%20tree%20work.">Text</a></div>
-          <div class="muted" id="qHint" style="text-align:center;margin-top:8px">Local to Valles Mines, MO. References on request.</div>
-        </form>
+          <div class="field span-2">
+            <label class="label" for="details">Details</label>
+            <textarea id="details" name="details" class="textarea" placeholder="Trees, access, timing…"></textarea>
+          </div>
+          <div class="actions span-2">
+            <button type="submit" class="btnP">Send</button>
+            <a class="btnS" href="sms:+15739153370">Text</a>
+          </div>
+          <div id="quoteStatus" class="help span-2">Local to Valles Mines, MO. References on request.</div>
+        </div>
+      </form>
+    </section>
+
+    <!-- CTA banner -->
+    <section class="cta">
+      <strong>Have storm damage or a hazard limb?</strong>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn primary" href="tel:+15739153370">📞 Call Now</a>
+        <a class="btn ghost" href="sms:+15739153370">💬 Text Photos</a>
       </div>
     </section>
 
-    <footer class="container" style="border-top:1px solid var(--rule);margin-top:calc(var(--pad) * .7);padding:18px 0;color:#b4bcc9">
-      <div class="foot">
-        <div>© <span id="y"></span> Tree Trimming Services &amp; More LLC</div>
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-          <a href="tel:+15739153370">Call</a> • <a href="sms:+15739153370">Text</a>
-          <a class="social" href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener" style="margin-left:8px">
-            <span style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule);padding:6px 10px;border-radius:10px;background:#0f1319">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:16px;height:16px"><path d="M22 12.06C22 6.49 17.52 2 11.94 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.8 8.44-4.94 8.44-9.94Z"/></svg>
-              <span>Facebook</span>
-            </span>
-          </a>
-        </div>
-      </div>
+    <!-- Footer -->
+    <footer>
+      &copy; <span id="yr"></span> Tree Trimming Services &amp; More LLC • <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener noreferrer">Facebook</a>
     </footer>
-  </main>
+  </div>
 
-<script>
-  // Year
-  document.getElementById('y').textContent = new Date().getFullYear();
+  <!-- Sticky mobile call/text bar -->
+  <div class="sticky-call" role="navigation" aria-label="Quick actions">
+    <a class="btnP" href="tel:+15739153370">📞 Call</a>
+    <a class="btnS" href="sms:+15739153370">💬 Text</a>
+  </div>
 
-  // Mailto booking
-  document.getElementById('qf').addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const name=document.getElementById('name').value.trim();
-    const phone=document.getElementById('phone').value.trim();
-    const address=document.getElementById('address').value.trim();
-    const service=document.getElementById('service').value;
-    const details=document.getElementById('details').value.trim();
-    if(!name||!phone||!service){alert('Please include your name, phone, and service.');return;}
-    const subject=encodeURIComponent('Tree Work — Quote Request');
-    const body=encodeURIComponent(`Name: ${name}
-Phone: ${phone}
-Address: ${address || '(not provided)'}
-Service: ${service}
-Details: ${details || '(none)'}
-Sent from website`);
-    window.location.href=`mailto:quotes@example.com?subject=${subject}&body=${body}`;
-    document.getElementById('qHint').textContent='Your email draft opened—send it to finish.';
-  });
+  <script>
+    // Year stamp
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Active link highlight
-  const anchors=['#about','#services','#info','#booking'];
-  const topLinks=anchors.map(sel=>document.querySelector(`.links a[href="${sel}"]`)).filter(Boolean);
-  const mobileLinks=anchors.map(sel=>document.querySelector(`.mnav a[href="${sel}"]`)).filter(Boolean);
-  const sections=anchors.map(sel=>document.querySelector(sel)).filter(Boolean);
-  const setActive=(idx)=>{[...topLinks,...mobileLinks].forEach(l=>l&&l.classList.remove('active')); if(idx>-1){topLinks[idx]?.classList.add('active'); mobileLinks[idx]?.classList.add('active');}};
-  const io=new IntersectionObserver((entries)=>{entries.forEach(entry=>{const idx=sections.indexOf(entry.target); if(idx>-1 && entry.isIntersecting){setActive(idx);}})},{rootMargin:'-30% 0px -60% 0px',threshold:.1});
-  sections.forEach(s=>io.observe(s));
-
-  // ===== Carousel (auto-play, loop, conform-to-image) =====
-  const IMAGE_PATH='images/';
-  const IMAGE_FILES=['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','disaster.jpg','disaster2.jpg'];
-
-  (function initCarousel(){
-    const track=document.getElementById('carouselTrack');
-    const dotsWrap=document.getElementById('carouselDots');
-    const root=document.getElementById('carouselRoot');
-    if(!track) return;
-
-    // Build slides
-    const slides=IMAGE_FILES.map(name=>{
-      const slide=document.createElement('div'); slide.className='slide';
-      const img=document.createElement('img');
-      img.alt='Tree work photo'; img.loading='lazy'; img.decoding='async';
-      img.src=IMAGE_PATH+name;
-      slide.appendChild(img); track.appendChild(slide);
-      return slide;
-    });
-
-    // Dots
-    const dots=IMAGE_FILES.map((_,i)=>{
-      const d=document.createElement('button'); d.className='dot'; d.type='button';
-      d.setAttribute('aria-label',`Go to slide ${i+1}`); d.addEventListener('click',()=>go(i,true));
-      dotsWrap.appendChild(d); return d;
-    });
-
-    let idx=0;
-    function update(){ track.style.transform=`translateX(${-idx*100}%)`; dots.forEach((d,i)=>d.classList.toggle('active',i===idx)); }
-    function go(i,user=false){ idx=(i+slides.length)%slides.length; update(); if(user) restartAuto(); }
-    const next=(user=false)=>go(idx+1,user);
-    const prev=(user=false)=>go(idx-1,user); // retained for swipe
-
-    // Keyboard when in view
-    let inView=false;
-    const observer=new IntersectionObserver(([entry])=>{inView=entry?.isIntersecting;},{threshold:0.2});
-    observer.observe(track);
-    document.addEventListener('keydown',(e)=>{ if(!inView) return; if(e.key==='ArrowRight') next(true); if(e.key==='ArrowLeft') prev(true); });
-
-    // Swipe (pause during drag)
-    let startX=0, curX=0, dragging=false;
-    const onDown=(e)=>{dragging=true; pause(); startX=e.clientX??e.touches?.[0]?.clientX??0; track.style.transition='none';};
-    const onMove=(e)=>{ if(!dragging) return; curX=e.clientX??e.touches?.[0]?.clientX??startX; const dx=curX-startX; track.style.transform=`translateX(${-idx*100+(dx/window.innerWidth)*100}%)`; };
-    const endDrag=()=>{ if(!dragging) return; dragging=false; track.style.transition='transform .45s ease'; const dx=curX-startX; if(Math.abs(dx)>window.innerWidth*0.12){ dx<0?next(true):prev(true); } else update(); resume(); };
-    track.addEventListener('pointerdown',onDown,{passive:true});
-    track.addEventListener('pointermove',onMove,{passive:true});
-    track.addEventListener('pointerup',endDrag); track.addEventListener('pointerleave',endDrag); track.addEventListener('pointercancel',endDrag);
-    track.addEventListener('touchstart',onDown,{passive:true}); track.addEventListener('touchmove',onMove,{passive:true}); track.addEventListener('touchend',endDrag);
-
-    // Auto-play
-    const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let timer=null; const AUTOPLAY_MS=4000;
-    function play(){ if(prefersReduced||timer) return; timer=setInterval(()=>{ const rect=root.getBoundingClientRect(); const visible=rect.top<window.innerHeight && rect.bottom>0; if(visible && document.visibilityState==='visible'){ next(false); } },AUTOPLAY_MS); }
-    function pause(){ if(timer){ clearInterval(timer); timer=null; } }
-    function resume(){ play(); }
-    function restartAuto(){ pause(); play(); }
-    root.addEventListener('mouseenter',pause); root.addEventListener('mouseleave',resume); root.addEventListener('focusin',pause); root.addEventListener('focusout',resume);
-    document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden') pause(); else resume(); });
-
-    update(); play();
-  })();
-</script>
+    // Carousel (single image cross-fade)
+    const imgs = ['images/1.JPG','images/2.JPG','images/3.JPG','images/4.JPG','images/5.JPG'];
+    const cEl = document.getElementById('carousel');
+    const imgEl = document.getElementById('carousel-img');
+    let i = 0;
+    imgs.forEach(src => { const im = new Image(); im.src = src; }); // preload
+    function nextImg(){
+      cEl.classList.add('fading');
+      setTimeout(()=>{
+        i = (i+1)%imgs.length;
+        imgEl.src = imgs[i];
+        imgEl.alt = 'Tree work photo ' + (i+1);
+        cEl.classList.remove('fading');
+      }, 220);
+    }
+    setInterval(nextImg, 4000);
+  </script>
 </body>
 </html>
