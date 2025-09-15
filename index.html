@@ -10,20 +10,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0b0d11; --ink:#e7e9ee; --muted:#9aa3ad; --rule:#1a2230; --pane:#10141b;
-    --max:1240px; --pad:clamp(24px,6vw,68px); --radius:14px; --header:84px; --lh:1.72;
+    /* Dark grayscale — airy */
+    --bg:#0b0d11;      /* page */
+    --ink:#e7e9ee;     /* text */
+    --muted:#9aa3ad;   /* secondary */
+    --rule:#1a2230;    /* hairline */
+    --pane:#10141b;    /* media/inputs */
+
+    --max: 1240px;     /* wider content width */
+    --pad: clamp(24px,6vw,68px);
+    --gap: clamp(28px,3.6vw,44px);
+    --radius: 14px;
+    --header: 84px;    /* taller sticky header */
+    --lh: 1.72;
   }
   *{box-sizing:border-box}
   html,body{margin:0}
   html{scroll-behavior:smooth}
-  body{background:linear-gradient(180deg,#0a0c10,#0b0d11 42%);color:var(--ink);-webkit-font-smoothing:antialiased;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:var(--lh)}
+  body{
+    background:linear-gradient(180deg,#0a0c10,#0b0d11 42%);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    line-height:var(--lh);
+    padding-bottom:90px; /* space for mobile bottom nav */
+  }
   a{color:inherit;text-decoration:none}
   .container{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
   .center{text-align:center}
   .muted{color:var(--muted)}
   .stack{max-width:920px;margin:0 auto}
 
-  /* Sticky Top Nav */
+  /* ===== Sticky Top Nav ===== */
   .site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:linear-gradient(180deg, rgba(11,13,17,.85), rgba(11,13,17,.55));backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);height:var(--header)}
   .nav{height:100%;display:flex;align-items:center;justify-content:space-between}
   .brand{font-weight:800;display:flex;align-items:center;gap:16px;font-size:1.05rem}
@@ -32,43 +50,45 @@
   .links a.active{opacity:1;text-decoration:underline}
   main{padding-top:calc(var(--header) + 22px)}
 
-  /* Mobile bottom nav */
+  /* ===== Mobile bottom nav ===== */
   .mnav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:12px;border-top:1px solid var(--rule);background:#0d1015;backdrop-filter:blur(8px);z-index:90}
   .mnav a{display:flex;align-items:center;justify-content:center;height:52px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;font-weight:800}
-  @media (min-width:980px){.mnav{display:none}}
+  @media (min-width:980px){.mnav{display:none} body{padding-bottom:0}}
 
+  /* Sections */
   section{padding:calc(var(--pad) * 2.0) 0;scroll-margin-top:28px}
   h1,h2{margin:0 0 14px}
   .title{font-weight:800;font-size:clamp(30px,5vw,56px);letter-spacing:.01em}
   .lead{max-width:74ch;color:#cfd5df;margin:0 auto;font-size:1.08rem}
 
-  /* Media */
-  .media{border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane);overflow:hidden}
-  .media img{display:block;width:100%;height:auto}
-  .hero{margin-top:28px}
+  /* ===== Hero media ===== */
+  .media{border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane);display:grid;place-items:center;color:#99a4b4;font-weight:800;font-size:1.05rem;overflow:hidden}
+  .media img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero{height:420px}
 
-  /* ===== Simple Carousel (voices-like, one <img>) ===== */
-  .simple-carousel{position:relative;margin:10px 0 24px}
-  .simple-carousel .frame{border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane);overflow:hidden}
-  #carousel-img{display:block;width:100%;height:auto}
-  .simple-carousel .controls{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;pointer-events:none}
-  .simple-carousel button{pointer-events:auto;width:46px;height:46px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;color:#e7e9ee;font-weight:800;opacity:.9;cursor:pointer}
-  .simple-carousel button:hover{opacity:1}
+  /* ===== Services: Carousel + Emoji list ===== */
+  /* Carousel shell (like voices: simple track, arrows, dots) */
+  .carousel{position:relative;margin:10px 0 24px}
+  .viewport{overflow:hidden;border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane)}
+  .track{display:flex;transition:transform .45s ease}
+  .slide{min-width:100%;height:520px;display:grid;place-items:center}
+  .slide img{width:100%;height:100%;object-fit:cover}
+  .arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;display:grid;place-items:center;font-weight:800;color:#e7e9ee;cursor:pointer;opacity:.9}
+  .arrow:hover{opacity:1}
+  .prev{left:12px}
+  .next{right:12px}
   .dots{display:flex;gap:8px;justify-content:center;margin-top:12px}
   .dot{width:8px;height:8px;border-radius:999px;background:#3a4658;border:1px solid #4a586c;opacity:.7;cursor:pointer}
   .dot.active{opacity:1;background:#cfd5df}
+  @media (max-width:900px){.slide{height:380px}}
 
-  /* Pro service list */
-  .svc-pro{list-style:none;margin:0 auto;padding:0;max-width:920px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-  @media (max-width:780px){.svc-pro{grid-template-columns:1fr}}
-  .svc-item{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border:1px solid var(--rule);border-radius:12px;background:linear-gradient(180deg,#0f1319,#0c1016)}
-  .svc-item:hover{transform:translateY(-1px);transition:transform .2s ease}
-  .ico{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:.85rem;letter-spacing:.08em;color:#e7e9ee;background:#0f1319;border:1px solid var(--rule)}
-  .svc-text h3{margin:0 0 4px;font-size:1.02rem}
-  .svc-text p{margin:0;color:#cfd5df;font-size:.96rem}
+  /* Emoji list */
+  .svc-emoji{list-style:none;margin:0 auto;padding:0;max-width:920px;display:grid;gap:10px}
+  .svc-emoji li{padding:6px 0;font-size:1.06rem;color:#e4e7ed}
+  .svc-emoji .e{display:inline-block;width:1.6em;text-align:center;margin-right:.35em}
 
   /* Info lists */
-  .twoup{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--pad) * .5)}
+  .twoup{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--gap) + 12px)}
   .list{list-style:none;margin:0;padding:0}
   .list li{padding:18px 0}
 
@@ -81,11 +101,13 @@
   .btn{appearance:none;border:1px solid var(--rule);background:#141820;color:#e7e9ee;padding:14px 22px;border-radius:12px;font-weight:800;font-size:1.02rem}
   .btn.alt{background:#e7e9ee;color:#0f1115;border-color:#e7e9ee}
 
+  /* Footer */
   footer{border-top:1px solid var(--rule);color:#b4bcc9}
   .foot{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:14px;flex-wrap:wrap;font-size:1.02rem}
 </style>
 </head>
 <body>
+
   <!-- Sticky top nav -->
   <header class="site-header">
     <div class="container nav">
@@ -108,7 +130,7 @@
   </nav>
 
   <main>
-    <!-- ABOUT -->
+    <!-- ABOUT (compact) -->
     <section id="about" class="container center">
       <div class="stack">
         <h1 class="title">Precision tree work.</h1>
@@ -118,57 +140,33 @@
           <a class="btn" href="sms:+15739153370?body=Hi!%20Quote%20for%20tree%20work.">Text</a>
         </div>
       </div>
-      <div class="media hero"><img id="heroImg" alt="Tree work hero"></div>
+      <div class="media hero" style="margin-top:28px"><img src="images/hero.jpg" alt="Tree work hero"></div>
     </section>
 
-    <!-- SERVICES (simple carousel + pro list) -->
+    <!-- SERVICES (carousel + emoji list) -->
     <section id="services" class="container">
       <div class="stack">
         <h2 class="title" style="font-size:clamp(22px,2.4vw,24px)">Services</h2>
-        <div class="simple-carousel" aria-label="Image carousel">
-          <div class="frame" id="carousel">
-            <img id="carousel-img" src="images/1.JPG" alt="Tree work gallery" />
+        <!-- Carousel -->
+        <div class="carousel" aria-label="Image carousel">
+          <button class="arrow prev" aria-label="Previous">‹</button>
+          <div class="viewport">
+            <div class="track" id="carouselTrack"></div>
           </div>
-          <div class="controls">
-            <button class="prev" aria-label="Previous">‹</button>
-            <button class="next" aria-label="Next">›</button>
-          </div>
-          <div class="dots" id="dots"></div>
+          <button class="arrow next" aria-label="Next">›</button>
+          <div class="dots" id="carouselDots"></div>
         </div>
-        <div class="svc-pro" aria-label="Capabilities">
-          <div class="svc-item">
-            <div class="ico" aria-hidden="true">PR</div>
-            <div class="svc-text">
-              <h3>Pruning &amp; Crown Care</h3>
-              <p>Selective cuts for health, clearance, and structure.</p>
-            </div>
-          </div>
-          <div class="svc-item">
-            <div class="ico" aria-hidden="true">RM</div>
-            <div class="svc-text">
-              <h3>Controlled Removals</h3>
-              <p>Sectional lowering for tight spaces; stump options on request.</p>
-            </div>
-          </div>
-          <div class="svc-item">
-            <div class="ico" aria-hidden="true">ST</div>
-            <div class="svc-text">
-              <h3>Storm Damage &amp; Hazard Cleanup</h3>
-              <p>Fast mitigation and safe takedown of broken or dangerous limbs.</p>
-            </div>
-          </div>
-          <div class="svc-item">
-            <div class="ico" aria-hidden="true">BR</div>
-            <div class="svc-text">
-              <h3>Brush &amp; Haul‑Away</h3>
-              <p>Cut, load, and gone. We leave the site tidy.</p>
-            </div>
-          </div>
-        </div>
+        <!-- Emoji service list -->
+        <ul class="svc-emoji" aria-label="Capabilities">
+          <li><span class="e">✂️</span> Pruning & Crown Care</li>
+          <li><span class="e">🪓</span> Controlled Removals (tight spaces, sectional)</li>
+          <li><span class="e">🌩️</span> Storm Damage & Hazard Cleanup</li>
+          <li><span class="e">🧹</span> Brush & Haul‑Away</li>
+        </ul>
       </div>
     </section>
 
-    <!-- INFO -->
+    <!-- INFO (two-up, airy) -->
     <section id="info" class="container">
       <div class="twoup" style="margin-top:10px">
         <div class="stack">
@@ -189,7 +187,7 @@
       </div>
     </section>
 
-    <!-- BOOKING -->
+    <!-- BOOKING (compact form + ADDRESS) -->
     <section id="booking" class="container center">
       <div class="stack">
         <h2 class="title" style="font-size:clamp(22px,2.4vw,24px)">Request a quote</h2>
@@ -242,7 +240,7 @@
   // Year
   document.getElementById('y').textContent = new Date().getFullYear();
 
-  // Quote form (mailto)
+  // Mailto booking (includes Address)
   document.getElementById('qf').addEventListener('submit', (e)=>{
     e.preventDefault();
     const name = document.getElementById('name').value.trim();
@@ -252,50 +250,110 @@
     const details = document.getElementById('details').value.trim();
     if(!name || !phone || !service){ alert('Please include your name, phone, and service.'); return; }
     const subject = encodeURIComponent('Tree Work — Quote Request');
-    const body = encodeURIComponent(`Name: ${name}\nPhone: ${phone}\nAddress: ${address || '(not provided)'}\nService: ${service}\nDetails: ${details || '(none)'}\nSent from website`);
+    const body = encodeURIComponent(`Name: ${name}
+Phone: ${phone}
+Address: ${address || '(not provided)'}
+Service: ${service}
+Details: ${details || '(none)'}
+Sent from website`);
     window.location.href = `mailto:quotes@example.com?subject=${subject}&body=${body}`;
     document.getElementById('qHint').textContent = 'Your email draft opened—send it to finish.';
   });
 
-  // Active link highlight
+  // Active link highlight on scroll (top + mobile nav)
   const anchors = ['#about','#services','#info','#booking'];
   const topLinks = anchors.map(sel => document.querySelector(`.links a[href="${sel}"]`)).filter(Boolean);
   const mobileLinks = anchors.map(sel => document.querySelector(`.mnav a[href="${sel}"]`)).filter(Boolean);
   const sections = anchors.map(sel => document.querySelector(sel)).filter(Boolean);
-  const setActive = (idx)=>{[...topLinks,...mobileLinks].forEach(l=>l.classList.remove('active')); if(idx>-1){topLinks[idx]?.classList.add('active'); mobileLinks[idx]?.classList.add('active');}};
-  const io = new IntersectionObserver((entries)=>{entries.forEach(entry=>{const idx = sections.indexOf(entry.target); if(idx>-1 && entry.isIntersecting) setActive(idx);});},{ rootMargin:'-25% 0px -60% 0px', threshold:.1});
+  const setActive = (idx)=>{
+    [...topLinks, ...mobileLinks].forEach(l=>l && l.classList.remove('active'));
+    if(idx>-1){ if(topLinks[idx]) topLinks[idx].classList.add('active'); if(mobileLinks[idx]) mobileLinks[idx].classList.add('active'); }
+  };
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const idx = sections.indexOf(entry.target);
+      if(idx>-1 && entry.isIntersecting){ setActive(idx); }
+    });
+  }, { rootMargin:'-25% 0px -60% 0px', threshold:.1 });
   sections.forEach(s=>io.observe(s));
 
-  // ===== Simple Carousel (voices-style) =====
-  const carouselImages = [
-   '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','hero.jpg','disaster2.jpg'
+  // ======== Image Carousel (reads from /images folder) ========
+  // Because browsers can't list folders, set your file names here.
+  // Just drop your files into /images and list them below.
+  // Example: ['job1.jpg','job2.jpg','rigging.png','storm.webp']
+  const IMAGE_PATH = 'images/';
+  const IMAGE_FILES = [
+    'job1.jpg','job2.jpg','job3.jpg','rigging.jpg','storm.jpg','crew.jpg'
   ];
-  let currentImgIndex = 0;
-  const imgEl = document.getElementById('carousel-img');
-  const dotsWrap = document.getElementById('dots');
-  function show(i){
-    currentImgIndex = (i + carouselImages.length) % carouselImages.length;
-    imgEl.src = carouselImages[currentImgIndex];
-    [...dotsWrap.children].forEach((d,di)=>d.classList.toggle('active', di===currentImgIndex));
-  }
-  function next(){ show(currentImgIndex + 1); }
-  function prev(){ show(currentImgIndex - 1); }
-  // Build dots
-  dotsWrap.innerHTML = '';
-  carouselImages.forEach((_,i)=>{ const b=document.createElement('button'); b.className='dot'+(i===0?' active':''); b.type='button'; b.addEventListener('click',()=>show(i)); dotsWrap.appendChild(b); });
-  document.querySelector('.simple-carousel .next').addEventListener('click', next);
-  document.querySelector('.simple-carousel .prev').addEventListener('click', prev);
-  // Optional autoplay (comment out if undesired)
-  // setInterval(next, 5000);
 
-  // Hero: use hero.jpg if present, else the first carousel image
-  (function setHero(){
-    const hero = document.getElementById('heroImg');
-    if(!hero) return;
-    const test = new Image();
-    test.onload = ()=>{ hero.src = 'images/hero.jpg'; };
-    test.onerror = ()=>{ hero.src = carouselImages[0]; };
-    test.src = 'images/hero.jpg';
+  (function initCarousel(){
+    const track = document.getElementById('carouselTrack');
+    const dotsWrap = document.getElementById('carouselDots');
+    if(!track) return;
+
+    // Build slides
+    const slides = IMAGE_FILES.map(name => {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      const img = document.createElement('img');
+      img.alt = 'Tree work photo';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = IMAGE_PATH + name;
+      slide.appendChild(img);
+      track.appendChild(slide);
+      return slide;
+    });
+
+    // Dots
+    const dots = IMAGE_FILES.map((_,i)=>{
+      const d = document.createElement('button');
+      d.className = 'dot';
+      d.type = 'button';
+      d.setAttribute('aria-label', `Go to slide ${i+1}`);
+      d.addEventListener('click', ()=> go(i));
+      dotsWrap.appendChild(d);
+      return d;
+    });
+
+    let idx = 0; 
+    const prevBtn = document.querySelector('.carousel .prev');
+    const nextBtn = document.querySelector('.carousel .next');
+
+    function update(){
+      track.style.transform = `translateX(${-idx*100}%)`;
+      dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+      prevBtn.disabled = (idx===0);
+      nextBtn.disabled = (idx===slides.length-1);
+    }
+    function go(i){ idx = Math.max(0, Math.min(slides.length-1, i)); update(); }
+    function next(){ go(idx+1); }
+    function prev(){ go(idx-1); }
+
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
+
+    // Keyboard
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    });
+
+    // Swipe
+    let startX = 0, curX = 0, dragging = false;
+    track.addEventListener('pointerdown', (e)=>{ dragging=true; startX=e.clientX; track.style.transition='none'; });
+    track.addEventListener('pointermove', (e)=>{
+      if(!dragging) return; curX=e.clientX; const dx = curX-startX; track.style.transform = `translateX(${-idx*100 + (dx/window.innerWidth)*100}%)`;
+    });
+    const endDrag = ()=>{
+      if(!dragging) return; dragging=false; track.style.transition='transform .45s ease';
+      const dx = curX-startX; if(Math.abs(dx) > window.innerWidth*0.12){ dx<0 ? next() : prev(); } else update();
+    };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+
+    update();
   })();
 </script>
 </body>
