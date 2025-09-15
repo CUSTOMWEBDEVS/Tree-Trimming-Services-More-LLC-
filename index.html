@@ -13,7 +13,6 @@
     --bg:#0b0d11; --ink:#e7e9ee; --muted:#9aa3ad; --rule:#1a2230; --pane:#10141b;
     --max:1240px; --pad:clamp(18px,5.5vw,68px); --gap:clamp(22px,3.6vw,44px);
     --radius:14px; --header:clamp(64px,8vw,84px); --lh:1.72;
-    /* Carousel max height -> image scales inside this, no cropping */
     --carousel-max: clamp(260px, 80vh, 900px);
   }
   *{box-sizing:border-box} html,body{margin:0} html{scroll-behavior:smooth}
@@ -52,16 +51,10 @@
   h1,h2{margin:0 0 12px}.title{font-weight:800;font-size:clamp(28px,6vw,56px);letter-spacing:.01em}
   .lead{max-width:74ch;color:#cfd5df;margin:0 auto;font-size:clamp(1rem,2.8vw,1.08rem)}
 
-  /* Media blocks */
-  .media{border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane);
-         display:grid;place-items:center;overflow:hidden}
-  .hero img{width:100%;height:auto;max-height:clamp(220px,40vw,520px);object-fit:contain;object-position:center}
-
-  /* Carousel (no cropping, conforms to image size) */
-  .carousel{position:relative;margin:10px 0 18px}
-  .viewport{overflow:hidden;border:1px solid var(--rule);border-radius:var(--radius);background:#0f1319}
+  /* Carousel (no box, just images) */
+  .carousel{margin:10px 0 18px}
   .track{display:flex;transition:transform .45s ease;will-change:transform;touch-action:pan-y;user-select:none}
-  .slide{min-width:100%;display:flex;align-items:center;justify-content:center;padding:10px}
+  .slide{min-width:100%;display:flex;align-items:center;justify-content:center}
   .slide img{max-width:100%;max-height:var(--carousel-max);height:auto;width:auto;object-fit:contain;object-position:center;display:block}
   .dots{display:flex;gap:8px;justify-content:center;margin-top:10px}
   .dot{width:8px;height:8px;border-radius:999px;background:#3a4658;border:1px solid #4a586c;opacity:.7;cursor:pointer}
@@ -93,7 +86,6 @@
   footer{border-top:1px solid var(--rule);color:#b4bcc9}
   .foot{display:flex;align-items:center;justify-content:space-between;padding:18px 0;gap:12px;flex-wrap:wrap;font-size:clamp(.95rem,2.6vw,1.02rem)}
 
-  /* Motion prefs */
   @media (prefers-reduced-motion:reduce){.track{transition:none} html{scroll-behavior:auto}}
 </style>
 </head>
@@ -137,23 +129,20 @@
           <a class="btn" href="sms:+15739153370?body=Hi!%20Quote%20for%20tree%20work.">Text</a>
         </div>
       </div>
-      <div class="media hero" style="margin-top:18px"><img src="images/hero.jpg" alt="Tree work hero"></div>
+      <!-- hero image removed -->
     </section>
 
     <!-- SERVICES -->
     <section id="services" class="container">
       <div class="stack">
         <h2 class="title" style="font-size:clamp(20px,2.6vw,24px)">Services</h2>
-
-        <!-- Carousel (auto-play, no arrows, no cropping) -->
+        <!-- Carousel -->
         <div class="carousel" aria-label="Image carousel" id="carouselRoot">
-          <div class="viewport">
-            <div class="track" id="carouselTrack"></div>
-          </div>
+          <div class="track" id="carouselTrack"></div>
           <div class="dots" id="carouselDots"></div>
         </div>
 
-        <!-- Centered two-up list -->
+        <!-- Services list -->
         <ul class="svc-2" aria-label="Capabilities">
           <li>✂️ Pruning &amp; Crown Care</li>
           <li>🪓 Controlled Removals (tight spaces, sectional)</li>
