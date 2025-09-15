@@ -10,14 +10,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* Dark grayscale — airy */
-    --bg:#0b0d11;      /* page */
-    --ink:#e7e9ee;     /* text */
-    --muted:#9aa3ad;   /* secondary */
-    --rule:#1a2230;    /* hairline */
-    --pane:#10141b;    /* media/inputs */
+    --bg:#0b0d11;
+    --ink:#e7e9ee;
+    --muted:#9aa3ad;
+    --rule:#1a2230;
+    --pane:#10141b;
 
-    --max: 1240px;     /* wider content width */
+    --max: 1240px;
     --pad: clamp(18px,5vw,68px);
     --gap: clamp(22px,3.6vw,44px);
     --radius: 14px;
@@ -55,17 +54,24 @@
   }
   .nav{height:100%;display:flex;align-items:center;justify-content:space-between;gap:14px}
   .brand{font-weight:800;display:flex;align-items:center;gap:12px;font-size:clamp(1rem,2.8vw,1.05rem)}
-  .links{display:flex;align-items:center;white-space:nowrap}
-  .links a{margin-left:22px;font-weight:800;opacity:.9;font-size:clamp(.96rem,2.4vw,1.02rem)}
+  .links{display:flex;align-items:center;white-space:nowrap;gap:6px}
+  .links a{
+    margin-left:16px;font-weight:800;opacity:.9;font-size:clamp(.96rem,2.4vw,1.02rem)
+  }
   .links a:hover{opacity:1}
-  .links a.active{opacity:1;text-decoration:underline}
+  .links a.active{text-decoration:underline}
+  .social a{
+    display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule);
+    padding:8px 12px;border-radius:12px;background:#0f1319;font-weight:800;
+  }
+  .social svg{width:18px;height:18px;display:block}
   @media (max-width:900px){ .links{display:none} }
   main{padding-top:calc(var(--header) + 14px)}
 
   /* ===== Mobile bottom nav ===== */
   .mnav{
     position:fixed;left:0;right:0;bottom:0;
-    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+    display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
     padding:10px;border-top:1px solid var(--rule);
     background:#0d1015;backdrop-filter:blur(8px);z-index:90
   }
@@ -74,6 +80,7 @@
     height:54px;border-radius:12px;border:1px solid var(--rule);background:#0f1319;
     font-weight:800;font-size:0.95rem
   }
+  .mnav svg{width:18px;height:18px;margin-right:6px}
   @media (min-width:980px){.mnav{display:none} body{padding-bottom:0}}
 
   /* Sections */
@@ -87,7 +94,6 @@
     border:1px solid var(--rule);border-radius:var(--radius);background:var(--pane);
     display:grid;place-items:center;color:#99a4b4;font-weight:800;font-size:1.05rem;overflow:hidden
   }
-  /* Fluid hero: keep ~16:9 while allowing taller on big screens */
   .hero{aspect-ratio:16/9; min-height:clamp(220px,42vw,460px)}
   .media img{width:100%;height:100%;object-fit:cover;object-position:center}
 
@@ -97,7 +103,6 @@
   .track{display:flex;transition:transform .45s ease}
   .slide{
     min-width:100%;
-    /* Fluid slide height, never tiny */
     aspect-ratio:16/10;
     min-height:clamp(220px,60vw,520px);
     display:grid;place-items:center
@@ -145,7 +150,7 @@
   footer{border-top:1px solid var(--rule);color:#b4bcc9}
   .foot{
     display:flex;align-items:center;justify-content:space-between;
-    padding:16px 0;gap:12px;flex-wrap:wrap;font-size:clamp(.95rem,2.6vw,1.02rem)
+    padding:18px 0;gap:12px;flex-wrap:wrap;font-size:clamp(.95rem,2.6vw,1.02rem)
   }
 
   /* Motion preferences */
@@ -166,6 +171,13 @@
         <a href="#services">Services</a>
         <a href="#info">Info</a>
         <a href="#booking">Booking</a>
+        <span class="social">
+          <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener">
+            <!-- FB icon -->
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 11.94 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.8 8.44-4.94 8.44-9.94Z"/></svg>
+            Facebook
+          </a>
+        </span>
       </nav>
     </div>
   </header>
@@ -176,6 +188,10 @@
     <a href="#services">Services</a>
     <a href="#info">Info</a>
     <a href="#booking">Booking</a>
+    <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.49 17.52 2 11.94 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.8 8.44-4.94 8.44-9.94Z"/></svg>
+      FB
+    </a>
   </nav>
 
   <main>
@@ -197,7 +213,7 @@
       <div class="stack">
         <h2 class="title" style="font-size:clamp(20px,2.6vw,24px)">Services</h2>
         <!-- Carousel -->
-        <div class="carousel" aria-label="Image carousel">
+        <div class="carousel" aria-label="Image carousel" id="carouselRoot">
           <button class="arrow prev" aria-label="Previous" type="button">‹</button>
           <div class="viewport">
             <div class="track" id="carouselTrack"></div>
@@ -280,7 +296,15 @@
     <footer class="container" style="border-top:1px solid var(--rule);margin-top:calc(var(--pad) * .7);padding:18px 0;color:#b4bcc9">
       <div class="foot">
         <div>© <span id="y"></span> Tree Trimming Services &amp; More LLC</div>
-        <div><a href="tel:+15739153370">Call</a> • <a href="sms:+15739153370">Text</a></div>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <a href="tel:+15739153370">Call</a> • <a href="sms:+15739153370">Text</a>
+          <a class="social" href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener" style="margin-left:8px">
+            <span style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule);padding:6px 10px;border-radius:10px;background:#0f1319">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:16px;height:16px"><path d="M22 12.06C22 6.49 17.52 2 11.94 2S2 6.49 2 12.06c0 5 3.66 9.14 8.44 9.94v-7.03H7.9v-2.9h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.8 8.44-4.94 8.44-9.94Z"/></svg>
+              <span>Facebook</span>
+            </span>
+          </a>
+        </div>
       </div>
     </footer>
   </main>
@@ -330,7 +354,6 @@ Sent from website`);
   sections.forEach(s=>io.observe(s));
 
   // ======== Image Carousel (reads from /images folder) ========
-  // Set your file names here (drop files in /images).
   const IMAGE_PATH = 'images/';
   const IMAGE_FILES = [
     'job1.jpg','job2.jpg','job3.jpg','rigging.jpg','storm.jpg','crew.jpg'
@@ -339,6 +362,7 @@ Sent from website`);
   (function initCarousel(){
     const track = document.getElementById('carouselTrack');
     const dotsWrap = document.getElementById('carouselDots');
+    const root = document.getElementById('carouselRoot');
     if(!track) return;
 
     // Build slides
@@ -361,7 +385,7 @@ Sent from website`);
       d.className = 'dot';
       d.type = 'button';
       d.setAttribute('aria-label', `Go to slide ${i+1}`);
-      d.addEventListener('click', ()=> go(i));
+      d.addEventListener('click', ()=> go(i, true));
       dotsWrap.appendChild(d);
       return d;
     });
@@ -373,29 +397,31 @@ Sent from website`);
     function update(){
       track.style.transform = `translateX(${-idx*100}%)`;
       dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
-      if (prevBtn) prevBtn.disabled = (idx===0);
-      if (nextBtn) nextBtn.disabled = (idx===slides.length-1);
     }
-    function go(i){ idx = Math.max(0, Math.min(slides.length-1, i)); update(); }
-    function next(){ go(idx+1); }
-    function prev(){ go(idx-1); }
+    function go(i, user=false){
+      idx = (i + slides.length) % slides.length; // loop
+      update();
+      if(user) restartAuto();
+    }
+    const next = (user=false)=> go(idx+1, user);
+    const prev = (user=false)=> go(idx-1, user);
 
-    prevBtn?.addEventListener('click', prev);
-    nextBtn?.addEventListener('click', next);
+    prevBtn?.addEventListener('click', ()=>prev(true));
+    nextBtn?.addEventListener('click', ()=>next(true));
 
-    // Keyboard (only when carousel in view)
+    // Keyboard when in view
     let inView = false;
     const observer = new IntersectionObserver(([entry])=>{ inView = entry?.isIntersecting; }, {threshold:0.2});
     observer.observe(track);
     document.addEventListener('keydown', (e)=>{
       if(!inView) return;
-      if(e.key==='ArrowRight') next();
-      if(e.key==='ArrowLeft') prev();
+      if(e.key==='ArrowRight') next(true);
+      if(e.key==='ArrowLeft') prev(true);
     });
 
     // Touch / pointer swipe
     let startX = 0, curX = 0, dragging = false;
-    const onDown = (e)=>{ dragging=true; startX = e.clientX ?? e.touches?.[0]?.clientX ?? 0; track.style.transition='none'; };
+    const onDown = (e)=>{ dragging=true; pause(); startX = e.clientX ?? e.touches?.[0]?.clientX ?? 0; track.style.transition='none'; };
     const onMove = (e)=>{
       if(!dragging) return;
       curX = e.clientX ?? e.touches?.[0]?.clientX ?? startX;
@@ -404,19 +430,54 @@ Sent from website`);
     };
     const endDrag = ()=>{
       if(!dragging) return; dragging=false; track.style.transition='transform .45s ease';
-      const dx = curX-startX; if(Math.abs(dx) > window.innerWidth*0.12){ dx<0 ? next() : prev(); } else update();
+      const dx = curX-startX;
+      if(Math.abs(dx) > window.innerWidth*0.12){ dx<0 ? next(true) : prev(true); } else update();
+      resume();
     };
     track.addEventListener('pointerdown', onDown, {passive:true});
-    track.addEventListener('pointermove', onMove, {passive:true});
+    track.addEventListener('pointermove', onMove,   {passive:true});
     track.addEventListener('pointerup', endDrag);
     track.addEventListener('pointerleave', endDrag);
     track.addEventListener('pointercancel', endDrag);
-    // Mobile touch events for Safari
+    // Safari touch
     track.addEventListener('touchstart', onDown, {passive:true});
-    track.addEventListener('touchmove', onMove, {passive:true});
+    track.addEventListener('touchmove', onMove,  {passive:true});
     track.addEventListener('touchend', endDrag);
 
+    // ===== Auto-play =====
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timer = null;
+    const AUTOPLAY_MS = 4000;
+
+    function play(){
+      if(prefersReduced) return; // respect user setting
+      if(timer) return;
+      timer = setInterval(()=> {
+        // only advance if carousel is visible on screen
+        const rect = root.getBoundingClientRect();
+        const visible = rect.top < window.innerHeight && rect.bottom > 0;
+        if(visible && document.visibilityState === 'visible'){
+          next(false);
+        }
+      }, AUTOPLAY_MS);
+    }
+    function pause(){ if(timer){ clearInterval(timer); timer = null; } }
+    function resume(){ play(); }
+    function restartAuto(){ pause(); play(); }
+
+    // Pause on hover/focus
+    root.addEventListener('mouseenter', pause);
+    root.addEventListener('mouseleave', resume);
+    root.addEventListener('focusin', pause);
+    root.addEventListener('focusout', resume);
+
+    // Pause when tab hidden
+    document.addEventListener('visibilitychange', ()=> {
+      if(document.visibilityState === 'hidden') pause(); else resume();
+    });
+
     update();
+    play();
   })();
 </script>
 </body>
