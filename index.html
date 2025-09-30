@@ -1,144 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tree Trimming Services & More LLC</title>
   <meta name="description" content="Insured, professional tree work. 16+ years experience. Call or text +1 (573) 915-3370." />
   <meta name="theme-color" content="#0b0d11" />
-  <link rel="icon" href="images/weblogo.jpg" type="image/jpeg">
+  <link rel="icon" href="images/weblogo.jpg" type="image/jpeg" />
   <style>
     :root{
       --bg:#0b0d11; --card:#15151e; --panel:#101014;
       --text:#f1f1f1; --muted:#b9beca; --line:rgba(255,255,255,.1);
-      --ac1:#8f63ff; --ac2:#f0cc6d; --ring: 0 0 0 3px rgba(143,99,255,.25);
-      --maxw: 1100px;
-      /* NEW: larger visual cap for carousel images */
-      --carouselMax: min(70vh, 620px);
+      --ac1:#8f63ff; --ac2:#f0cc6d; --ring:0 0 0 3px rgba(143,99,255,.25);
+      --maxw:1100px; --navH:62px; --carouselMax:min(70vh,620px);
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color:var(--text); background:var(--bg)}
-    a{color:#cfc7ff; text-decoration:none} a:hover{text-decoration:underline}
-    .wrap{max-width:var(--maxw); margin:0 auto; padding:20px; display:grid; gap:28px}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    a{color:#cfc7ff;text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:20px;display:grid;gap:28px}
 
-    /* header */
-    header{text-align:center; padding:24px 0 8px}
-    header h1{margin:0; font-size:clamp(1.6rem,1.1rem + 1.6vw,2.2rem)}
-    header p{margin:.35rem 0 0; color:var(--muted)}
+    /* ===== Floating animated logo (top-left, fixed) ===== */
+    .logo-float{position:fixed;top:10px;left:10px;z-index:1001;width:72px;height:72px;display:block}
+    .logo-float svg{width:100%;height:100%;display:block}
+    @media (max-width:520px){.logo-float{width:56px;height:56px;top:8px;left:8px}}
 
-    /* hero */
-    .hero{background:linear-gradient(180deg, #1b1b25, var(--card)); border:1px solid var(--line); border-radius:14px; padding:16px; display:grid; gap:10px}
-    .hero .row{display:flex; gap:12px; flex-wrap:wrap}
-    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; border:1px solid var(--line); font-weight:800; cursor:pointer; text-decoration:none}
-    .btn.primary{background:linear-gradient(180deg,#6f54e9,#5a45c9); color:#fff}
-    .btn.primary:hover{box-shadow:var(--ring)}
-    .btn.ghost{background:#181a22; color:#dfe3ef}
-    .btn.ghost:hover{border-color:rgba(143,99,255,.35)}
+    /* ===== Sticky navbar ===== */
+    .nav{position:sticky;top:0;z-index:1000;background:#0d0f15cc;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:10px;height:var(--navH);padding:0 12px}
+    .brand{font-weight:900;letter-spacing:.2px;font-size:1.02rem;white-space:nowrap}
+    .spacer{flex:1}
+    .btn-link{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 12px;border-radius:10px;border:1px solid transparent;color:#dfe3ef;font-weight:700;font-size:.95rem}
+    .btn-link:hover{border-color:var(--line);background:#141622}
+    .callbtn{background:linear-gradient(180deg,#6f54e9,#5a45c9);color:#fff;border:1px solid var(--line);border-radius:10px;height:38px;padding:0 12px;font-weight:800}
+    .callbtn:hover{box-shadow:var(--ring)}
 
-    /* carousel (BIGGER) */
-    .carousel{
-      border-radius:12px; overflow:hidden; background:#0e0f19;
-      max-width:var(--maxw); margin:0 auto;
-    }
-    .carousel-inner{
-      display:flex; justify-content:center; align-items:center;
-      padding:6px; /* smaller padding so the image can be larger */
-    }
-    .carousel img{
-      display:block;
-      max-width:100%;
-      max-height:var(--carouselMax); /* bigger cap, no cropping */
-      height:auto; width:auto;
-      object-fit:contain; border-radius:10px;
-      transition:opacity .35s ease;
-    }
+    /* Header */
+    header{text-align:center;padding:8px 0}
+    header h1{margin:0;font-size:clamp(1.6rem,1.1rem + 1.6vw,2.2rem)}
+    header p{margin:.35rem 0 0;color:var(--muted)}
+
+    /* Carousel */
+    .carousel{border-radius:12px;overflow:hidden;background:#0e0f19}
+    .carousel-inner{display:flex;justify-content:center;align-items:center;padding:6px}
+    .carousel img{display:block;max-width:100%;max-height:var(--carouselMax);height:auto;width:auto;object-fit:contain;border-radius:10px;transition:opacity .35s ease}
     .carousel.fading img{opacity:.08}
 
-    /* section titles */
-    .sect{display:grid; gap:14px}
-    .sect h3{margin:0; font-size:1.25rem; border-bottom:1px solid var(--line); padding-bottom:8px}
+    /* Sections */
+    .sect{display:grid;gap:14px;scroll-margin-top:calc(var(--navH) + 14px)}
+    .sect h3{margin:0;font-size:1.25rem;border-bottom:1px solid var(--line);padding-bottom:8px}
 
-    /* services & info cards */
-    .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-    .card{background:linear-gradient(180deg, var(--card), var(--panel)); border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:0 10px 34px rgba(0,0,0,.32)}
-    .card h4{margin:.1rem 0 .4rem; font-size:1.05rem}
-    .card p{margin:0; color:var(--muted)}
+    /* Cards/grids */
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .card{background:linear-gradient(180deg,var(--card),var(--panel));border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 10px 34px rgba(0,0,0,.32)}
+    .card h4{margin:.1rem 0 .4rem;font-size:1.05rem}
+    .card p{margin:0;color:var(--muted)}
+    .badges{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+    .badge{display:flex;align-items:center;gap:10px;background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .badge .dot{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#cfc7ff 60%,#8f63ff);box-shadow:0 0 16px rgba(143,99,255,.45)}
 
-    /* badges / why us */
-    .badges{display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-    .badge{display:flex; align-items:center; gap:10px; background:#0f1118; border:1px solid var(--line); border-radius:12px; padding:12px}
-    .badge .dot{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #fff, #cfc7ff 60%, #8f63ff); box-shadow:0 0 16px rgba(143,99,255,.45)}
+    /* Steps */
+    .steps{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .step{background:#11131c;border:1px solid var(--line);border-radius:12px;padding:14px}
+    .num{display:inline-block;background:#1f2140;color:#fff;padding:6px 10px;border-radius:999px;font-weight:800;margin-bottom:8px}
 
-    /* process timeline */
-    .steps{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .step{background:#11131c;border:1px solid var(--line); border-radius:12px; padding:14px}
-    .step .num{display:inline-block;background:#1f2140;color:#fff;padding:6px 10px;border-radius:999px;font-weight:800;margin-bottom:8px}
-
-    /* gallery thumbs */
-    .thumbs{display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-    .thumbs img{width:100%; height:120px; object-fit:cover; border-radius:10px; border:1px solid var(--line); filter:saturate(1.02) contrast(1.02)}
+    /* Thumbs */
+    .thumbs{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .thumbs img{width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--line);filter:saturate(1.02) contrast(1.02)}
     .thumbs figure{margin:0}
-    .thumbs figcaption{font-size:.85rem; color:var(--muted); margin-top:6px}
+    .thumbs figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
 
-    /* testimonials */
-    .quotes{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-    .quote{background:#121422;border:1px solid var(--line); border-radius:12px; padding:16px; position:relative}
-    .quote::before{content:"“"; position:absolute; left:12px; top:-8px; font-size:3rem; color:#4d4f66; opacity:.35}
-    .quote .by{margin-top:8px; color:#d6d8e3; font-weight:700}
+    /* Reviews */
+    .quotes{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .quote{background:#121422;border:1px solid var(--line);border-radius:12px;padding:16px;position:relative}
+    .quote::before{content:"“";position:absolute;left:12px;top:-8px;font-size:3rem;color:#4d4f66;opacity:.35}
+    .quote .by{margin-top:8px;color:#d6d8e3;font-weight:700}
+    .rating-badge{display:inline-flex;align-items:center;gap:8px;background:#0f1118;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800}
+    .src-tag{padding:2px 6px;border:1px solid var(--line);border-radius:999px;background:#0f1118;margin-left:6px;font-size:.8rem}
 
-    /* FAQ (details/summary) */
-    .faqs details{background:#0f1118;border:1px solid var(--line); border-radius:12px; padding:12px 14px}
-    .faqs summary{cursor:pointer; font-weight:700}
-    .faqs p{color:var(--muted); margin:.5rem 0 0}
+    /* FAQs */
+    .faqs details{background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+    .faqs summary{cursor:pointer;font-weight:700}
+    .faqs p{color:var(--muted);margin:.5rem 0 0}
 
-    /* booking form (card) */
-    .quote-wrap{max-width:860px; margin:8px auto 0; width:100%}
-    .quote-title{text-align:center; font-weight:900; font-size:1.4rem; margin:2px 0 10px}
-    .quote-card{background:linear-gradient(180deg,#20202a,#1b1b24); border:1px solid var(--line); border-radius:16px; padding:18px}
-    .qgrid{display:grid; gap:14px}
-    .field{display:grid; gap:6px}
-    .label{color:var(--muted); font-size:.92rem}
-    .input,.select,.textarea{width:100%; background:#0f121a; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:12px 14px; outline:none; transition:border-color .15s ease, box-shadow .15s ease}
-    .input:focus,.select:focus,.textarea:focus{border-color:#8f63ff; box-shadow:var(--ring)}
-    .textarea{min-height:120px; resize:vertical}
-    .actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:6px}
-    .btnP{background:linear-gradient(180deg,#6f54e9,#5a45c9); color:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 18px; font-weight:800}
-    .btnS{background:#181a22; color:#dfe3ef; border:1px solid var(--line); border-radius:12px; padding:12px 18px; font-weight:800}
-    .help{text-align:center; color:var(--muted); font-size:.92rem; margin-top:6px}
-    @media(min-width:720px){ .qgrid{grid-template-columns:1fr 1fr}.span-2{grid-column:1/-1}}
+    /* Forms */
+    .quote-wrap{max-width:860px;margin:8px auto 0;width:100%}
+    .quote-title{text-align:center;font-weight:900;font-size:1.4rem;margin:2px 0 10px}
+    .quote-card{background:linear-gradient(180deg,#20202a,#1b1b24);border:1px solid var(--line);border-radius:16px;padding:18px}
+    .qgrid{display:grid;gap:14px}
+    .field{display:grid;gap:6px}
+    .label{color:var(--muted);font-size:.92rem}
+    .input,.select,.textarea{width:100%;background:#0f121a;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .15s ease,box-shadow .15s ease}
+    .input:focus,.select:focus,.textarea:focus{border-color:#8f63ff;box-shadow:var(--ring)}
+    .textarea{min-height:120px;resize:vertical}
+    .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+    .btnP{background:linear-gradient(180deg,#6f54e9,#5a45c9);color:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-weight:800}
+    .btnS{background:#181a22;color:#dfe3ef;border:1px solid var(--line);border-radius:12px;padding:12px 18px;font-weight:800}
+    .help{text-align:center;color:var(--muted);font-size:.92rem;margin-top:6px}
+    @media (min-width:720px){.qgrid{grid-template-columns:1fr 1fr}.span-2{grid-column:1/-1}}
 
-    /* CTA banner */
-    .cta{background:linear-gradient(90deg,#1c1d2f,#171828); border:1px solid var(--line); border-radius:14px; padding:18px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between}
+    /* CTA */
+    .cta{background:linear-gradient(90deg,#1c1d2f,#171828);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
     .cta strong{font-size:1.05rem}
 
-    /* sticky mobile bar */
-    .sticky-call{position:fixed; left:0; right:0; bottom:0; background:#0d0e14cc; backdrop-filter:blur(8px); border-top:1px solid var(--line); padding:10px; display:flex; gap:10px; justify-content:center; z-index:50}
-    .sticky-call a{flex:1; max-width:420px; text-align:center}
-    @media(min-width:760px){ .sticky-call{display:none} }
+    /* Sticky mobile call bar */
+    .sticky-call{position:fixed;left:0;right:0;bottom:0;background:#0d0e14cc;backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px;display:flex;gap:10px;justify-content:center;z-index:50}
+    .sticky-call a{flex:1;max-width:420px;text-align:center}
+    @media (min-width:760px){.sticky-call{display:none}}
 
-    /* footer */
-    footer{color:var(--muted); text-align:center; padding:18px 0 80px}
+    footer{color:var(--muted);text-align:center;padding:18px 0 80px}
   </style>
 </head>
 <body>
-  <div class="wrap">
 
-    <!-- Header -->
+  <!-- Floating animated logo -->
+  <a href="#top" class="logo-float" aria-label="Home">
+    <!-- Animated SVG using your transparent silhouette file -->
+    <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <image id="src" href="logo-silhouette.png" width="1024" height="1024"/>
+        <clipPath id="tL"><rect x="170" y="150" width="280" height="560" rx="18"/></clipPath>
+        <clipPath id="tR"><rect x="590" y="140" width="260" height="560" rx="18"/></clipPath>
+        <clipPath id="deer"><rect x="410" y="490" width="250" height="220" rx="14"/></clipPath>
+        <clipPath id="grass"><rect x="170" y="630" width="684" height="86" rx="10"/></clipPath>
+        <clipPath id="water"><rect x="130" y="690" width="764" height="170" rx="10"/></clipPath>
+        <clipPath id="all"><rect x="0" y="0" width="1024" height="1024"/></clipPath>
+        <filter id="flow" x="-10%" y="-10%" width="120%" height="120%" filterUnits="userSpaceOnUse" filterRes="1024">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02 0.05" numOctaves="2" seed="7" result="n">
+            <animate attributeName="baseFrequency" dur="6s" repeatCount="indefinite" values="0.02 0.05; 0.026 0.06; 0.02 0.05"/>
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G">
+            <animate attributeName="scale" dur="6s" repeatCount="indefinite" values="8;10;8"/>
+          </feDisplacementMap>
+        </filter>
+      </defs>
+      <!-- base -->
+      <g clip-path="url(#all)"><use href="#src"/></g>
+      <!-- trees -->
+      <g clip-path="url(#tL)" style="transform-box:fill-box;transform-origin:50% 100%">
+        <animateTransform attributeName="transform" type="rotate" dur="6s" repeatCount="indefinite" values="0; -0.9; 0.3; -0.6; 0"/>
+        <use href="#src"/>
+      </g>
+      <g clip-path="url(#tR)" style="transform-box:fill-box;transform-origin:50% 100%">
+        <animateTransform attributeName="transform" type="rotate" begin=".35s" dur="6s" repeatCount="indefinite" values="0; -0.8; 0.25; -0.5; 0"/>
+        <use href="#src"/>
+      </g>
+      <!-- deer -->
+      <g clip-path="url(#deer)">
+        <g style="transform-box:fill-box;transform-origin:50% 85%">
+          <animateTransform attributeName="transform" type="translate" begin=".1s" dur="6s" repeatCount="indefinite" values="0 0; 0 -8; 0 0; 0 -7; 0 0"/>
+          <g style="transform-box:fill-box;transform-origin:50% 85%">
+            <animateTransform attributeName="transform" type="rotate" begin=".1s" dur="6s" repeatCount="indefinite" values="0; -0.9; 0.4; -0.6; 0"/>
+            <use href="#src"/>
+          </g>
+        </g>
+      </g>
+      <!-- grass -->
+      <g clip-path="url(#grass)" style="transform-box:fill-box;transform-origin:50% 100%">
+        <animateTransform attributeName="transform" type="skewX" begin=".1s" dur="6s" repeatCount="indefinite" values="0; -1.2; 0.7; -1.0; 0"/>
+        <animateTransform attributeName="transform" additive="sum" type="translate" begin=".1s" dur="6s" repeatCount="indefinite" values="0 0; 0 -1; 0 0; 0 -1; 0 0"/>
+        <use href="#src"/>
+      </g>
+      <!-- water -->
+      <g clip-path="url(#water)">
+        <animateTransform attributeName="transform" type="translate" dur="6s" repeatCount="indefinite" values="0 0; 4 0; 0 0"/>
+        <use href="#src" filter="url(#flow)"/>
+      </g>
+    </svg>
+  </a>
+
+  <!-- Sticky navbar -->
+  <nav class="nav" role="navigation" aria-label="Main">
+    <div class="nav-inner">
+      <div class="brand">Tree Trimming Services & More LLC</div>
+      <div class="spacer"></div>
+      <a class="btn-link" href="#gallery">Gallery</a>
+      <a class="btn-link" href="#services">Services</a>
+      <a class="btn-link" href="#process">Process</a>
+      <a class="btn-link" href="#jobs">Recent</a>
+      <a class="btn-link" href="#reviews">Reviews</a>
+      <a class="btn-link" href="#faq">FAQ</a>
+      <a class="btn-link" href="#booking">Quote</a>
+      <a class="callbtn" href="tel:+15739153370">Call</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
     <header>
       <h1>Tree Trimming Services &amp; More LLC</h1>
       <p>Insured • 16+ yrs experience • Call or text <strong>(573) 915-3370</strong></p>
     </header>
 
-    <!-- Carousel (bigger) -->
-    <section class="carousel" id="carousel" aria-label="Work gallery">
+    <!-- Gallery -->
+    <section class="carousel sect" id="gallery" aria-label="Work gallery">
       <div class="carousel-inner">
-        <img id="carousel-img" src="images/1.JPG" alt="Tree work photo 1" loading="eager" decoding="async">
+        <img id="carousel-img" src="images/1.JPG" alt="Tree work photo 1" loading="eager" decoding="async" />
       </div>
     </section>
 
-    <!-- Why Choose Us -->
-    <section class="sect">
+    <!-- Why -->
+    <section class="sect" id="why">
       <h3>Why choose us</h3>
       <div class="badges">
         <div class="badge"><span class="dot"></span><div><strong>Insured &amp; local</strong><div style="color:var(--muted)">Based in Valles Mines, MO</div></div></div>
@@ -149,66 +210,76 @@
     </section>
 
     <!-- Services -->
-    <section class="sect">
+    <section class="sect" id="services">
       <h3>Services</h3>
       <div class="grid">
-        <article class="card"><h4>✂️ Pruning &amp; Crown Care</h4><p>Health-first trimming, deadwood removal, canopy shaping, and structural balance to protect trees and property.</p></article>
-        <article class="card"><h4>🪓 Controlled Removals</h4><p>Tight-space sectional takedowns with rigging and lowering—precision work where heavy equipment can’t go.</p></article>
-        <article class="card"><h4>🌩️ Storm Damage &amp; Hazard Cleanup</h4><p>Emergency response, hangers cleared, broken limbs secured, and debris hauled—safely and quickly.</p></article>
-        <article class="card"><h4>🧹 Brush &amp; Haul-Away</h4><p>Clean work sites every time—chip, stack, or full removal. We leave your yard ready to enjoy.</p></article>
+        <article class="card"><h4>✂️ Pruning &amp; Crown Care</h4><p>Health-first trimming, deadwood removal, canopy shaping, and structural balance.</p></article>
+        <article class="card"><h4>🪓 Controlled Removals</h4><p>Tight-space sectional takedowns with rigging and lowering—precision work.</p></article>
+        <article class="card"><h4>🌩️ Storm Damage &amp; Hazard Cleanup</h4><p>Emergency response, hangers cleared, broken limbs secured, and debris hauled.</p></article>
+        <article class="card"><h4>🧹 Brush &amp; Haul-Away</h4><p>Clean work sites every time—chip, stack, or full removal.</p></article>
       </div>
     </section>
 
     <!-- Process -->
-    <section class="sect">
+    <section class="sect" id="process">
       <h3>Our process</h3>
       <div class="steps">
         <div class="step"><span class="num">1</span><h4>Walk-through</h4><p class="muted">We listen, assess trees, and discuss options on-site or via photos.</p></div>
         <div class="step"><span class="num">2</span><h4>Clear quote</h4><p class="muted">Written scope, price, and timing—no surprises.</p></div>
-        <div class="step"><span class="num">3</span><h4>Safe execution</h4><p class="muted">Professional rigging, sectional removals, and careful protection of your property.</p></div>
+        <div class="step"><span class="num">3</span><h4>Safe execution</h4><p class="muted">Professional rigging, sectional removals, careful protection of your property.</p></div>
         <div class="step"><span class="num">4</span><h4>Clean finish</h4><p class="muted">Brush/wood handled as requested. We leave it tidy.</p></div>
       </div>
     </section>
 
-    <!-- Recent Jobs (thumb gallery) -->
-    <section class="sect">
+    <!-- Recent jobs -->
+    <section class="sect" id="jobs">
       <h3>Recent jobs</h3>
       <div class="thumbs">
-        <figure><img src="images/1.jpg" alt="Job 1"><figcaption>Selective pruning</figcaption></figure>
-        <figure><img src="images/2.jpg" alt="Job 2"><figcaption>Sectional removal</figcaption></figure>
+        <figure><img src="images/1.JPG" alt="Job 1"><figcaption>Selective pruning</figcaption></figure>
+        <figure><img src="images/2.JPG" alt="Job 2"><figcaption>Sectional removal</figcaption></figure>
         <figure><img src="images/3.JPG" alt="Job 3"><figcaption>Storm cleanup</figcaption></figure>
-        <figure><img src="images/4.jpg" alt="Job 4"><figcaption>Brush &amp; haul-away</figcaption></figure>
-        <figure><img src="images/5.jpg" alt="Job 5"><figcaption>Canopy balance</figcaption></figure>
+        <figure><img src="images/4.JPG" alt="Job 4"><figcaption>Brush &amp; haul-away</figcaption></figure>
+        <figure><img src="images/5.JPG" alt="Job 5"><figcaption>Canopy balance</figcaption></figure>
       </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="sect">
-      <h3>What neighbors say</h3>
-      <div class="quotes">
-        <div class="quote"><div>“Fast, careful, and the yard looked cleaner when they left. 10/10.”</div><div class="by">— M. Carter</div></div>
-        <div class="quote"><div>“Took a huge oak down by sections with zero lawn damage. Pros.”</div><div class="by">— M. Jensen</div></div>
-        <div class="quote"><div>“Clear pricing and great communication. Highly recommend.”</div><div class="by">— M. Rivera</div></div>
-      </div>
-    </section>
+    <!-- Reviews -->
+    <section class="sect" id="reviews">
+      <h3>Reviews</h3>
+      <div id="reviewsHeader" class="rating-badge" aria-live="polite">Average: —</div>
+      <div id="reviewsList" class="quotes" style="margin-top:10px" aria-live="polite"></div>
 
-    <!-- Service Area & Hours -->
-    <section class="sect">
-      <h3>Info</h3>
-      <div class="grid">
-        <article class="card">
-          <h4>📍 Service area</h4>
-          <p><strong>Valles Mines, MO 63087</strong><br>Nearby counties by request.</p>
-        </article>
-        <article class="card">
-          <h4>⏰ Hours</h4>
-          <p><strong>Mon–Sat:</strong> 7:00–6:00<br><strong>Sun:</strong> by appointment<br><strong>Fastest reply:</strong> call or text.</p>
-        </article>
-      </div>
+      <!-- Public submit -->
+      <form id="reviewForm" class="quote-card" autocomplete="off">
+        <div class="qgrid">
+          <div class="field">
+            <label class="label" for="rname">Your name</label>
+            <input id="rname" name="name" class="input" type="text" placeholder="Jane D." required>
+          </div>
+          <div class="field">
+            <label class="label" for="rstars">Rating</label>
+            <select id="rstars" name="stars" class="select" required>
+              <option value="5" selected>★★★★★</option>
+              <option value="4">★★★★☆</option>
+              <option value="3">★★★☆☆</option>
+              <option value="2">★★☆☆☆</option>
+              <option value="1">★☆☆☆☆</option>
+            </select>
+          </div>
+          <div class="field span-2">
+            <label class="label" for="rtext">Review</label>
+            <textarea id="rtext" name="text" class="textarea" placeholder="How did we do?" required></textarea>
+          </div>
+          <div class="actions span-2">
+            <button class="btnP" type="submit">Post review</button>
+          </div>
+          <div id="reviewStatus" class="help span-2"></div>
+        </div>
+      </form>
     </section>
 
     <!-- FAQ -->
-    <section class="sect faqs">
+    <section class="sect faqs" id="faq">
       <h3>FAQ</h3>
       <details>
         <summary>Are you insured?</summary>
@@ -224,7 +295,7 @@
       </details>
     </section>
 
-    <!-- Booking Form -->
+    <!-- Booking -->
     <section class="quote-wrap" id="booking">
       <h2 class="quote-title">Request a quote</h2>
       <form id="quoteForm" class="quote-card" novalidate>
@@ -256,7 +327,7 @@
             <textarea id="details" name="details" class="textarea" placeholder="Trees, access, timing…"></textarea>
           </div>
           <div class="actions span-2">
-            <button type="submit" class="btnP">Send</button>
+            <a class="btnP" href="tel:+15739153370">Call</a>
             <a class="btnS" href="sms:+15739153370">Text</a>
           </div>
           <div id="quoteStatus" class="help span-2">Local to Valles Mines, MO. References on request.</div>
@@ -264,48 +335,117 @@
       </form>
     </section>
 
-    <!-- CTA banner -->
+    <!-- CTA -->
     <section class="cta">
       <strong>Have storm damage or a hazard limb?</strong>
-      <div style="display:flex; gap:10px; flex-wrap:wrap">
-        <a class="btn primary" href="tel:+15739153370">📞 Call Now</a>
-        <a class="btn ghost" href="sms:+15739153370">💬 Text Photos</a>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btnP" href="tel:+15739153370">📞 Call Now</a>
+        <a class="btnS" href="sms:+15739153370">💬 Text Photos</a>
       </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-      &copy; <span id="yr"></span> Tree Trimming Services &amp; More LLC • <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener noreferrer">Facebook</a>
+      &copy; <span id="yr"></span> Tree Trimming Services &amp; More LLC •
+      <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener noreferrer">Facebook</a>
     </footer>
   </div>
 
-  <!-- Sticky mobile call/text bar -->
+  <!-- Sticky mobile quick actions -->
   <div class="sticky-call" role="navigation" aria-label="Quick actions">
     <a class="btnP" href="tel:+15739153370">📞 Call</a>
     <a class="btnS" href="sms:+15739153370">💬 Text</a>
   </div>
 
   <script>
-    // Year stamp
+    // ===== CONFIG =====
+    // Replace with your deployed Apps Script /exec URL
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbw3nqYg84gUV0gCGWTDfapij2EDRGMpqXpcG-8fxycf9Lnfdrl_1hp7WfVFliOMTHZT/exec';
+
+    // Year
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // Carousel (single image cross-fade)
-    const imgs = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg','images/5.jpg'];
-    const cEl = document.getElementById('carousel');
+    // Carousel (auto cycle)
+    const imgs = ['images/1.JPG','images/2.JPG','images/3.JPG','images/4.JPG','images/5.JPG'];
+    const cEl = document.getElementById('gallery');
     const imgEl = document.getElementById('carousel-img');
     let i = 0;
-    imgs.forEach(src => { const im = new Image(); im.src = src; }); // preload
-    function nextImg(){
+    imgs.forEach(src => { const im = new Image(); im.src = src; });
+    setInterval(()=>{
       cEl.classList.add('fading');
       setTimeout(()=>{
-        i = (i+1)%imgs.length;
-        imgEl.src = imgs[i];
-        imgEl.alt = 'Tree work photo ' + (i+1);
+        i=(i+1)%imgs.length;
+        imgEl.src=imgs[i];
+        imgEl.alt='Tree work photo '+(i+1);
         cEl.classList.remove('fading');
-      }, 220);
+      },220);
+    },4000);
+
+    // ===== Reviews =====
+    async function loadReviews(){
+      try{
+        const res = await fetch(GAS_URL + '?action=list'); // simple GET
+        const list = await res.json(); // [{timestamp,name,stars,text,source}]
+        renderReviews(Array.isArray(list) ? list : []);
+      }catch(e){
+        console.error(e);
+        document.getElementById('reviewsList').innerHTML = '<div class="help">Couldn\'t load reviews.</div>';
+        document.getElementById('reviewsHeader').textContent = 'Average: —';
+      }
     }
-    setInterval(nextImg, 4000);
+
+    function renderReviews(list){
+      // Average
+      const nums = list.map(r => Number(r.stars)||0).filter(n => n>0);
+      const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
+      document.getElementById('reviewsHeader').innerHTML =
+        `<span>Average: ${avg ? avg.toFixed(1) : '—'}</span>
+         <span>${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</span>
+         <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
+
+      // List
+      const box = document.getElementById('reviewsList');
+      box.innerHTML = list.length ? list.map(r => `
+        <div class="quote">
+          <div>${'★'.repeat(+r.stars)}${'☆'.repeat(5-+r.stars)}</div>
+          <div style="margin-top:6px">${escapeHtml(r.text)}</div>
+          <div class="by">— ${escapeHtml(r.name)}
+            <span style="color:var(--muted);font-weight:400">• ${safeDate(r.timestamp)}
+              <span class="src-tag">${r.source === 'facebook' ? 'Facebook' : 'Website'}</span>
+            </span>
+          </div>
+        </div>
+      `).join('') : '<div class="help">No reviews yet — be the first!</div>';
+    }
+
+    function safeDate(t){ try{return new Date(t).toLocaleDateString()}catch{return ''} }
+    function escapeHtml(str=''){ return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    // Submit review (no custom headers -> avoids preflight)
+    const reviewForm = document.getElementById('reviewForm');
+    reviewForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(reviewForm);
+      const payload = {
+        action:'add',
+        name: (fd.get('name')||'').trim(),
+        stars: fd.get('stars'),
+        text: (fd.get('text')||'').trim()
+      };
+      const status = document.getElementById('reviewStatus');
+      status.textContent = 'Posting...';
+      try{
+        const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) });
+        const ok = await res.json();
+        status.textContent = ok?.success ? 'Thanks for the review!' : 'Couldn’t post review.';
+        if(ok?.success){ reviewForm.reset(); loadReviews(); }
+      }catch(err){
+        console.error(err);
+        status.textContent = 'Network error. Verify your Apps Script /exec deployment.';
+      }
+    });
+
+    // Go
+    loadReviews();
   </script>
 </body>
 </html>
-
