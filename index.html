@@ -20,12 +20,12 @@
     a{color:#cfc7ff;text-decoration:none} a:hover{text-decoration:underline}
     .wrap{max-width:var(--maxw);margin:0 auto;padding:20px;display:grid;gap:28px}
 
-    /* ===== Floating animated logo (top-left, fixed) ===== */
+    /* floating animated logo */
     .logo-float{position:fixed;top:10px;left:10px;z-index:1001;width:72px;height:72px;display:block}
     .logo-float svg{width:100%;height:100%;display:block}
     @media (max-width:520px){.logo-float{width:56px;height:56px;top:8px;left:8px}}
 
-    /* ===== Sticky navbar ===== */
+    /* sticky navbar */
     .nav{position:sticky;top:0;z-index:1000;background:#0d0f15cc;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
     .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:10px;height:var(--navH);padding:0 12px}
     .brand{font-weight:900;letter-spacing:.2px;font-size:1.02rem;white-space:nowrap}
@@ -35,22 +35,21 @@
     .callbtn{background:linear-gradient(180deg,#6f54e9,#5a45c9);color:#fff;border:1px solid var(--line);border-radius:10px;height:38px;padding:0 12px;font-weight:800}
     .callbtn:hover{box-shadow:var(--ring)}
 
-    /* Header */
     header{text-align:center;padding:8px 0}
     header h1{margin:0;font-size:clamp(1.6rem,1.1rem + 1.6vw,2.2rem)}
     header p{margin:.35rem 0 0;color:var(--muted)}
 
-    /* Carousel */
+    /* carousel */
     .carousel{border-radius:12px;overflow:hidden;background:#0e0f19}
     .carousel-inner{display:flex;justify-content:center;align-items:center;padding:6px}
     .carousel img{display:block;max-width:100%;max-height:var(--carouselMax);height:auto;width:auto;object-fit:contain;border-radius:10px;transition:opacity .35s ease}
     .carousel.fading img{opacity:.08}
 
-    /* Sections */
+    /* sections */
     .sect{display:grid;gap:14px;scroll-margin-top:calc(var(--navH) + 14px)}
     .sect h3{margin:0;font-size:1.25rem;border-bottom:1px solid var(--line);padding-bottom:8px}
 
-    /* Cards/grids */
+    /* cards/grids */
     .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
     .card{background:linear-gradient(180deg,var(--card),var(--panel));border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 10px 34px rgba(0,0,0,.32)}
     .card h4{margin:.1rem 0 .4rem;font-size:1.05rem}
@@ -59,18 +58,18 @@
     .badge{display:flex;align-items:center;gap:10px;background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px}
     .badge .dot{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#cfc7ff 60%,#8f63ff);box-shadow:0 0 16px rgba(143,99,255,.45)}
 
-    /* Steps */
+    /* steps */
     .steps{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
     .step{background:#11131c;border:1px solid var(--line);border-radius:12px;padding:14px}
     .num{display:inline-block;background:#1f2140;color:#fff;padding:6px 10px;border-radius:999px;font-weight:800;margin-bottom:8px}
 
-    /* Thumbs */
+    /* thumbs */
     .thumbs{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
     .thumbs img{width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--line);filter:saturate(1.02) contrast(1.02)}
     .thumbs figure{margin:0}
     .thumbs figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
 
-    /* Reviews */
+    /* reviews */
     .quotes{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
     .quote{background:#121422;border:1px solid var(--line);border-radius:12px;padding:16px;position:relative}
     .quote::before{content:"“";position:absolute;left:12px;top:-8px;font-size:3rem;color:#4d4f66;opacity:.35}
@@ -78,12 +77,12 @@
     .rating-badge{display:inline-flex;align-items:center;gap:8px;background:#0f1118;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800}
     .src-tag{padding:2px 6px;border:1px solid var(--line);border-radius:999px;background:#0f1118;margin-left:6px;font-size:.8rem}
 
-    /* FAQs */
+    /* faqs */
     .faqs details{background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
     .faqs summary{cursor:pointer;font-weight:700}
     .faqs p{color:var(--muted);margin:.5rem 0 0}
 
-    /* Forms */
+    /* forms */
     .quote-wrap{max-width:860px;margin:8px auto 0;width:100%}
     .quote-title{text-align:center;font-weight:900;font-size:1.4rem;margin:2px 0 10px}
     .quote-card{background:linear-gradient(180deg,#20202a,#1b1b24);border:1px solid var(--line);border-radius:16px;padding:18px}
@@ -103,7 +102,7 @@
     .cta{background:linear-gradient(90deg,#1c1d2f,#171828);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
     .cta strong{font-size:1.05rem}
 
-    /* Sticky mobile call bar */
+    /* sticky mobile bar */
     .sticky-call{position:fixed;left:0;right:0;bottom:0;background:#0d0e14cc;backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px;display:flex;gap:10px;justify-content:center;z-index:50}
     .sticky-call a{flex:1;max-width:420px;text-align:center}
     @media (min-width:760px){.sticky-call{display:none}}
@@ -112,10 +111,8 @@
   </style>
 </head>
 <body>
-
-  <!-- Floating animated logo -->
+  <!-- animated logo -->
   <a href="#top" class="logo-float" aria-label="Home">
-    <!-- Animated SVG using your transparent silhouette file -->
     <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
         <image id="src" href="logo-silhouette.png" width="1024" height="1024"/>
@@ -134,34 +131,26 @@
           </feDisplacementMap>
         </filter>
       </defs>
-      <!-- base -->
       <g clip-path="url(#all)"><use href="#src"/></g>
-      <!-- trees -->
       <g clip-path="url(#tL)" style="transform-box:fill-box;transform-origin:50% 100%">
-        <animateTransform attributeName="transform" type="rotate" dur="6s" repeatCount="indefinite" values="0; -0.9; 0.3; -0.6; 0"/>
-        <use href="#src"/>
+        <animateTransform attributeName="transform" type="rotate" dur="6s" repeatCount="indefinite" values="0; -0.9; 0.3; -0.6; 0"/><use href="#src"/>
       </g>
       <g clip-path="url(#tR)" style="transform-box:fill-box;transform-origin:50% 100%">
-        <animateTransform attributeName="transform" type="rotate" begin=".35s" dur="6s" repeatCount="indefinite" values="0; -0.8; 0.25; -0.5; 0"/>
-        <use href="#src"/>
+        <animateTransform attributeName="transform" type="rotate" begin=".35s" dur="6s" repeatCount="indefinite" values="0; -0.8; 0.25; -0.5; 0"/><use href="#src"/>
       </g>
-      <!-- deer -->
       <g clip-path="url(#deer)">
         <g style="transform-box:fill-box;transform-origin:50% 85%">
           <animateTransform attributeName="transform" type="translate" begin=".1s" dur="6s" repeatCount="indefinite" values="0 0; 0 -8; 0 0; 0 -7; 0 0"/>
           <g style="transform-box:fill-box;transform-origin:50% 85%">
-            <animateTransform attributeName="transform" type="rotate" begin=".1s" dur="6s" repeatCount="indefinite" values="0; -0.9; 0.4; -0.6; 0"/>
-            <use href="#src"/>
+            <animateTransform attributeName="transform" type="rotate" begin=".1s" dur="6s" repeatCount="indefinite" values="0; -0.9; 0.4; -0.6; 0"/><use href="#src"/>
           </g>
         </g>
       </g>
-      <!-- grass -->
       <g clip-path="url(#grass)" style="transform-box:fill-box;transform-origin:50% 100%">
         <animateTransform attributeName="transform" type="skewX" begin=".1s" dur="6s" repeatCount="indefinite" values="0; -1.2; 0.7; -1.0; 0"/>
         <animateTransform attributeName="transform" additive="sum" type="translate" begin=".1s" dur="6s" repeatCount="indefinite" values="0 0; 0 -1; 0 0; 0 -1; 0 0"/>
         <use href="#src"/>
       </g>
-      <!-- water -->
       <g clip-path="url(#water)">
         <animateTransform attributeName="transform" type="translate" dur="6s" repeatCount="indefinite" values="0 0; 4 0; 0 0"/>
         <use href="#src" filter="url(#flow)"/>
@@ -169,7 +158,7 @@
     </svg>
   </a>
 
-  <!-- Sticky navbar -->
+  <!-- nav -->
   <nav class="nav" role="navigation" aria-label="Main">
     <div class="nav-inner">
       <div class="brand">Tree Trimming Services & More LLC</div>
@@ -191,14 +180,14 @@
       <p>Insured • 16+ yrs experience • Call or text <strong>(573) 915-3370</strong></p>
     </header>
 
-    <!-- Gallery -->
+    <!-- gallery -->
     <section class="carousel sect" id="gallery" aria-label="Work gallery">
       <div class="carousel-inner">
-        <img id="carousel-img" src="images/1.jpg" alt="Tree work photo 1" loading="eager" decoding="async" />
+        <img id="carousel-img" src="images/1.JPG" alt="Tree work photo 1" loading="eager" decoding="async" />
       </div>
     </section>
 
-    <!-- Why -->
+    <!-- why -->
     <section class="sect" id="why">
       <h3>Why choose us</h3>
       <div class="badges">
@@ -209,7 +198,7 @@
       </div>
     </section>
 
-    <!-- Services -->
+    <!-- services -->
     <section class="sect" id="services">
       <h3>Services</h3>
       <div class="grid">
@@ -220,7 +209,7 @@
       </div>
     </section>
 
-    <!-- Process -->
+    <!-- process -->
     <section class="sect" id="process">
       <h3>Our process</h3>
       <div class="steps">
@@ -231,25 +220,24 @@
       </div>
     </section>
 
-    <!-- Recent jobs -->
+    <!-- recent jobs -->
     <section class="sect" id="jobs">
       <h3>Recent jobs</h3>
       <div class="thumbs">
-        <figure><img src="images/1.jpg" alt="Job 1"><figcaption>Selective pruning</figcaption></figure>
-        <figure><img src="images/2.jpg" alt="Job 2"><figcaption>Sectional removal</figcaption></figure>
-        <figure><img src="images/3.jpg" alt="Job 3"><figcaption>Storm cleanup</figcaption></figure>
-        <figure><img src="images/4.jpg" alt="Job 4"><figcaption>Brush &amp; haul-away</figcaption></figure>
-        <figure><img src="images/5.jpg" alt="Job 5"><figcaption>Canopy balance</figcaption></figure>
+        <figure><img src="images/1.JPG" alt="Job 1"><figcaption>Selective pruning</figcaption></figure>
+        <figure><img src="images/2.JPG" alt="Job 2"><figcaption>Sectional removal</figcaption></figure>
+        <figure><img src="images/3.JPG" alt="Job 3"><figcaption>Storm cleanup</figcaption></figure>
+        <figure><img src="images/4.JPG" alt="Job 4"><figcaption>Brush &amp; haul-away</figcaption></figure>
+        <figure><img src="images/5.JPG" alt="Job 5"><figcaption>Canopy balance</figcaption></figure>
       </div>
     </section>
 
-    <!-- Reviews -->
+    <!-- reviews -->
     <section class="sect" id="reviews">
       <h3>Reviews</h3>
       <div id="reviewsHeader" class="rating-badge" aria-live="polite">Average: —</div>
       <div id="reviewsList" class="quotes" style="margin-top:10px" aria-live="polite"></div>
 
-      <!-- Public submit -->
       <form id="reviewForm" class="quote-card" autocomplete="off">
         <div class="qgrid">
           <div class="field">
@@ -278,24 +266,15 @@
       </form>
     </section>
 
-    <!-- FAQ -->
+    <!-- faq -->
     <section class="sect faqs" id="faq">
       <h3>FAQ</h3>
-      <details>
-        <summary>Are you insured?</summary>
-        <p>Yes. We carry full liability insurance and can provide proof on request.</p>
-      </details>
-      <details>
-        <summary>Do you handle tight spaces?</summary>
-        <p>Yes—sectional removals with rigging and controlled lowering where equipment can’t reach.</p>
-      </details>
-      <details>
-        <summary>What about cleanup?</summary>
-        <p>We can chip, stack, or haul away brush/logs depending on your preference.</p>
-      </details>
+      <details><summary>Are you insured?</summary><p>Yes. We carry full liability insurance and can provide proof on request.</p></details>
+      <details><summary>Do you handle tight spaces?</summary><p>Yes—sectional removals with rigging and controlled lowering where equipment can’t reach.</p></details>
+      <details><summary>What about cleanup?</summary><p>We can chip, stack, or haul away brush/logs depending on your preference.</p></details>
     </section>
 
-    <!-- Booking -->
+    <!-- booking -->
     <section class="quote-wrap" id="booking">
       <h2 class="quote-title">Request a quote</h2>
       <form id="quoteForm" class="quote-card" novalidate>
@@ -350,7 +329,7 @@
     </footer>
   </div>
 
-  <!-- Sticky mobile quick actions -->
+  <!-- sticky mobile actions -->
   <div class="sticky-call" role="navigation" aria-label="Quick actions">
     <a class="btnP" href="tel:+15739153370">📞 Call</a>
     <a class="btnS" href="sms:+15739153370">💬 Text</a>
@@ -358,14 +337,15 @@
 
   <script>
     // ===== CONFIG =====
-    // Replace with your deployed Apps Script /exec URL
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbw3nqYg84gUV0gCGWTDfapij2EDRGMpqXpcG-8fxycf9Lnfdrl_1hp7WfVFliOMTHZT/exec';
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyVkkvxR3UF8UGapR4zYLC9uMQzQdjL7_kuIThG_5xRA0VDJ4y-JEK02UcOrs-VvvZa/exec';
 
-    // Year
+    // utilities
+    function safeDate(t){ try{return new Date(t).toLocaleDateString()}catch{return ''} }
+    function escapeHtml(str=''){ return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    // carousel
     document.getElementById('yr').textContent = new Date().getFullYear();
-
-    // Carousel (auto cycle)
-    const imgs = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg','images/5.jpg'];
+    const imgs = ['images/1.JPG','images/2.JPG','images/3.JPG','images/4.JPG','images/5.JPG'];
     const cEl = document.getElementById('gallery');
     const imgEl = document.getElementById('carousel-img');
     let i = 0;
@@ -380,21 +360,8 @@
       },220);
     },4000);
 
-    // ===== Reviews =====
-    async function loadReviews(){
-      try{
-        const res = await fetch(GAS_URL + '?action=list'); // simple GET
-        const list = await res.json(); // [{timestamp,name,stars,text,source}]
-        renderReviews(Array.isArray(list) ? list : []);
-      }catch(e){
-        console.error(e);
-        document.getElementById('reviewsList').innerHTML = '<div class="help">Couldn\'t load reviews.</div>';
-        document.getElementById('reviewsHeader').textContent = 'Average: —';
-      }
-    }
-
+    // ---------- Reviews: renderer ----------
     function renderReviews(list){
-      // Average
       const nums = list.map(r => Number(r.stars)||0).filter(n => n>0);
       const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
       document.getElementById('reviewsHeader').innerHTML =
@@ -402,7 +369,6 @@
          <span>${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</span>
          <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
 
-      // List
       const box = document.getElementById('reviewsList');
       box.innerHTML = list.length ? list.map(r => `
         <div class="quote">
@@ -413,18 +379,44 @@
               <span class="src-tag">${r.source === 'facebook' ? 'Facebook' : 'Website'}</span>
             </span>
           </div>
-        </div>
-      `).join('') : '<div class="help">No reviews yet — be the first!</div>';
+        </div>`).join('') : '<div class="help">No reviews yet — be the first!</div>';
     }
 
-    function safeDate(t){ try{return new Date(t).toLocaleDateString()}catch{return ''} }
-    function escapeHtml(str=''){ return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    // ---------- Reviews: JSONP loader (GET fallback that bypasses CORS) ----------
+    function loadReviewsJSONP(){
+      return new Promise((resolve,reject)=>{
+        const cbName = 'cb_reviews_' + Math.random().toString(36).slice(2);
+        window[cbName] = (data)=>{ try{ renderReviews(Array.isArray(data)?data:[]); resolve(); } finally {
+          delete window[cbName]; s.remove(); } };
+        const s = document.createElement('script');
+        s.src = `${GAS_URL}?action=list&callback=${cbName}`;
+        s.onerror = ()=>{ delete window[cbName]; s.remove(); reject(new Error('JSONP failed')); };
+        document.body.appendChild(s);
+      });
+    }
 
-    // Submit review (no custom headers -> avoids preflight)
-    const reviewForm = document.getElementById('reviewForm');
-    reviewForm.addEventListener('submit', async (e)=>{
+    // ---------- Reviews: fetch (preferred) with automatic fallback ----------
+    async function loadReviews(){
+      try{
+        const res = await fetch(GAS_URL + '?action=list', {cache:'no-store'});
+        // If Apps Script doesn't set CORS, this will throw; otherwise parse JSON
+        const data = await res.json();
+        renderReviews(Array.isArray(data)?data:[]);
+      }catch(e){
+        console.warn('Fetch failed, falling back to JSONP:', e);
+        try { await loadReviewsJSONP(); } 
+        catch(err){ 
+          console.error(err);
+          document.getElementById('reviewsList').innerHTML = '<div class="help">Couldn’t load reviews.</div>';
+          document.getElementById('reviewsHeader').textContent = 'Average: —';
+        }
+      }
+    }
+
+    // ---------- Reviews: submit (POST) ----------
+    document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
-      const fd = new FormData(reviewForm);
+      const fd = new FormData(e.target);
       const payload = {
         action:'add',
         name: (fd.get('name')||'').trim(),
@@ -434,17 +426,21 @@
       const status = document.getElementById('reviewStatus');
       status.textContent = 'Posting...';
       try{
-        const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) });
+        const res = await fetch(GAS_URL, {
+          method:'POST',
+          // IMPORTANT: no custom headers -> avoids preflight
+          body: JSON.stringify(payload)
+        });
         const ok = await res.json();
         status.textContent = ok?.success ? 'Thanks for the review!' : 'Couldn’t post review.';
-        if(ok?.success){ reviewForm.reset(); loadReviews(); }
+        if(ok?.success){ e.target.reset(); loadReviews(); }
       }catch(err){
         console.error(err);
-        status.textContent = 'Network error. Verify your Apps Script /exec deployment.';
+        status.textContent = 'Network error.';
       }
     });
 
-    // Go
+    // start
     loadReviews();
   </script>
 </body>
