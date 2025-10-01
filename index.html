@@ -139,6 +139,42 @@
     .login-grid{display:grid;gap:12px;grid-template-columns:1fr auto}
     .login-grid .input{height:44px}
     .hidden{display:none !important}
+
+    /* ===== Admin: mobile-friendly tweaks (added) ===== */
+    @media (max-width: 760px){
+      .modal{ align-items:stretch; padding:0; }
+      .modal-card{
+        width:100%; height:100%; max-height:none;
+        border-radius:0; padding:12px 12px calc(12px + env(safe-area-inset-bottom));
+      }
+      .modal-head{
+        position:sticky; top:0; z-index:2;
+        background:#10131a; padding-bottom:8px;
+        border-bottom:1px solid var(--line);
+      }
+      .dash{ gap:12px; }
+      .kpis{ grid-template-columns:1fr 1fr; gap:10px; }
+      .kpi .val{ font-size:1.3rem; }
+
+      .login-grid{ grid-template-columns:1fr; gap:8px; }
+      .login-grid .input{ height:46px; }
+      #adminLoginBtn{ width:100%; }
+
+      #adminReviews .quote{ padding-right:12px; }
+      #adminReviews .row-actions{ position:static; margin-top:8px; }
+
+      .table-wrap{ overflow:auto; -webkit-overflow-scrolling:touch; }
+      .table{ font-size:.92rem; min-width:720px; }
+      .table th, .table td{ white-space:nowrap; }
+    }
+    @media (max-width: 420px){
+      .kpis{ grid-template-columns:1fr; }
+      .kpi .val{ font-size:1.2rem; }
+    }
+    /* Tap target polish (added) */
+    @media (max-width:760px){
+      .x{ padding:10px 12px; border-radius:12px; }
+    }
   </style>
 </head>
 <body>
@@ -388,7 +424,7 @@
 
         <section>
           <h4 style="margin:0 0 8px 0">Recent Quotes</h4>
-          <div style="overflow:auto">
+          <div class="table-wrap" style="overflow:auto">
             <table class="table" id="quotesTable">
               <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Service</th><th>City/ZIP</th><th>Details</th></tr></thead>
               <tbody></tbody>
@@ -690,4 +726,3 @@
 </script>
 </body>
 </html>
-
