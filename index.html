@@ -12,7 +12,7 @@
       --bg:#0b0d11; --card:#15151e; --panel:#101014;
       --text:#f1f1f1; --muted:#b9beca; --line:rgba(255,255,255,.1);
       --ac1:#8f63ff; --ac2:#5a45c9; --ring:0 0 0 3px rgba(143,99,255,.25);
-      --maxw:1100px; --navH:60px; --carouselMax:min(70vh, 620px);
+      --maxw:1100px; --navH:64px; --carouselMax:min(70vh, 620px);
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -23,8 +23,12 @@
     .wrap{max-width:var(--maxw);margin:0 auto;padding:16px;display:grid;gap:28px}
     .break{word-wrap:break-word;overflow-wrap:break-word}
 
-    /* ===== Sticky navbar (hamburger only) ===== */
-    .nav{position:sticky;top:0;z-index:1000;background:#0d0f15cc;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    /* ===== Fixed navbar (always in view) ===== */
+    .nav{
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      background:#0d0f15cc; backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line)
+    }
     .nav-inner{max-width:var(--maxw);margin:0 auto;height:var(--navH);display:flex;align-items:center;gap:10px;padding:0 12px}
     .logo{display:flex;align-items:center;gap:10px;min-width:0}
     .logo svg{width:44px;height:auto;flex:0 0 auto}
@@ -33,7 +37,7 @@
     .menu-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:40px;border-radius:10px;border:1px solid var(--line);background:#121421;color:#fff;cursor:pointer}
     .menu-btn:focus-visible{outline:3px solid #8f63ff}
 
-    /* dropdown lives INSIDE the sticky nav so it pushes content down */
+    /* dropdown lives INSIDE the fixed nav so it pushes content via spacer below */
     .menu{display:none}
     .menu.open{display:grid;gap:8px;max-width:var(--maxw);margin:8px auto;padding:10px;background:#0f1118;border:1px solid var(--line);border-radius:12px}
     .menu a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:750;color:#dfe3ef;background:#141622}
@@ -79,6 +83,8 @@
     .quote .by{margin-top:8px;color:#d6d8e3;font-weight:700}
     .rating-badge{display:inline-flex;align-items:center;gap:8px;background:#0f1118;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800}
     .src-tag{padding:2px 6px;border:1px solid var(--line);border-radius:999px;background:#0f1118;margin-left:6px;font-size:.8rem}
+    .delete-btn{position:absolute;top:10px;right:10px;border:1px solid var(--line);background:#251a2f;color:#fff;border-radius:8px;padding:6px 8px;cursor:pointer;display:none}
+    .admin .delete-btn{display:inline-block}
 
     /* faqs */
     .faqs details{background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
@@ -92,7 +98,16 @@
     .qgrid{display:grid;gap:14px}
     .field{display:grid;gap:6px}
     .label{color:var(--muted);font-size:.92rem}
-    .input,.select,.textarea{width:100%;background:#0f121a;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .15s ease,box-shadow .15s ease}
+    .input,.select,.textarea{
+  width:100%;
+  background:#0f121a;
+  color:var(--text);               /* ← no # before var() */
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px 14px;
+  outline:none;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
     .input:focus,.select:focus,.textarea:focus{border-color:#8f63ff;box-shadow:var(--ring)}
     .textarea{min-height:120px;resize:vertical}
     .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
@@ -111,15 +126,42 @@
     @media (min-width:760px){.sticky-call{display:none}}
 
     footer{color:var(--muted);text-align:center;padding:18px 0 80px}
+
+    /* ===== Admin modal ===== */
+    .modal{
+      position:fixed; inset:0; display:none; z-index:1200;
+      background:rgba(0,0,0,.55); backdrop-filter:blur(4px);
+      align-items:flex-start; justify-content:center; padding:24px;
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width:min(100%, 980px);
+      background:#10131a; border:1px solid var(--line); border-radius:14px; padding:16px;
+      box-shadow:0 30px 80px rgba(0,0,0,.5);
+    }
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .x{border:1px solid var(--line);background:#181a22;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}
+    .dash{display:grid;gap:16px}
+    .kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+    .kpi{background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .kpi .val{font-size:1.6rem;font-weight:900}
+    .table{width:100%;border-collapse:collapse;font-size:.95rem}
+    .table th,.table td{border:1px solid var(--line);padding:8px;text-align:left}
+    .row-actions{display:flex;gap:8px}
+    .danger{background:#3c1220;border:1px solid #5b2032;color:#ffdbe4;border-radius:10px;padding:6px 10px}
+    .ok{background:#162c22;border:1px solid #234538;color:#d2ffe6;border-radius:10px;padding:6px 10px}
+    .login-grid{display:grid;gap:12px;grid-template-columns:1fr auto}
+    .login-grid .input{height:44px}
+    .hidden{display:none !important}
   </style>
 </head>
 <body>
 
-  <!-- Sticky nav with animated logo + hamburger only -->
+  <!-- Fixed nav with animated logo + hamburger + Admin -->
   <nav class="nav" role="navigation" aria-label="Main">
     <div class="nav-inner">
       <div class="logo">
-        <!-- animated logo -->
+        <!-- animated logo (unchanged) -->
         <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <image id="src" href="logo-silhouette.png" width="1024" height="1024"/>
@@ -154,7 +196,7 @@
       <button class="menu-btn" id="menubtn" aria-label="Menu" aria-controls="dropmenu" aria-expanded="false">☰</button>
     </div>
 
-    <!-- dropdown that pushes page down -->
+    <!-- dropdown that pushes page down (spacer expands) -->
     <div class="menu" id="dropmenu">
       <a href="#gallery">Gallery</a>
       <a href="#services">Services</a>
@@ -163,9 +205,13 @@
       <a href="#reviews">Reviews</a>
       <a href="#faq">FAQ</a>
       <a href="#booking">Quote</a>
+      <a id="adminOpen" href="#admin">Admin</a>
       <a class="call" href="tel:+15739153370">📞 Call</a>
     </div>
   </nav>
+
+  <!-- Spacer below fixed nav: grows when dropdown opens -->
+  <div id="nav-spacer" style="height: var(--navH)"></div>
 
   <div class="wrap">
     <header>
@@ -299,7 +345,8 @@
             <textarea id="details" name="details" class="textarea" placeholder="Trees, access, timing…"></textarea>
           </div>
           <div class="actions span-2">
-            <a class="btnP" href="tel:+15739153370">Call</a>
+            <button class="btnP" type="submit">Send request</button>
+            <a class="btnS" href="tel:+15739153370">Call</a>
             <a class="btnS" href="sms:+15739153370">Text</a>
           </div>
           <div id="quoteStatus" class="help span-2">Local to Valles Mines, MO. References on request.</div>
@@ -319,18 +366,100 @@
     <a class="btnS" href="sms:+15739153370">💬 Text</a>
   </div>
 
+  <!-- ===== Admin Modal ===== -->
+  <div id="adminModal" class="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="dashTitle">
+      <div class="modal-head">
+        <h3 id="dashTitle" style="margin:0">Admin Dashboard</h3>
+        <div style="display:flex; gap:8px">
+          <button id="adminLogout" class="x hidden">Log out</button>
+          <button id="adminClose" class="x">Close</button>
+        </div>
+      </div>
+
+      <!-- Login -->
+      <div id="adminLoginView">
+        <p class="help" style="margin-top:0">Enter admin password to manage reviews, view analytics, and send updates.</p>
+        <div class="login-grid">
+          <input id="adminPass" class="input" type="password" placeholder="Admin password" autocomplete="current-password" />
+          <button id="adminLoginBtn" class="btnP" type="button">Unlock</button>
+        </div>
+        <div id="adminLoginMsg" class="help"></div>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="adminDashView" class="dash hidden">
+        <section>
+          <h4 style="margin:0 0 8px 0">Key metrics</h4>
+          <div class="kpis">
+            <div class="kpi"><div>Total Reviews</div><div class="val" id="k_totalReviews">—</div></div>
+            <div class="kpi"><div>Average Rating</div><div class="val" id="k_avgRating">—</div></div>
+            <div class="kpi"><div>Reviews (this month)</div><div class="val" id="k_reviewsMonth">—</div></div>
+            <div class="kpi"><div>Total Quotes</div><div class="val" id="k_totalQuotes">—</div></div>
+            <div class="kpi"><div>Quotes (this month)</div><div class="val" id="k_quotesMonth">—</div></div>
+          </div>
+        </section>
+
+        <section>
+          <h4 style="margin:0 0 8px 0">Recent Quotes</h4>
+          <div style="overflow:auto">
+            <table class="table" id="quotesTable">
+              <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Service</th><th>City/ZIP</th><th>Details</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h4 style="margin:0 0 8px 0">Manage Reviews</h4>
+          <p class="help" style="margin:.2rem 0 .8rem">You can delete any website review below. (Facebook reviews are read-only.)</p>
+          <div id="adminReviews" class="quotes"></div>
+        </section>
+
+        <section>
+          <h4 style="margin:0 0 8px 0">Send Update</h4>
+          <div class="qgrid">
+            <input id="updSubject" class="input span-2" type="text" placeholder="Subject (e.g., Schedule update)" />
+            <textarea id="updBody" class="textarea span-2" placeholder="Message to send to the list or admin email."></textarea>
+            <input id="updRecipients" class="input span-2" type="text" placeholder="Recipients (optional, comma-separated). Leave blank to use default list." />
+            <div class="actions span-2">
+              <button id="sendUpdateBtn" class="ok" type="button">Send update email</button>
+              <div id="sendUpdateMsg" class="help"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyVkkvxR3UF8UGapR4zYLC9uMQzQdjL7_kuIThG_5xRA0VDJ4y-JEK02UcOrs-VvvZa/exec';
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyhwahhP5EZDwAg-B5Uk3JyaYwi6-A4bLLUBYnxQTNewraocBFyMoZydxuTsDyLwdww/exec';
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // Hamburger toggle that PUSHES page content
+    // ===== Fixed nav menu (pushes content down via spacer) =====
     const btn = document.getElementById('menubtn');
     const drop = document.getElementById('dropmenu');
-    const closeMenu = () => { drop.classList.remove('open'); btn.setAttribute('aria-expanded','false'); };
+
+    // Reserve space under fixed nav, and grow when dropdown opens
+    function updateNavSpacer() {
+      const spacer = document.getElementById('nav-spacer');
+      const base = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navH')) || 64;
+      const extra = drop.classList.contains('open') ? (drop.scrollHeight + 8) : 0; // include dropdown + margin
+      spacer.style.height = (base + extra) + 'px';
+    }
+
+    const closeMenu = () => {
+      drop.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+      updateNavSpacer();
+    };
+
     btn.addEventListener('click', ()=>{
       const open = drop.classList.toggle('open');
       btn.setAttribute('aria-expanded', String(open));
+      updateNavSpacer();
     });
+
     // Smooth-scroll: close menu first, then scroll
     drop.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click', (e)=>{
@@ -341,12 +470,16 @@
         setTimeout(()=>{ el?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
       });
     });
+
     // Close if user taps outside
     document.addEventListener('click', (e)=>{
       if(!drop.contains(e.target) && e.target !== btn) closeMenu();
     });
 
-    // Carousel
+    window.addEventListener('resize', updateNavSpacer);
+    window.addEventListener('orientationchange', updateNavSpacer);
+
+    // ===== Carousel =====
     const imgs = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg','images/5.jpg'];
     const cEl = document.getElementById('gallery');
     const imgEl = document.getElementById('carousel-img');
@@ -362,20 +495,24 @@
       },220);
     },4000);
 
-    // ===== Reviews =====
+    // ===== Helpers =====
     const escapeHtml = (s='')=>s.replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const safeDate = t => { try{return new Date(t).toLocaleDateString()}catch{return ''} };
 
-    function renderReviews(list){
+    // ===== Reviews (public) =====
+    function renderReviewsPublic(list, isAdmin=false){
       const nums = list.map(r => Number(r.stars)||0).filter(n => n>0);
       const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
       document.getElementById('reviewsHeader').innerHTML =
         `<span>Average: ${avg ? avg.toFixed(1) : '—'}</span>
          <span>${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</span>
          <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
+
       const box = document.getElementById('reviewsList');
+      box.classList.toggle('admin', !!isAdmin);
       box.innerHTML = list.length ? list.map(r => `
-        <div class="quote">
+        <div class="quote" data-id="${r.id ?? ''}">
+          <button class="delete-btn" title="Delete review" data-id="${r.id ?? ''}">Delete</button>
           <div>${'★'.repeat(+r.stars)}${'☆'.repeat(5-+r.stars)}</div>
           <div style="margin-top:6px">${escapeHtml(r.text)}</div>
           <div class="by">— ${escapeHtml(r.name)}
@@ -384,30 +521,34 @@
             </span>
           </div>
         </div>`).join('') : '<div class="help">No reviews yet — be the first!</div>';
-    }
 
-    function loadReviewsJSONP(){
-      return new Promise((resolve,reject)=>{
-        const cbName = 'cb_reviews_' + Math.random().toString(36).slice(2);
-        window[cbName] = (data)=>{ try{ renderReviews(Array.isArray(data)?data:[]); resolve(); } finally { delete window[cbName]; s.remove(); } };
-        const s = document.createElement('script');
-        s.src = `${GAS_URL}?action=list&callback=${cbName}`;
-        s.onerror = ()=>{ delete window[cbName]; s.remove(); reject(new Error('JSONP failed')); };
-        document.body.appendChild(s);
-      });
+      if(isAdmin){
+        box.querySelectorAll('.delete-btn').forEach(btn=>{
+          btn.addEventListener('click', async ()=>{
+            const id = btn.getAttribute('data-id');
+            if(!id) return;
+            if(!confirm('Delete this review?')) return;
+            await adminDeleteReview(id);
+            await loadReviews();        // refresh public
+            if(adminOpen) await adminRefresh(); // refresh admin
+          });
+        });
+      }
     }
 
     async function loadReviews(){
       try{
         const res = await fetch(GAS_URL + '?action=list', {cache:'no-store'});
         const data = await res.json();
-        renderReviews(Array.isArray(data)?data:[]);
+        renderReviewsPublic(Array.isArray(data)?data:[]);
       }catch{
-        try { await loadReviewsJSONP(); }
-        catch {
-          document.getElementById('reviewsList').innerHTML = '<div class="help">Couldn’t load reviews.</div>';
-          document.getElementById('reviewsHeader').textContent = 'Average: —';
-        }
+        // JSONP fallback
+        const cbName = 'cb_reviews_' + Math.random().toString(36).slice(2);
+        window[cbName] = (data)=>{ try{ renderReviewsPublic(Array.isArray(data)?data:[]); } finally { delete window[cbName]; s.remove(); } };
+        const s = document.createElement('script');
+        s.src = `${GAS_URL}?action=list&callback=${cbName}`;
+        s.onerror = ()=>{ delete window[cbName]; s.remove(); document.getElementById('reviewsList').innerHTML = '<div class="help">Couldn’t load reviews.</div>'; };
+        document.body.appendChild(s);
       }
     }
 
@@ -425,6 +566,179 @@
       }catch{ status.textContent = 'Network error.'; }
     });
 
+    // ===== Quote form (email + sheet) =====
+    document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const payload = {
+        action:'quote',
+        name: (fd.get('name')||'').trim(),
+        phone:(fd.get('phone')||'').trim(),
+        address:(fd.get('address')||'').trim(),
+        service: fd.get('service'),
+        details:(fd.get('details')||'').trim()
+      };
+      const status = document.getElementById('quoteStatus');
+      status.textContent = 'Sending request...';
+      try{
+        const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) });
+        const ok = await res.json();
+        if(ok?.success){
+          status.textContent = 'Request sent! We’ll reach out shortly.';
+          e.target.reset();
+        }else{
+          status.textContent = 'Couldn’t send request.';
+        }
+      }catch{
+        status.textContent = 'Network error.';
+      }
+    });
+
+    // ===== Admin modal & auth =====
+    const adminModal = document.getElementById('adminModal');
+    const adminOpenBtn = document.getElementById('adminOpen');
+    const adminCloseBtn = document.getElementById('adminClose');
+    const adminLogoutBtn = document.getElementById('adminLogout');
+    const adminLoginView = document.getElementById('adminLoginView');
+    const adminDashView = document.getElementById('adminDashView');
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminLoginMsg = document.getElementById('adminLoginMsg');
+    const adminPass = document.getElementById('adminPass');
+    let adminOpen = false;
+
+    function showModal(open){
+      adminModal.classList.toggle('open', open);
+      adminModal.setAttribute('aria-hidden', String(!open));
+      adminOpen = open;
+    }
+    adminOpenBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMenu(); openAdmin(); });
+    adminCloseBtn.addEventListener('click', ()=> showModal(false));
+    adminModal.addEventListener('click', (e)=>{ if(e.target===adminModal) showModal(false); });
+
+    function isAuthed(){
+      const t = localStorage.getItem('adminToken');
+      return !!t;
+    }
+    function setAuthed(token){
+      if(token){ localStorage.setItem('adminToken', token); }
+      adminLoginView.classList.add('hidden');
+      adminDashView.classList.remove('hidden');
+      adminLogoutBtn.classList.remove('hidden');
+      document.body.classList.add('admin');
+    }
+    function clearAuthed(){
+      localStorage.removeItem('adminToken');
+      adminLoginView.classList.remove('hidden');
+      adminDashView.classList.add('hidden');
+      adminLogoutBtn.classList.add('hidden');
+      document.body.classList.remove('admin');
+    }
+    adminLogoutBtn.addEventListener('click', ()=>{ clearAuthed(); });
+
+    async function openAdmin(){
+      showModal(true);
+      adminLoginMsg.textContent = '';
+      if(isAuthed()){
+        await adminRefresh();
+      }else{
+        clearAuthed();
+      }
+      adminPass.focus();
+    }
+
+    adminLoginBtn.addEventListener('click', async ()=>{
+      const pwd = adminPass.value.trim();
+      adminLoginMsg.textContent = 'Checking...';
+      try{
+        const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({action:'login', password: pwd}) });
+        const data = await res.json();
+        if(data?.success && data?.token){
+          setAuthed(data.token);
+          adminPass.value = '';
+          adminLoginMsg.textContent = '';
+          await adminRefresh();
+        }else{
+          adminLoginMsg.textContent = 'Invalid password.';
+        }
+      }catch{ adminLoginMsg.textContent = 'Network error.'; }
+    });
+
+    async function adminFetch(action, body={}){
+      const token = localStorage.getItem('adminToken') || '';
+      const payload = Object.assign({}, body, { action, token });
+      const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) });
+      return res.json();
+    }
+
+    async function adminDeleteReview(id){
+      return adminFetch('deleteReview', { id });
+    }
+
+    async function adminRefresh(){
+      // analytics
+      const a = await adminFetch('analytics');
+      (id=>document.getElementById(id).textContent)( 'k_totalReviews'); document.getElementById('k_totalReviews').textContent = a?.totalReviews ?? '—';
+      document.getElementById('k_avgRating').textContent = a?.avgRating ? Number(a.avgRating).toFixed(2) : '—';
+      document.getElementById('k_reviewsMonth').textContent = a?.reviewsThisMonth ?? '—';
+      document.getElementById('k_totalQuotes').textContent = a?.totalQuotes ?? '—';
+      document.getElementById('k_quotesMonth').textContent = a?.quotesThisMonth ?? '—';
+
+      // recent quotes table
+      const tbody = document.querySelector('#quotesTable tbody');
+      tbody.innerHTML = (a?.recentQuotes||[]).map(q=>`
+        <tr>
+          <td>${safeDate(q.timestamp)}</td>
+          <td>${escapeHtml(q.name||'')}</td>
+          <td>${escapeHtml(q.phone||'')}</td>
+          <td>${escapeHtml(q.service||'')}</td>
+          <td>${escapeHtml(q.cityzip||'')}</td>
+          <td>${escapeHtml(q.details||'')}</td>
+        </tr>
+      `).join('');
+
+      // admin reviews list with delete buttons
+      const rBox = document.getElementById('adminReviews');
+      const r = await fetch(GAS_URL + '?action=list').then(r=>r.json()).catch(()=>[]);
+      rBox.innerHTML = (r||[]).map(rv=>`
+        <div class="quote" data-id="${rv.id ?? ''}">
+          <div class="row-actions" style="position:absolute; top:10px; right:10px">
+            ${rv.source==='facebook' ? '' : `<button class="danger" data-del="${rv.id ?? ''}">Delete</button>`}
+          </div>
+          <div>${'★'.repeat(+rv.stars)}${'☆'.repeat(5-+rv.stars)}</div>
+          <div style="margin-top:6px">${escapeHtml(rv.text)}</div>
+          <div class="by">— ${escapeHtml(rv.name)} <span style="color:var(--muted);font-weight:400">• ${safeDate(rv.timestamp)} <span class="src-tag">${rv.source==='facebook'?'Facebook':'Website'}</span></span></div>
+        </div>
+      `).join('') || '<div class="help">No reviews.</div>';
+
+      rBox.querySelectorAll('button[data-del]').forEach(b=>{
+        b.addEventListener('click', async ()=>{
+          const id = b.getAttribute('data-del');
+          if(!id) return;
+          if(!confirm('Delete this review?')) return;
+          const ok = await adminDeleteReview(id);
+          if(ok?.success){ await adminRefresh(); await loadReviews(); }
+          else alert('Could not delete.');
+        });
+      });
+
+      setAuthed(localStorage.getItem('adminToken')||'');
+    }
+
+    // Send update
+    document.getElementById('sendUpdateBtn').addEventListener('click', async ()=>{
+      const subject = document.getElementById('updSubject').value.trim();
+      const body = document.getElementById('updBody').value.trim();
+      const recipients = document.getElementById('updRecipients').value.trim();
+      const msg = document.getElementById('sendUpdateMsg');
+      if(!subject || !body){ msg.textContent = 'Subject and message required.'; return; }
+      msg.textContent = 'Sending...';
+      const res = await adminFetch('sendUpdate', { subject, body, recipients });
+      msg.textContent = res?.success ? 'Update sent!' : ('Failed: ' + (res?.error||''));
+      if(res?.success){ document.getElementById('updSubject').value=''; document.getElementById('updBody').value=''; }
+    });
+
+    // Init
+    updateNavSpacer();   // make sure content starts below fixed header
     loadReviews();
   </script>
 </body>
