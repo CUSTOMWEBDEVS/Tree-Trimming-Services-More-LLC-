@@ -83,8 +83,6 @@
     .quote .by{margin-top:8px;color:#d6d8e3;font-weight:700}
     .rating-badge{display:inline-flex;align-items:center;gap:8px;background:#0f1118;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800}
     .src-tag{padding:2px 6px;border:1px solid var(--line);border-radius:999px;background:#0f1118;margin-left:6px;font-size:.8rem}
-    .delete-btn{position:absolute;top:10px;right:10px;border:1px solid var(--line);background:#251a2f;color:#fff;border-radius:8px;padding:6px 8px;cursor:pointer;display:none}
-    .admin .delete-btn{display:inline-block}
 
     /* faqs */
     .faqs details{background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
@@ -422,7 +420,7 @@
 
   <script>
   // ===== CONFIG =====
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwd6oHgn4Lvifo9bwDpSCepK5-jegWYOqBcCtWrMEcbng6bfuSK23f0AkcAf1j4H3wy/exec'; // your /exec
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwAuB0oxQrPcAowEWA4Pz9WhlNyKYp4_pxV3u-PpvRMBPC1uy5XEK4naNu2FpodJL2z/exec'; // your /exec
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   // ===== Fixed nav =====
@@ -465,8 +463,8 @@
     });
   }
 
-  // ===== Reviews (public) =====
-  function renderReviewsPublic(list, isAdmin=false){
+  // ===== Reviews (PUBLIC LIST — NO DELETE BUTTONS) =====
+  function renderReviewsPublic(list){
     const nums = (Array.isArray(list)?list:[]).map(r => Number(r.stars)||0).filter(n => n>0);
     const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
     document.getElementById('reviewsHeader').innerHTML =
@@ -475,10 +473,9 @@
        <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
 
     const box = document.getElementById('reviewsList');
-    box.classList.toggle('admin', !!isAdmin);
+    // No admin class here; public list never exposes delete
     box.innerHTML = (Array.isArray(list) && list.length) ? list.map(r => `
       <div class="quote" data-id="${r.id ?? ''}">
-        <button class="delete-btn" title="Delete review" data-id="${r.id ?? ''}">Delete</button>
         <div>${'★'.repeat(+r.stars)}${'☆'.repeat(5-+r.stars)}</div>
         <div style="margin-top:6px">${escapeHtml(r.text)}</div>
         <div class="by">— ${escapeHtml(r.name)}
@@ -487,12 +484,6 @@
           </span>
         </div>
       </div>`).join('') : '<div class="help">No reviews yet — be the first!</div>';
-
-    if(isAdmin){
-      box.querySelectorAll('button[data-del]').forEach(btn=>{
-        btn.addEventListener('click', async ()=>{  /* legacy path; admin panel below binds stronger one */ });
-      });
-    }
   }
 
   async function loadReviews(){
@@ -555,8 +546,19 @@
   let adminOpen = false;
 
   function isAuthed(){ return !!localStorage.getItem('adminToken'); }
-  function setAuthed(token){ if(token){ localStorage.setItem('adminToken', token); } adminLoginView.classList.add('hidden'); adminDashView.classList.remove('hidden'); adminLogoutBtn.classList.remove('hidden'); document.body.classList.add('admin'); }
-  function clearAuthed(){ localStorage.removeItem('adminToken'); adminLoginView.classList.remove('hidden'); adminDashView.classList.add('hidden'); adminLogoutBtn.classList.add('hidden'); document.body.classList.remove('admin'); }
+  function setAuthed(token){
+    if(token){ localStorage.setItem('adminToken', token); }
+    adminLoginView.classList.add('hidden');
+    adminDashView.classList.remove('hidden');
+    adminLogoutBtn.classList.remove('hidden');
+    // NOTE: we no longer toggle any global "admin" class on <body>, so public list never shows deletes.
+  }
+  function clearAuthed(){
+    localStorage.removeItem('adminToken');
+    adminLoginView.classList.remove('hidden');
+    adminDashView.classList.add('hidden');
+    adminLogoutBtn.classList.add('hidden');
+  }
 
   function showModal(open){
     adminModal.classList.toggle('open', open);
@@ -635,7 +637,7 @@
       </tr>
     `).join('');
 
-    // admin reviews list with delete buttons
+    // admin reviews list WITH delete buttons (admin-only area)
     const rBox = document.getElementById('adminReviews');
     const r = await jsonp({action:'list'}).catch(()=>[]);
     rBox.innerHTML = (r||[]).map(rv=>`
@@ -664,8 +666,6 @@
         }
       });
     });
-
-    setAuthed(localStorage.getItem('adminToken')||'');
   }
 
   // ===== Timers: live refresh =====
