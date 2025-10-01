@@ -123,9 +123,10 @@
     footer{color:var(--muted);text-align:center;padding:18px 0 80px}
 
     /* ===== Admin modal ===== */
+    body.modal-open { overflow: hidden; }              /* lock background */
     .modal{position:fixed; inset:0; display:none; z-index:1200; background:rgba(0,0,0,.55); backdrop-filter:blur(4px); align-items:flex-start; justify-content:center; padding:24px;}
     .modal.open{display:flex}
-    .modal-card{width:min(100%,980px); background:#10131a; border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:0 30px 80px rgba(0,0,0,.5);}
+    .modal-card{width:min(100%,980px); background:#10131a; border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:0 30px 80px rgba(0,0,0,.5); max-height:92vh; overflow:auto; outline:none;}
     .modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
     .x{border:1px solid var(--line);background:#181a22;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}
     .dash{display:grid;gap:16px}
@@ -420,289 +421,272 @@
   </div>
 
   <script>
-    // ====== CONFIG ======
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbw7k6fShcSJQz8q8kvvuJv6VQJWztvnGvb6XO2D8xaKpHzfYYR5bDxXGQOXYfN_5kp5/exec'; // <- paste Apps Script Web App URL
+  // ===== CONFIG =====
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwd6oHgn4Lvifo9bwDpSCepK5-jegWYOqBcCtWrMEcbng6bfuSK23f0AkcAf1j4H3wy/exec'; // your /exec
+  document.getElementById('yr').textContent = new Date().getFullYear();
 
-    document.getElementById('yr').textContent = new Date().getFullYear();
+  // ===== Fixed nav =====
+  const btn = document.getElementById('menubtn');
+  const drop = document.getElementById('dropmenu');
+  function updateNavSpacer() {
+    const spacer = document.getElementById('nav-spacer');
+    const base = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navH')) || 64;
+    const extra = drop.classList.contains('open') ? (drop.scrollHeight + 8) : 0;
+    spacer.style.height = (base + extra) + 'px';
+  }
+  const closeMenu = () => { drop.classList.remove('open'); btn.setAttribute('aria-expanded','false'); updateNavSpacer(); };
+  btn.addEventListener('click', ()=>{ const open = drop.classList.toggle('open'); btn.setAttribute('aria-expanded', String(open)); updateNavSpacer(); });
+  drop.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', (e)=>{ e.preventDefault(); const el = document.getElementById(a.getAttribute('href').slice(1)); closeMenu(); setTimeout(()=>{ el?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50); }));
+  document.addEventListener('click', (e)=>{ if(!drop.contains(e.target) && e.target !== btn) closeMenu(); });
+  addEventListener('resize', updateNavSpacer); addEventListener('orientationchange', updateNavSpacer);
 
-    // ===== Fixed nav menu (pushes content down via spacer) =====
-    const btn = document.getElementById('menubtn');
-    const drop = document.getElementById('dropmenu');
+  // ===== Carousel =====
+  const imgs = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg','images/5.jpg'];
+  const cEl = document.getElementById('gallery'); const imgEl = document.getElementById('carousel-img'); let i = 0;
+  imgs.forEach(src => { const im = new Image(); im.src = src; });
+  setInterval(()=>{ cEl.classList.add('fading'); setTimeout(()=>{ i=(i+1)%imgs.length; imgEl.src=imgs[i]; imgEl.alt='Tree work photo '+(i+1); cEl.classList.remove('fading'); },220); },4000);
 
-    function updateNavSpacer() {
-      const spacer = document.getElementById('nav-spacer');
-      const base = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navH')) || 64;
-      const extra = drop.classList.contains('open') ? (drop.scrollHeight + 8) : 0;
-      spacer.style.height = (base + extra) + 'px';
-    }
+  // ===== Helpers =====
+  const escapeHtml = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const safeDate = t => { try{return new Date(t).toLocaleDateString()}catch{return ''} };
 
-    const closeMenu = () => {
-      drop.classList.remove('open');
-      btn.setAttribute('aria-expanded','false');
-      updateNavSpacer();
-    };
-
-    btn.addEventListener('click', ()=>{
-      const open = drop.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
-      updateNavSpacer();
+  // ===== JSONP helper =====
+  function jsonp(params){
+    return new Promise((resolve,reject)=>{
+      const cb = 'cb_' + Math.random().toString(36).slice(2);
+      const q = new URLSearchParams(Object.fromEntries(Object.entries(params).map(([k,v])=>[k, String(v ?? '')])));
+      q.set('callback', cb);
+      const s = document.createElement('script');
+      s.src = `${GAS_URL}?${q.toString()}`;
+      s.onerror = ()=>{ cleanup(); reject(new Error('JSONP network error')); };
+      function cleanup(){ delete window[cb]; s.remove(); }
+      window[cb] = (data)=>{ try{ resolve(data); } finally { cleanup(); } };
+      document.body.appendChild(s);
     });
+  }
 
-    drop.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const id = a.getAttribute('href').slice(1);
-        const el = document.getElementById(id);
-        closeMenu();
-        setTimeout(()=>{ el?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
-      });
-    });
+  // ===== Reviews (public) =====
+  function renderReviewsPublic(list, isAdmin=false){
+    const nums = (Array.isArray(list)?list:[]).map(r => Number(r.stars)||0).filter(n => n>0);
+    const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
+    document.getElementById('reviewsHeader').innerHTML =
+      `<span>Average: ${avg ? avg.toFixed(1) : '—'}</span>
+       <span>${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</span>
+       <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
 
-    document.addEventListener('click', (e)=>{
-      if(!drop.contains(e.target) && e.target !== btn) closeMenu();
-    });
-
-    window.addEventListener('resize', updateNavSpacer);
-    window.addEventListener('orientationchange', updateNavSpacer);
-
-    // ===== Carousel =====
-    const imgs = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg','images/5.jpg'];
-    const cEl = document.getElementById('gallery');
-    const imgEl = document.getElementById('carousel-img');
-    let i = 0; imgs.forEach(src => { const im = new Image(); im.src = src; });
-    setInterval(()=>{
-      cEl.classList.add('fading');
-      setTimeout(()=>{ i=(i+1)%imgs.length; imgEl.src=imgs[i]; imgEl.alt='Tree work photo '+(i+1); cEl.classList.remove('fading'); },220);
-    },4000);
-
-    // ===== Helpers =====
-    const escapeHtml = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const safeDate = t => { try{return new Date(t).toLocaleDateString()}catch{return ''} };
-
-    // ===== Reviews (public) =====
-    function renderReviewsPublic(list, isAdmin=false){
-      const nums = list.map(r => Number(r.stars)||0).filter(n => n>0);
-      const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
-      document.getElementById('reviewsHeader').innerHTML =
-        `<span>Average: ${avg ? avg.toFixed(1) : '—'}</span>
-         <span>${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</span>
-         <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
-
-      const box = document.getElementById('reviewsList');
-      box.classList.toggle('admin', !!isAdmin);
-      box.innerHTML = Array.isArray(list) && list.length ? list.map(r => `
-        <div class="quote" data-id="${r.id ?? ''}">
-          <button class="delete-btn" title="Delete review" data-id="${r.id ?? ''}">Delete</button>
-          <div>${'★'.repeat(+r.stars)}${'☆'.repeat(5-+r.stars)}</div>
-          <div style="margin-top:6px">${escapeHtml(r.text)}</div>
-          <div class="by">— ${escapeHtml(r.name)}
-            <span style="color:var(--muted);font-weight:400">• ${safeDate(r.timestamp)}
-              <span class="src-tag">${r.source === 'facebook' ? 'Facebook' : 'Website'}</span>
-            </span>
-          </div>
-        </div>`).join('') : '<div class="help">No reviews yet — be the first!</div>';
-
-      if(isAdmin){
-        box.querySelectorAll('.delete-btn').forEach(btn=>{
-          btn.addEventListener('click', async ()=>{
-            const id = btn.getAttribute('data-id');
-            if(!id) return;
-            if(!confirm('Delete this review?')) return;
-            await adminDeleteReview(id);
-            await loadReviews();        // refresh public
-            if(adminOpen) await adminRefresh(); // refresh admin
-          });
-        });
-      }
-    }
-
-    async function loadReviews(){
-      try{
-        const res = await fetch(GAS_URL + '?action=list', {cache:'no-store'});
-        const data = await res.json();
-        renderReviewsPublic(Array.isArray(data)?data:[]);
-      }catch{
-        // JSONP fallback (works even if CORS is off)
-        const cbName = 'cb_reviews_' + Math.random().toString(36).slice(2);
-        window[cbName] = (data)=>{ try{ renderReviewsPublic(Array.isArray(data)?data:[]); } finally { delete window[cbName]; s.remove(); } };
-        const s = document.createElement('script');
-        s.src = `${GAS_URL}?action=list&callback=${cbName}`;
-        s.onerror = ()=>{ delete window[cbName]; s.remove(); document.getElementById('reviewsList').innerHTML = '<div class="help">Couldn’t load reviews.</div>'; };
-        document.body.appendChild(s);
-      }
-    }
-
-    document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const payload = { action:'add', name:(fd.get('name')||'').trim(), stars:fd.get('stars'), text:(fd.get('text')||'').trim() };
-      const status = document.getElementById('reviewStatus');
-      status.textContent = 'Posting...';
-      try{
-        const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) });
-        const ok = await res.json();
-        status.textContent = ok?.success ? 'Thanks for the review!' : ('Couldn’t post review' + (ok?.error?`: ${ok.error}`:''));
-        if(ok?.success){ e.target.reset(); loadReviews(); }
-      }catch{ status.textContent = 'Network error.'; }
-    });
-
-    // ===== Quote form (email + sheet) =====
-    document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const payload = {
-        action:'quote',
-        name:(fd.get('name')||'').trim(),
-        phone:(fd.get('phone')||'').trim(),
-        address:(fd.get('address')||'').trim(),
-        service:fd.get('service'),
-        details:(fd.get('details')||'').trim()
-      };
-      const status = document.getElementById('quoteStatus');
-      status.textContent = 'Sending request...';
-      try{
-        const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) });
-        const ok = await res.json();
-        if(ok?.success){ status.textContent = 'Request sent! We’ll reach out shortly.'; e.target.reset(); }
-        else{ status.textContent = 'Couldn’t send request.'; }
-      }catch{ status.textContent = 'Network error.'; }
-    });
-
-    // ===== Admin modal & auth =====
-    const adminModal = document.getElementById('adminModal');
-    const adminOpenBtn = document.getElementById('adminOpen');
-    const adminCloseBtn = document.getElementById('adminClose');
-    const adminLogoutBtn = document.getElementById('adminLogout');
-    const adminLoginView = document.getElementById('adminLoginView');
-    const adminDashView = document.getElementById('adminDashView');
-    const adminLoginBtn = document.getElementById('adminLoginBtn');
-    const adminLoginMsg = document.getElementById('adminLoginMsg');
-    const adminPass = document.getElementById('adminPass');
-    let adminOpen = false;
-
-    function showModal(open){
-      adminModal.classList.toggle('open', open);
-      adminModal.setAttribute('aria-hidden', String(!open));
-      adminOpen = open;
-    }
-    adminOpenBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMenu(); openAdmin(); });
-    adminCloseBtn.addEventListener('click', ()=> showModal(false));
-    adminModal.addEventListener('click', (e)=>{ if(e.target===adminModal) showModal(false); });
-
-    function isAuthed(){ return !!localStorage.getItem('adminToken'); }
-    function setAuthed(token){
-      if(token){ localStorage.setItem('adminToken', token); }
-      adminLoginView.classList.add('hidden');
-      adminDashView.classList.remove('hidden');
-      adminLogoutBtn.classList.remove('hidden');
-      document.body.classList.add('admin');
-    }
-    function clearAuthed(){
-      localStorage.removeItem('adminToken');
-      adminLoginView.classList.remove('hidden');
-      adminDashView.classList.add('hidden');
-      adminLogoutBtn.classList.add('hidden');
-      document.body.classList.remove('admin');
-    }
-    adminLogoutBtn.addEventListener('click', ()=>{ clearAuthed(); });
-
-    async function openAdmin(){
-      showModal(true);
-      adminLoginMsg.textContent = '';
-      if(isAuthed()){ await adminRefresh(); } else { clearAuthed(); }
-      adminPass.focus();
-    }
-
-    adminLoginBtn.addEventListener('click', async ()=>{
-      const pwd = adminPass.value.trim();
-      if(!pwd){ adminLoginMsg.textContent = 'Enter a password.'; return; }
-      adminLoginMsg.textContent = 'Checking...';
-      try{
-        const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({action:'login', password: pwd}) });
-        const data = await res.json();
-        if(data?.success && data?.token){
-          setAuthed(data.token);
-          adminPass.value = '';
-          adminLoginMsg.textContent = '';
-          await adminRefresh();
-        }else{
-          adminLoginMsg.textContent = 'Invalid password.';
-        }
-      }catch{ adminLoginMsg.textContent = 'Network error.'; }
-    });
-
-    async function adminFetch(action, body={}){
-      const token = localStorage.getItem('adminToken') || '';
-      const payload = Object.assign({}, body, { action, token });
-      const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(payload) });
-      return res.json();
-    }
-    async function adminDeleteReview(id){ return adminFetch('deleteReview', { id }); }
-
-    async function adminRefresh(){
-      const a = await adminFetch('analytics');
-      document.getElementById('k_totalReviews').textContent = a?.totalReviews ?? '—';
-      document.getElementById('k_avgRating').textContent   = a?.avgRating ? Number(a.avgRating).toFixed(2) : '—';
-      document.getElementById('k_reviewsMonth').textContent= a?.reviewsThisMonth ?? '—';
-      document.getElementById('k_totalQuotes').textContent = a?.totalQuotes ?? '—';
-      document.getElementById('k_quotesMonth').textContent = a?.quotesThisMonth ?? '—';
-
-      const tbody = document.querySelector('#quotesTable tbody');
-      tbody.innerHTML = (a?.recentQuotes||[]).map(q=>`
-        <tr>
-          <td>${safeDate(q.timestamp)}</td>
-          <td>${escapeHtml(q.name||'')}</td>
-          <td>${escapeHtml(q.phone||'')}</td>
-          <td>${escapeHtml(q.service||'')}</td>
-          <td>${escapeHtml(q.cityzip||'')}</td>
-          <td>${escapeHtml(q.details||'')}</td>
-        </tr>
-      `).join('');
-
-      // admin reviews list
-      const rBox = document.getElementById('adminReviews');
-      const r = await fetch(GAS_URL + '?action=list').then(r=>r.json()).catch(()=>[]);
-      rBox.innerHTML = (r||[]).map(rv=>`
-        <div class="quote" data-id="${rv.id ?? ''}">
-          <div class="row-actions" style="position:absolute; top:10px; right:10px">
-            ${rv.source==='facebook' ? '' : `<button class="danger" data-del="${rv.id ?? ''}">Delete</button>`}
-          </div>
-          <div>${'★'.repeat(+rv.stars)}${'☆'.repeat(5-+rv.stars)}</div>
-          <div style="margin-top:6px">${escapeHtml(rv.text)}</div>
-          <div class="by">— ${escapeHtml(rv.name)} <span style="color:var(--muted);font-weight:400">• ${safeDate(rv.timestamp)} <span class="src-tag">${rv.source==='facebook'?'Facebook':'Website'}</span></span></div>
+    const box = document.getElementById('reviewsList');
+    box.classList.toggle('admin', !!isAdmin);
+    box.innerHTML = (Array.isArray(list) && list.length) ? list.map(r => `
+      <div class="quote" data-id="${r.id ?? ''}">
+        <button class="delete-btn" title="Delete review" data-id="${r.id ?? ''}">Delete</button>
+        <div>${'★'.repeat(+r.stars)}${'☆'.repeat(5-+r.stars)}</div>
+        <div style="margin-top:6px">${escapeHtml(r.text)}</div>
+        <div class="by">— ${escapeHtml(r.name)}
+          <span style="color:var(--muted);font-weight:400">• ${safeDate(r.timestamp)}
+            <span class="src-tag">${r.source === 'facebook' ? 'Facebook' : 'Website'}</span>
+          </span>
         </div>
-      `).join('') || '<div class="help">No reviews.</div>';
+      </div>`).join('') : '<div class="help">No reviews yet — be the first!</div>';
 
-      rBox.querySelectorAll('button[data-del]').forEach(b=>{
-        b.addEventListener('click', async ()=>{
-          const id = b.getAttribute('data-del');
-          if(!id) return;
-          if(!confirm('Delete this review?')) return;
-          const ok = await adminDeleteReview(id);
-          if(ok?.success){ await adminRefresh(); await loadReviews(); }
-          else alert('Could not delete.');
-        });
+    if(isAdmin){
+      box.querySelectorAll('button[data-del]').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{  /* legacy path; admin panel below binds stronger one */ });
       });
-
-      setAuthed(localStorage.getItem('adminToken')||'');
     }
+  }
 
-    // Send update
-    document.getElementById('sendUpdateBtn').addEventListener('click', async ()=>{
-      const subject = document.getElementById('updSubject').value.trim();
-      const body = document.getElementById('updBody').value.trim();
-      const recipients = document.getElementById('updRecipients').value.trim();
-      const msg = document.getElementById('sendUpdateMsg');
-      if(!subject || !body){ msg.textContent = 'Subject and message required.'; return; }
-      msg.textContent = 'Sending...';
-      const res = await adminFetch('sendUpdate', { subject, body, recipients });
-      msg.textContent = res?.success ? 'Update sent!' : ('Failed: ' + (res?.error||'')); 
-      if(res?.success){ document.getElementById('updSubject').value=''; document.getElementById('updBody').value=''; }
+  async function loadReviews(){
+    try{
+      const data = await jsonp({action:'list'});
+      renderReviewsPublic(Array.isArray(data)?data:[]);
+    }catch{
+      document.getElementById('reviewsList').innerHTML = '<div class="help">Couldn’t load reviews.</div>';
+    }
+  }
+
+  // ===== Quote form =====
+  document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const status = document.getElementById('quoteStatus');
+    status.textContent = 'Sending request...';
+    try{
+      const ok = await jsonp({
+        action:'quote',
+        name:(fd.get('name')||'').toString().trim(),
+        phone:(fd.get('phone')||'').toString().trim(),
+        address:(fd.get('address')||'').toString().trim(),
+        service:fd.get('service'),
+        details:(fd.get('details')||'').toString().trim()
+      });
+      if(ok?.ok || ok?.success){ status.textContent = 'Request sent! We’ll reach out shortly.'; e.target.reset(); }
+      else{ status.textContent = 'Couldn’t send request.'; }
+    }catch{ status.textContent = 'Network error.'; }
+  });
+
+  // ===== Reviews form =====
+  document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const status = document.getElementById('reviewStatus');
+    status.textContent = 'Posting...';
+    try{
+      const ok = await jsonp({
+        action:'add',
+        name:(fd.get('name')||'').toString().trim(),
+        stars:fd.get('stars'),
+        text:(fd.get('text')||'').toString().trim()
+      });
+      if(ok?.ok || ok?.success){ status.textContent = 'Thanks for the review!'; e.target.reset(); loadReviews(); }
+      else{ status.textContent = 'Couldn’t post review.'; }
+    }catch{ status.textContent = 'Network error.'; }
+  });
+
+  // ===== Admin modal & auth (JSONP) =====
+  const adminModal = document.getElementById('adminModal');
+  const adminOpenBtn = document.getElementById('adminOpen');
+  const adminCloseBtn = document.getElementById('adminClose');
+  const adminLogoutBtn = document.getElementById('adminLogout');
+  const adminLoginView = document.getElementById('adminLoginView');
+  const adminDashView = document.getElementById('adminDashView');
+  const adminLoginBtn = document.getElementById('adminLoginBtn');
+  const adminLoginMsg = document.getElementById('adminLoginMsg');
+  const adminPass = document.getElementById('adminPass');
+  let adminOpen = false;
+
+  function isAuthed(){ return !!localStorage.getItem('adminToken'); }
+  function setAuthed(token){ if(token){ localStorage.setItem('adminToken', token); } adminLoginView.classList.add('hidden'); adminDashView.classList.remove('hidden'); adminLogoutBtn.classList.remove('hidden'); document.body.classList.add('admin'); }
+  function clearAuthed(){ localStorage.removeItem('adminToken'); adminLoginView.classList.remove('hidden'); adminDashView.classList.add('hidden'); adminLogoutBtn.classList.add('hidden'); document.body.classList.remove('admin'); }
+
+  function showModal(open){
+    adminModal.classList.toggle('open', open);
+    adminModal.setAttribute('aria-hidden', String(!open));
+    adminOpen = open;
+    document.body.classList.toggle('modal-open', open); // lock background scroll
+    if (open) {
+      const card = adminModal.querySelector('.modal-card');
+      if (card && !card.hasAttribute('tabindex')) card.setAttribute('tabindex','-1');
+      setTimeout(()=> card?.focus({preventScroll:true}), 0);
+    }
+  }
+
+  // prevent touch scroll leaking to page
+  document.addEventListener('touchmove', (e)=>{
+    if (adminOpen && !adminModal.contains(e.target)) e.preventDefault();
+  }, { passive:false });
+
+  adminOpenBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMenu(); openAdmin(); });
+  adminCloseBtn.addEventListener('click', ()=>{ showModal(false); stopAdminTimer(); });
+  adminModal.addEventListener('click', (e)=>{ if(e.target===adminModal){ showModal(false); stopAdminTimer(); } });
+  adminLogoutBtn.addEventListener('click', ()=>{ clearAuthed(); });
+
+  async function openAdmin(){
+    showModal(true);
+    adminLoginMsg.textContent = '';
+    if(isAuthed()){ await adminRefresh(); } else { clearAuthed(); }
+    adminPass.focus();
+    startAdminTimer();
+  }
+
+  adminLoginBtn.addEventListener('click', async ()=>{
+    const pwd = adminPass.value.trim();
+    if(!pwd){ adminLoginMsg.textContent = 'Enter a password.'; return; }
+    adminLoginMsg.textContent = 'Checking...';
+    try{
+      const data = await jsonp({action:'login', password: pwd});
+      if((data?.ok || data?.success) && (data?.token)){
+        setAuthed(data.token); adminPass.value=''; adminLoginMsg.textContent=''; await adminRefresh();
+      }else{
+        adminLoginMsg.textContent = 'Invalid password.';
+      }
+    }catch{ adminLoginMsg.textContent = 'Network error.'; }
+  });
+
+  async function adminFetch(action, body={}){
+    return jsonp(Object.assign({}, body, {action, token: (localStorage.getItem('adminToken')||'')}));
+  }
+
+  async function adminDeleteReview(id){
+    const res = await adminFetch('deleteReview', { id });
+    if(!(res?.ok || res?.success)) throw new Error(res?.error || 'Delete failed');
+    return res;
+  }
+
+  async function adminRefresh(){
+    // analytics
+    const aRes = await adminFetch('analytics');
+    const a = aRes?.data || aRes || {};
+    document.getElementById('k_totalReviews').textContent = a?.totalReviews ?? '—';
+    document.getElementById('k_avgRating').textContent   = a?.avgRating ? Number(a.avgRating).toFixed(2) : '—';
+    document.getElementById('k_reviewsMonth').textContent= a?.reviewsThisMonth ?? '—';
+    document.getElementById('k_totalQuotes').textContent = a?.totalQuotes ?? '—';
+    document.getElementById('k_quotesMonth').textContent = a?.quotesThisMonth ?? '—';
+
+    // recent quotes table
+    const tbody = document.querySelector('#quotesTable tbody');
+    tbody.innerHTML = (a?.recentQuotes||[]).map(q=>`
+      <tr>
+        <td>${safeDate(q.timestamp)}</td>
+        <td>${escapeHtml(q.name||'')}</td>
+        <td>${escapeHtml(q.phone||'')}</td>
+        <td>${escapeHtml(q.service||'')}</td>
+        <td>${escapeHtml(q.cityzip||'')}</td>
+        <td>${escapeHtml(q.details||'')}</td>
+      </tr>
+    `).join('');
+
+    // admin reviews list with delete buttons
+    const rBox = document.getElementById('adminReviews');
+    const r = await jsonp({action:'list'}).catch(()=>[]);
+    rBox.innerHTML = (r||[]).map(rv=>`
+      <div class="quote" data-id="${rv.id ?? ''}">
+        <div class="row-actions" style="position:absolute; top:10px; right:10px">
+          ${rv.source==='facebook' ? '' : `<button type="button" class="danger" data-del="${rv.id ?? ''}">Delete</button>`}
+        </div>
+        <div>${'★'.repeat(+rv.stars)}${'☆'.repeat(5-+rv.stars)}</div>
+        <div style="margin-top:6px">${escapeHtml(rv.text)}</div>
+        <div class="by">— ${escapeHtml(rv.name)} <span style="color:var(--muted);font-weight:400">• ${safeDate(rv.timestamp)} <span class="src-tag">${rv.source==='facebook'?'Facebook':'Website'}</span></span></div>
+      </div>
+    `).join('') || '<div class="help">No reviews.</div>';
+
+    rBox.querySelectorAll('button[data-del]').forEach(b=>{
+      b.addEventListener('click', async (ev)=>{
+        ev.preventDefault();
+        ev.stopPropagation();
+        const id = b.getAttribute('data-del');
+        if(!id) return;
+        if(!confirm('Delete this review?')) return;
+        try{
+          const res = await adminDeleteReview(id);
+          if(res){ await adminRefresh(); await loadReviews(); }
+        }catch(err){
+          alert('Delete failed: ' + (err?.message || err));
+        }
+      });
     });
 
-    // Init
-    updateNavSpacer();
-    loadReviews();
-  </script>
+    setAuthed(localStorage.getItem('adminToken')||'');
+  }
+
+  // ===== Timers: live refresh =====
+  let pubTimer = null;
+  function startPublicTimer(){ if (!pubTimer) pubTimer = setInterval(loadReviews, 15000); }
+  function stopPublicTimer(){ if (pubTimer){ clearInterval(pubTimer); pubTimer = null; } }
+
+  let adminTimer = null;
+  function startAdminTimer(){
+    if (!adminTimer){
+      adminTimer = setInterval(()=>{
+        if (adminOpen && isAuthed()) adminRefresh();
+      }, 10000);
+    }
+  }
+  function stopAdminTimer(){ if (adminTimer){ clearInterval(adminTimer); adminTimer = null; } }
+
+  // Init
+  updateNavSpacer();
+  loadReviews();
+  startPublicTimer();
+</script>
 </body>
 </html>
