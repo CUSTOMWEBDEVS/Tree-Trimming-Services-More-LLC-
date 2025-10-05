@@ -84,6 +84,19 @@
     .rating-badge{display:inline-flex;align-items:center;gap:8px;background:#0f1118;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800}
     .src-tag{padding:2px 6px;border:1px solid var(--line);border-radius:999px;background:#0f1118;margin-left:6px;font-size:.8rem}
 
+    /* show-more controls */
+    .reviews-controls{ text-align:center; margin-top:10px; }
+    .btn-more{
+      padding:10px 14px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:#181a22;
+      color:#dfe3ef;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .btn-more[disabled]{ opacity:.5; cursor:not-allowed; }
+
     /* faqs */
     .faqs details{background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
     .faqs summary{cursor:pointer;font-weight:700}
@@ -328,8 +341,16 @@
     <section class="sect" id="reviews">
       <h3>Reviews</h3>
       <div id="reviewsHeader" class="rating-badge" aria-live="polite">Average: —</div>
-      <div id="reviewsList" class="quotes" style="margin-top:10px" aria-live="polite"></div>
 
+      <!-- Viewport that shows ONLY 3 at a time -->
+      <div id="reviewsViewport" class="quotes" style="margin-top:10px" aria-live="polite" aria-busy="false"></div>
+
+      <!-- Controls -->
+      <div class="reviews-controls">
+        <button id="reviews-more" type="button" class="btn-more" aria-label="Show more reviews (cycles)">Show more reviews</button>
+      </div>
+
+      <!-- Review form -->
       <form id="reviewForm" class="quote-card" autocomplete="off">
         <div class="qgrid">
           <div class="field">
@@ -488,7 +509,7 @@
 
   <script>
   // ===== CONFIG =====
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwAuB0oxQrPcAowEWA4Pz9WhlNyKYp4_pxV3u-PpvRMBPC1uy5XEK4naNu2FpodJL2z/exec'; // your /exec
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyETXyLTI5-YRWzisfW9zoJZJXeGrGMHIoFG5cfPQJwo7ZJOIhKfTVm9w6jaYc7ZNM/exec'; // your /exec
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   // ===== Fixed nav =====
@@ -531,35 +552,94 @@
     });
   }
 
-  // ===== Reviews (PUBLIC LIST — NO DELETE BUTTONS) =====
-  function renderReviewsPublic(list){
+  // ===== Reviews (PUBLIC LIST — 3-at-a-time, never disables, cycles, preserves page) =====
+  const reviewsHeaderEl   = document.getElementById('reviewsHeader');
+  const reviewsViewportEl = document.getElementById('reviewsViewport');
+  const reviewsMoreBtn    = document.getElementById('reviews-more');
+
+  const PAGE_SIZE = 3;
+  let publicReviews = [];
+  let page = 0;
+
+  function updateReviewsHeader(list){
     const nums = (Array.isArray(list)?list:[]).map(r => Number(r.stars)||0).filter(n => n>0);
     const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
-    document.getElementById('reviewsHeader').innerHTML =
+    reviewsHeaderEl.innerHTML =
       `<span>Average: ${avg ? avg.toFixed(1) : '—'}</span>
        <span>${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</span>
        <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
+  }
 
-    const box = document.getElementById('reviewsList');
-    // No admin class here; public list never exposes delete
-    box.innerHTML = (Array.isArray(list) && list.length) ? list.map(r => `
-      <div class="quote" data-id="${r.id ?? ''}">
+  function renderPublicPage(){
+    reviewsViewportEl.setAttribute('aria-busy','true');
+    reviewsViewportEl.innerHTML = '';
+
+    const start = page * PAGE_SIZE;
+    const end   = Math.min(start + PAGE_SIZE, publicReviews.length);
+    const slice = publicReviews.slice(start, end);
+
+    if (!slice.length){
+      reviewsViewportEl.innerHTML = '<div class="help">No reviews yet — be the first!</div>';
+      // Only disable if there are zero total reviews (no content to show at all)
+      if (publicReviews.length === 0) {
+        reviewsMoreBtn.disabled = true;
+        reviewsMoreBtn.setAttribute('aria-disabled','true');
+      } else {
+        reviewsMoreBtn.disabled = false;
+        reviewsMoreBtn.removeAttribute('aria-disabled');
+      }
+      reviewsViewportEl.setAttribute('aria-busy','false');
+      return;
+    }
+
+    // Ensure button is enabled when there is content to cycle
+    reviewsMoreBtn.disabled = false;
+    reviewsMoreBtn.removeAttribute('aria-disabled');
+
+    slice.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'quote';
+      card.setAttribute('data-id', r.id || '');
+      card.innerHTML = `
         <div>${'★'.repeat(+r.stars)}${'☆'.repeat(5-+r.stars)}</div>
         <div style="margin-top:6px">${escapeHtml(r.text)}</div>
         <div class="by">— ${escapeHtml(r.name)}
           <span style="color:var(--muted);font-weight:400">• ${safeDate(r.timestamp)}
             <span class="src-tag">${r.source === 'facebook' ? 'Facebook' : 'Website'}</span>
           </span>
-        </div>
-      </div>`).join('') : '<div class="help">No reviews yet — be the first!</div>';
+        </div>`;
+      reviewsViewportEl.appendChild(card);
+    });
+
+    reviewsViewportEl.setAttribute('aria-busy','false');
   }
+
+  function renderReviewsPublic(list){
+    const prevPage = page;
+    publicReviews = Array.isArray(list) ? list.slice() : [];
+
+    // Clamp page to stay valid after updates (preserve where reader is)
+    const totalPages = Math.max(1, Math.ceil(publicReviews.length / PAGE_SIZE));
+    page = Math.min(prevPage, totalPages - 1);
+
+    updateReviewsHeader(publicReviews);
+    renderPublicPage();
+  }
+
+  // Button now cycles: always shows next trio; after last page, wraps to first
+  reviewsMoreBtn.addEventListener('click', ()=>{
+    const totalPages = Math.ceil(publicReviews.length / PAGE_SIZE);
+    page = (page < totalPages - 1) ? page + 1 : 0;  // wrap
+    renderPublicPage();
+  });
 
   async function loadReviews(){
     try{
       const data = await jsonp({action:'list'});
       renderReviewsPublic(Array.isArray(data)?data:[]);
     }catch{
-      document.getElementById('reviewsList').innerHTML = '<div class="help">Couldn’t load reviews.</div>';
+      reviewsViewportEl.innerHTML = '<div class="help">Couldn’t load reviews.</div>';
+      // leave button as-is to avoid locking it
     }
   }
 
@@ -596,8 +676,13 @@
         stars:fd.get('stars'),
         text:(fd.get('text')||'').toString().trim()
       });
-      if(ok?.ok || ok?.success){ status.textContent = 'Thanks for the review!'; e.target.reset(); loadReviews(); }
-      else{ status.textContent = 'Couldn’t post review.'; }
+      if(ok?.ok || ok?.success){
+        status.textContent = 'Thanks for the review!';
+        e.target.reset();
+        await loadReviews(); // reload list, preserves current page
+      } else {
+        status.textContent = 'Couldn’t post review.';
+      }
     }catch{ status.textContent = 'Network error.'; }
   });
 
@@ -619,7 +704,6 @@
     adminLoginView.classList.add('hidden');
     adminDashView.classList.remove('hidden');
     adminLogoutBtn.classList.remove('hidden');
-    // NOTE: we no longer toggle any global "admin" class on <body>, so public list never shows deletes.
   }
   function clearAuthed(){
     localStorage.removeItem('adminToken');
@@ -640,13 +724,12 @@
     }
   }
 
-  // prevent touch scroll leaking to page
   document.addEventListener('touchmove', (e)=>{
     if (adminOpen && !adminModal.contains(e.target)) e.preventDefault();
   }, { passive:false });
 
   adminOpenBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMenu(); openAdmin(); });
-  adminCloseBtn.addEventListener('click', ()=>{ showModal(false); stopAdminTimer(); });
+  adminCloseBtn?.addEventListener('click', ()=>{ showModal(false); stopAdminTimer(); });
   adminModal.addEventListener('click', (e)=>{ if(e.target===adminModal){ showModal(false); stopAdminTimer(); } });
   adminLogoutBtn.addEventListener('click', ()=>{ clearAuthed(); });
 
@@ -692,7 +775,7 @@
     document.getElementById('k_totalQuotes').textContent = a?.totalQuotes ?? '—';
     document.getElementById('k_quotesMonth').textContent = a?.quotesThisMonth ?? '—';
 
-    // recent quotes table (stacked cards on mobile with labels)
+    // recent quotes table
     const tbody = document.querySelector('#quotesTable tbody');
     tbody.innerHTML = (a?.recentQuotes||[]).map(q=>`
       <tr>
@@ -705,7 +788,7 @@
       </tr>
     `).join('');
 
-    // admin reviews list WITH delete buttons (admin-only area)
+    // admin reviews WITH delete buttons
     const rBox = document.getElementById('adminReviews');
     const r = await jsonp({action:'list'}).catch(()=>[]);
     rBox.innerHTML = (r||[]).map(rv=>`
