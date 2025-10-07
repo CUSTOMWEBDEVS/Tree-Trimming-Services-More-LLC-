@@ -390,44 +390,51 @@
 
     <!-- QUOTE -->
     <section class="quote-wrap" id="booking">
-      <h2 class="quote-title">Request a quote</h2>
-      <form id="quoteForm" class="quote-card" novalidate>
-        <div class="qgrid">
-          <div class="field">
-            <label class="label" for="name">Name</label>
-            <input id="name" name="name" class="input" type="text" placeholder="Jane Doe" required>
-          </div>
-          <div class="field">
-            <label class="label" for="phone">Phone</label>
-            <input id="phone" name="phone" class="input" type="tel" placeholder="(573) 555-0123" required>
-          </div>
-          <div class="field span-2">
-            <label class="label" for="address">Address</label>
-            <input id="address" name="address" class="input" type="text" placeholder="Street • City • ZIP — e.g., Valles Mines, MO 63087">
-          </div>
-          <div class="field">
-            <label class="label" for="service">Service</label>
-            <select id="service" name="service" class="select" required>
-              <option value="" selected>Choose…</option>
-              <option>Pruning & Crown Care</option>
-              <option>Controlled Removal</option>
-              <option>Storm Damage & Hazard Cleanup</option>
-              <option>Brush & Haul-Away</option>
-            </select>
-          </div>
-          <div class="field span-2">
-            <label class="label" for="details">Details</label>
-            <textarea id="details" name="details" class="textarea" placeholder="Trees, access, timing…"></textarea>
-          </div>
-          <div class="actions span-2">
-            <button class="btnP" type="submit">Send request</button>
-            <a class="btnS" href="tel:+15739153370">Call</a>
-            <a class="btnS" href="sms:+15739153370">Text</a>
-          </div>
-          <div id="quoteStatus" class="help span-2">Local to Valles Mines, MO. References on request.</div>
-        </div>
-      </form>
-    </section>
+  <h2 class="quote-title">Request a quote</h2>
+  <form id="quoteForm" class="quote-card" novalidate>
+    <div class="qgrid">
+      <div class="field">
+        <label class="label" for="name">Name</label>
+        <input id="name" name="name" class="input" type="text" placeholder="Jane Doe" required>
+      </div>
+      <div class="field">
+        <label class="label" for="phone">Phone</label>
+        <input id="phone" name="phone" class="input" type="tel" placeholder="(573) 555-0123" required>
+      </div>
+
+      <!-- NEW: Email (same styling) -->
+      <div class="field">
+        <label class="label" for="email">Email</label>
+        <input id="email" name="email" class="input" type="email" placeholder="you@example.com">
+      </div>
+
+      <div class="field span-2">
+        <label class="label" for="address">Address</label>
+        <input id="address" name="address" class="input" type="text" placeholder="Street • City • ZIP — e.g., Valles Mines, MO 63087">
+      </div>
+      <div class="field">
+        <label class="label" for="service">Service</label>
+        <select id="service" name="service" class="select" required>
+          <option value="" selected>Choose…</option>
+          <option>Pruning & Crown Care</option>
+          <option>Controlled Removal</option>
+          <option>Storm Damage & Hazard Cleanup</option>
+          <option>Brush & Haul-Away</option>
+        </select>
+      </div>
+      <div class="field span-2">
+        <label class="label" for="details">Details</label>
+        <textarea id="details" name="details" class="textarea" placeholder="Trees, access, timing…"></textarea>
+      </div>
+      <div class="actions span-2">
+        <button class="btnP" type="submit">Send request</button>
+        <a class="btnS" href="tel:+15739153370">Call</a>
+        <a class="btnS" href="sms:+15739153370">Text</a>
+      </div>
+      <div id="quoteStatus" class="help span-2">Local to Valles Mines, MO. References on request.</div>
+    </div>
+  </form>
+</section>
 
     <footer>
       &copy; <span id="yr"></span> Tree Trimming Services &amp; More LLC •
@@ -509,7 +516,7 @@
 
   <script>
   // ===== CONFIG =====
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxgVqZLWG21oM6psXMcZPjTRgRAf4Rw9U4_N-z8c2EHZg0oxCiY5diDV-nrlIzhDhhY/exec'; // your /exec
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwuM5eDFWxQyWejA-WyPCYlt_dk6s4luG9wO1iM_d7UzOdEEu4V1v6asSZG1m896Q9e/exec'; // your /exec
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   // ===== Fixed nav =====
@@ -643,25 +650,26 @@
     }
   }
 
-  // ===== Quote form =====
-  document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const status = document.getElementById('quoteStatus');
-    status.textContent = 'Sending request...';
-    try{
-      const ok = await jsonp({
-        action:'quote',
-        name:(fd.get('name')||'').toString().trim(),
-        phone:(fd.get('phone')||'').toString().trim(),
-        address:(fd.get('address')||'').toString().trim(),
-        service:fd.get('service'),
-        details:(fd.get('details')||'').toString().trim()
-      });
-      if(ok?.ok || ok?.success){ status.textContent = 'Request sent! We’ll reach out shortly.'; e.target.reset(); }
-      else{ status.textContent = 'Couldn’t send request.'; }
-    }catch{ status.textContent = 'Network error.'; }
-  });
+ // ===== Quote form =====
+document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const status = document.getElementById('quoteStatus');
+  status.textContent = 'Sending request...';
+  try{
+    const ok = await jsonp({
+      action:'quote',
+      name:(fd.get('name')||'').toString().trim(),
+      phone:(fd.get('phone')||'').toString().trim(),
+      email:(fd.get('email')||'').toString().trim(),   // <-- ADD THIS
+      address:(fd.get('address')||'').toString().trim(),
+      service:fd.get('service'),
+      details:(fd.get('details')||'').toString().trim()
+    });
+    if(ok?.ok || ok?.success){ status.textContent = 'Request sent! We’ll reach out shortly.'; e.target.reset(); }
+    else{ status.textContent = 'Couldn’t send request.'; }
+  }catch{ status.textContent = 'Network error.'; }
+});
 
   // ===== Reviews form =====
   document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
@@ -841,4 +849,3 @@
 </script>
 </body>
 </html>
-
