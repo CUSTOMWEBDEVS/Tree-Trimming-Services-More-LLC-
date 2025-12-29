@@ -2,26 +2,32 @@
 <html lang="en" id="top">
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WD7BJZ78P6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WD7BJZ78P6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WD7BJZ78P6');
+  </script>
 
-  gtag('config', 'G-WD7BJZ78P6');
-</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tree Trimming Services & More LLC</title>
   <meta name="description" content="Insured, professional tree work. 16+ years experience. Call or text +1 (573) 915-3370." />
   <meta name="theme-color" content="#0b0d11" />
   <link rel="icon" href="https://treetrimmingservicesandmore.com/logo-silhouette.png" type="image/png" />
+
   <style>
     :root{
       --bg:#0b0d11; --card:#15151e; --panel:#101014;
       --text:#f1f1f1; --muted:#b9beca; --line:rgba(255,255,255,.1);
       --ac1:#8f63ff; --ac2:#5a45c9; --ring:0 0 0 3px rgba(143,99,255,.25);
-      --maxw:1100px; --navH:64px; --carouselMax:min(70vh,620px);
+
+      /* Wider desktop layout (kills the big gutters) */
+      --maxw:min(1600px, 96vw);
+
+      --navH:64px; --carouselMax:min(70vh,620px);
+      --promoH:54px; /* promo banner baseline height */
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -29,16 +35,109 @@
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden}
     img,svg,video{max-width:100%;height:auto}
     a{color:#cfc7ff;text-decoration:none} a:hover{text-decoration:underline}
-    .wrap{max-width:var(--maxw);margin:0 auto;padding:16px;display:grid;gap:28px}
     .break{word-wrap:break-word;overflow-wrap:break-word}
+
+    /* ===== Full-bleed layout while keeping content readable ===== */
+    .wrap{
+      max-width:none;
+      margin:0;
+      padding:16px 0;
+      display:grid;
+      gap:28px;
+    }
+    .container{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:0 clamp(12px, 2vw, 28px);
+    }
+
+    /* ===== Promo Banner (animated) ===== */
+    .promo{
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:1100;
+      background:linear-gradient(90deg, rgba(143,99,255,.25), rgba(90,69,201,.22), rgba(143,99,255,.25));
+      border-bottom:1px solid var(--line);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .promo::before{
+      content:"";
+      position:absolute; inset:-40px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.18), transparent 55%),
+        radial-gradient(circle at 80% 60%, rgba(143,99,255,.25), transparent 60%),
+        linear-gradient(120deg, transparent 0%, rgba(255,255,255,.10) 45%, transparent 65%);
+      transform: translateX(-30%);
+      animation: promoSheen 6s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes promoSheen{
+      0%{ transform: translateX(-30%) }
+      50%{ transform: translateX(30%) }
+      100%{ transform: translateX(-30%) }
+    }
+    .promo-inner{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:10px 12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      position:relative;
+    }
+    .promo-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(13,15,21,.55);
+      font-weight:900;
+      letter-spacing:.3px;
+      white-space:nowrap;
+    }
+    .promo-badge .spark{
+      width:10px;height:10px;border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, #fff, #cfc7ff 60%, #8f63ff);
+      box-shadow:0 0 16px rgba(143,99,255,.55);
+      animation: promoPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes promoPulse{
+      0%,100%{ transform:scale(1); opacity:.95 }
+      50%{ transform:scale(1.35); opacity:1 }
+    }
+    .promo-text{
+      font-weight:850;
+      color:#f6f5ff;
+      text-shadow:0 10px 40px rgba(0,0,0,.45);
+      line-height:1.2;
+    }
+    .promo-text strong{
+      color:#ffffff;
+      background:linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.18);
+      padding:2px 8px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .promo small{
+      display:block;
+      margin-top:2px;
+      color:rgba(241,241,241,.82);
+      font-weight:650;
+    }
 
     /* ===== Fixed navbar (always visible) ===== */
     .nav{
-      position:fixed; top:0; left:0; right:0; z-index:1000;
+      position:fixed; top:var(--promoH); left:0; right:0; z-index:1000;
       background:#0d0f15cc; backdrop-filter:blur(10px);
       border-bottom:1px solid var(--line)
     }
-    .nav-inner{max-width:var(--maxw);margin:0 auto;height:var(--navH);display:flex;align-items:center;gap:10px;padding:0 12px}
+    .nav-inner{max-width:var(--maxw);margin:0 auto;height:var(--navH);display:flex;align-items:center;gap:10px;padding:0 clamp(12px,2vw,28px)}
     .logo{display:flex;align-items:center;gap:10px;min-width:0}
     .logo svg{width:44px;height:auto;flex:0 0 auto}
     .brand{font-weight:900;letter-spacing:.2px;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -48,7 +147,16 @@
 
     /* Dropdown inside fixed nav; page content is pushed by #nav-spacer */
     .menu{display:none}
-    .menu.open{display:grid;gap:8px;max-width:var(--maxw);margin:8px auto;padding:10px;background:#0f1118;border:1px solid var(--line);border-radius:12px}
+    .menu.open{
+      display:grid;
+      gap:8px;
+      max-width:var(--maxw);
+      margin:8px auto;
+      padding:10px clamp(12px,2vw,28px);
+      background:#0f1118;
+      border:1px solid var(--line);
+      border-radius:12px
+    }
     .menu a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:750;color:#dfe3ef;background:#141622}
     .menu a:hover{background:#1a1d2a}
     .menu .call{background:linear-gradient(180deg,#6f54e9,var(--ac2));color:#fff;border-color:var(--line);text-align:center}
@@ -57,36 +165,42 @@
     header h1{margin:0;font-size:clamp(1.5rem,1.1rem + 1.6vw,2.1rem)}
     header p{margin:.35rem 0 0;color:var(--muted)}
 
-    /* carousel */
-    .carousel{border-radius:12px;overflow:hidden;background:#0e0f19}
-    .carousel-inner{display:flex;justify-content:center;align-items:center;padding:6px}
+    /* carousel (full-bleed section, but inner is centered) */
+    .carousel{overflow:hidden;background:#0e0f19}
+    .carousel-inner{
+      display:flex;justify-content:center;align-items:center;
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:6px clamp(12px,2vw,28px);
+    }
     .carousel img{display:block;max-height:var(--carouselMax);object-fit:contain;border-radius:10px;transition:opacity .35s ease}
     .carousel.fading img{opacity:.08}
 
     /* sections */
-    .sect{display:grid;gap:14px;scroll-margin-top:calc(var(--navH) + 12px)}
+    .sect{display:grid;gap:14px;scroll-margin-top:calc(var(--navH) + var(--promoH) + 12px)}
     .sect h3{margin:0;font-size:1.22rem;border-bottom:1px solid var(--line);padding-bottom:8px}
 
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    /* More columns on big screens = less dead space */
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
     .card{background:linear-gradient(180deg,var(--card),var(--panel));border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 10px 34px rgba(0,0,0,.32)}
     .card h4{margin:.1rem 0 .4rem;font-size:1.05rem}
     .card p{margin:0;color:var(--muted)}
 
-    .badges{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+    .badges{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
     .badge{display:flex;align-items:center;gap:10px;background:#0f1118;border:1px solid var(--line);border-radius:12px;padding:12px}
     .badge .dot{width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#cfc7ff 60%,#8f63ff);box-shadow:0 0 16px rgba(143,99,255,.45)}
 
-    .steps{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .steps{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
     .step{background:#11131c;border:1px solid var(--line);border-radius:12px;padding:14px}
     .num{display:inline-block;background:#1f2140;color:#fff;padding:6px 10px;border-radius:999px;font-weight:800;margin-bottom:8px}
 
-    .thumbs{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .thumbs{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
     .thumbs img{width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
     .thumbs figure{margin:0}
     .thumbs figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
 
     /* reviews */
-    .quotes{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .quotes{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
     .quote{background:#121422;border:1px solid var(--line);border-radius:12px;padding:16px;position:relative}
     .quote::before{content:"“";position:absolute;left:12px;top:-8px;font-size:3rem;color:#4d4f66;opacity:.35}
     .quote .by{margin-top:8px;color:#d6d8e3;font-weight:700}
@@ -112,7 +226,7 @@
     .faqs p{color:var(--muted);margin:.5rem 0 0}
 
     /* forms */
-    .quote-wrap{max-width:860px;margin:8px auto 0;width:100%}
+    .quote-wrap{max-width:min(1100px, 96vw);margin:8px auto 0;width:100%}
     .quote-title{text-align:center;font-weight:900;font-size:1.35rem;margin:2px 0 10px}
     .quote-card{background:linear-gradient(180deg,#20202a,#1b1b24);border:1px solid var(--line);border-radius:16px;padding:18px}
     .qgrid{display:grid;gap:14px}
@@ -131,19 +245,15 @@
     .help{text-align:center;color:var(--muted);font-size:.92rem;margin-top:6px}
     @media (min-width:720px){.qgrid{grid-template-columns:1fr 1fr}.span-2{grid-column:1/-1}}
 
-    /* CTA */
-    .cta{background:linear-gradient(90deg,#1c1d2f,#171828);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
-    .cta strong{font-size:1.05rem}
-
     /* sticky mobile call bar */
     .sticky-call{position:fixed;left:0;right:0;bottom:0;background:#0d0e14cc;backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px;display:flex;gap:10px;justify-content:center;z-index:50}
-    .sticky-call a{flex:1;max-width:420px;text-align:center}
+    .sticky-call a{flex:1;max-width:520px;text-align:center}
     @media (min-width:760px){.sticky-call{display:none}}
 
     footer{color:var(--muted);text-align:center;padding:18px 0 80px}
 
     /* ===== Admin modal ===== */
-    body.modal-open { overflow: hidden; }              /* lock background */
+    body.modal-open { overflow: hidden; }
     .modal{position:fixed; inset:0; display:none; z-index:1200; background:rgba(0,0,0,.55); backdrop-filter:blur(4px); align-items:flex-start; justify-content:center; padding:24px;}
     .modal.open{display:flex}
     .modal-card{width:min(100%,980px); background:#10131a; border:1px solid var(--line); border-radius:14px; padding:16px; box-shadow:0 30px 80px rgba(0,0,0,.5); max-height:92vh; overflow:auto; outline:none;}
@@ -228,15 +338,34 @@
       .table.responsive td:first-child{ padding-top:2px; }
       .table.responsive td:last-child{ padding-bottom:2px; }
     }
+
+    /* Promo wraps cleanly on very small screens */
+    @media (max-width:520px){
+      :root{ --promoH:74px; }
+      .promo-inner{ flex-direction:column; gap:6px; padding:10px 12px; }
+      .promo-badge{ font-size:.92rem; }
+      .promo-text{ font-size:.98rem; }
+    }
   </style>
 </head>
+
 <body>
 
-  <!-- Fixed nav with animated logo + hamburger + Admin -->
+  <!-- ===== Promo Banner ===== -->
+  <div class="promo" role="region" aria-label="Limited time offer">
+    <div class="promo-inner">
+      <span class="promo-badge"><span class="spark"></span> Limited Time</span>
+      <div class="promo-text">
+        From now through the end of January — <strong>$200 OFF</strong> any quote with a successful booking through the website.
+        <small>*Discount applied after booking confirmation.</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed nav -->
   <nav class="nav" role="navigation" aria-label="Main">
     <div class="nav-inner">
       <div class="logo">
-        <!-- animated logo -->
         <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <image id="src" href="logo-silhouette.png" width="1024" height="1024"/>
@@ -262,16 +391,13 @@
           <g clip-path="url(#grass)" style="transform-box:fill-box;transform-origin:50% 100%"><animateTransform attributeName="transform" type="skewX" begin=".1s" dur="6s" repeatCount="indefinite" values="0; -1.2; 0.7; -1.0; 0"/><animateTransform attributeName="transform" additive="sum" type="translate" begin=".1s" dur="6s" repeatCount="indefinite" values="0 0; 0 -1; 0 0; 0 -1; 0 0"/><use href="#src"/></g>
           <g clip-path="url(#water)"><animateTransform attributeName="transform" type="translate" dur="6s" repeatCount="indefinite" values="0 0; 4 0; 0 0"/><use href="#src" filter="url(#flow)"/></g>
         </svg>
-        <div class="brand">Tree Trimming Services & More LLC</div>
+        <div class="brand">Tree Trimming Services &amp; More LLC</div>
       </div>
 
       <div class="spacer"></div>
-
-      <!-- hamburger only -->
       <button class="menu-btn" id="menubtn" aria-label="Menu" aria-controls="dropmenu" aria-expanded="false">☰</button>
     </div>
 
-    <!-- dropdown that pushes page down (via #nav-spacer) -->
     <div class="menu" id="dropmenu">
       <a href="#gallery">Gallery</a>
       <a href="#services">Services</a>
@@ -285,14 +411,16 @@
     </div>
   </nav>
 
-  <!-- Spacer below fixed nav; grows when menu opens -->
-  <div id="nav-spacer" style="height: var(--navH)"></div>
+  <!-- Spacer below fixed promo+nav -->
+  <div id="nav-spacer" style="height: calc(var(--navH) + var(--promoH))"></div>
 
   <div class="wrap">
-    <header>
-      <h1 class="break">Tree Trimming Services &amp; More LLC</h1>
-      <p>Insured • 19+ yrs experience • Call or text <strong>(573) 915-3370</strong></p>
-    </header>
+    <div class="container">
+      <header>
+        <h1 class="break">Tree Trimming Services &amp; More LLC</h1>
+        <p>Insured • 19+ yrs experience • Call or text <strong>(573) 915-3370</strong></p>
+      </header>
+    </div>
 
     <!-- GALLERY -->
     <section class="carousel sect" id="gallery" aria-label="Work gallery">
@@ -301,157 +429,143 @@
       </div>
     </section>
 
-    <!-- WHY -->
-    <section class="sect" id="why">
-      <h3>Why choose us</h3>
-      <div class="badges">
-        <div class="badge"><span class="dot"></span><div><strong>Insured &amp; local</strong><div style="color:var(--muted)">Based in Valles Mines, MO</div></div></div>
-        <div class="badge"><span class="dot"></span><div><strong>19+ yrs experience</strong><div style="color:var(--muted)">Precision &amp; safety focused</div></div></div>
-        <div class="badge"><span class="dot"></span><div><strong>Clean job sites</strong><div style="color:var(--muted)">Brush &amp; haul-away available</div></div></div>
-        <div class="badge"><span class="dot"></span><div><strong>Fair, clear pricing</strong><div style="color:var(--muted)">Free quotes, no surprises</div></div></div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section class="sect" id="services">
-      <h3>Services</h3>
-      <div class="grid">
-        <article class="card"><h4>✂️ Pruning &amp; Crown Care</h4><p>Health-first trimming, deadwood removal, and structural balance.</p></article>
-        <article class="card"><h4>🪓 Controlled Removals</h4><p>Tight-space sectional takedowns with rigging and lowering—precision work.</p></article>
-        <article class="card"><h4>🌩️ Storm Damage &amp; Hazard Cleanup</h4><p>Emergency response, hangers cleared, broken limbs secured, and debris hauled.</p></article>
-        <article class="card"><h4>🧹 Brush &amp; Haul-Away</h4><p>Clean work sites every time—chip, stack, or full removal.</p></article>
-      </div>
-    </section>
-
-    <!-- PROCESS -->
-    <section class="sect" id="process">
-      <h3>Our process</h3>
-      <div class="steps">
-        <div class="step"><span class="num">1</span><h4>Walk-through</h4><p class="muted">We listen, assess trees, and discuss options on-site.</p></div>
-        <div class="step"><span class="num">2</span><h4>Clear quote</h4><p class="muted">Written scope, price, and timing—no surprises.</p></div>
-        <div class="step"><span class="num">3</span><h4>Safe execution</h4><p class="muted">Professional rigging, sectional removals, careful protection of your property.</p></div>
-        <div class="step"><span class="num">4</span><h4>Clean finish</h4><p class="muted">Brush/wood handled as requested. We leave it tidy.</p></div>
-      </div>
-    </section>
-
-    <!-- RECENT -->
-    <section class="sect" id="jobs">
-      <h3>Recent jobs</h3>
-      <div class="thumbs">
-        <figure><img src="images/1.jpg" alt="Job 1"><figcaption>Tornado cleanup</figcaption></figure>
-        <figure><img src="images/2.jpg" alt="Job 2"><figcaption>Tornado cleanup</figcaption></figure>
-        <figure><img src="images/3.jpg" alt="Job 3"><figcaption>Crane Job</figcaption></figure>
-        <figure><img src="images/4.jpg" alt="Job 4"><figcaption>Storm cleanup</figcaption></figure>
-        <figure><img src="images/5.jpg" alt="Job 5"><figcaption>Tornado cleanup</figcaption></figure>
-      </div>
-    </section>
-
-    <!-- REVIEWS -->
-    <section class="sect" id="reviews">
-      <h3>Reviews</h3>
-      <div id="reviewsHeader" class="rating-badge" aria-live="polite">Average: —</div>
-
-      <!-- Viewport that shows ONLY 3 at a time -->
-      <div id="reviewsViewport" class="quotes" style="margin-top:10px" aria-live="polite" aria-busy="false"></div>
-
-      <!-- Controls -->
-      <div class="reviews-controls">
-        <button id="reviews-more" type="button" class="btn-more" aria-label="Show more reviews (cycles)">Show more reviews</button>
-      </div>
-
-      <!-- Review form -->
-      <form id="reviewForm" class="quote-card" autocomplete="off">
-        <div class="qgrid">
-          <div class="field">
-            <label class="label" for="rname">Your name</label>
-            <input id="rname" name="name" class="input" type="text" placeholder="Jane D." required>
-          </div>
-          <div class="field">
-            <label class="label" for="rstars">Rating</label>
-            <select id="rstars" name="stars" class="select" required>
-              <option value="5" selected>★★★★★</option>
-              <option value="4">★★★★☆</option>
-              <option value="3">★★★☆☆</option>
-              <option value="2">★★☆☆☆</option>
-              <option value="1">★☆☆☆☆</option>
-            </select>
-          </div>
-          <div class="field span-2">
-            <label class="label" for="rtext">Review</label>
-            <textarea id="rtext" name="text" class="textarea" placeholder="How did we do?" required></textarea>
-          </div>
-          <div class="actions span-2">
-            <button class="btnP" type="submit">Post review</button>
-          </div>
-          <div id="reviewStatus" class="help span-2"></div>
+    <div class="container">
+      <section class="sect" id="why">
+        <h3>Why choose us</h3>
+        <div class="badges">
+          <div class="badge"><span class="dot"></span><div><strong>Insured &amp; local</strong><div style="color:var(--muted)">Based in Valles Mines, MO</div></div></div>
+          <div class="badge"><span class="dot"></span><div><strong>19+ yrs experience</strong><div style="color:var(--muted)">Precision &amp; safety focused</div></div></div>
+          <div class="badge"><span class="dot"></span><div><strong>Clean job sites</strong><div style="color:var(--muted)">Brush &amp; haul-away available</div></div></div>
+          <div class="badge"><span class="dot"></span><div><strong>Fair, clear pricing</strong><div style="color:var(--muted)">Free quotes, no surprises</div></div></div>
         </div>
-      </form>
-    </section>
+      </section>
 
-    <!-- FAQ -->
-    <section class="sect faqs" id="faq">
-      <h3>FAQ</h3>
-      <details><summary>Are you insured?</summary><p>Yes. We carry full liability insurance and can provide proof on request.</p></details>
-      <details><summary>Do you handle tight spaces?</summary><p>Yes—sectional removals with rigging and controlled lowering where equipment can’t reach.</p></details>
-      <details><summary>What about cleanup?</summary><p>We can chip, stack, or haul away brush/logs depending on your preference.</p></details>
-      <details><summary>Do you accept credit or debit cards?</summary><p>Yes, we accept both credit and debit card payments. Please note that a 3.5% processing fee applies to all card transactions.</p></details>
-    </section>
+      <section class="sect" id="services">
+        <h3>Services</h3>
+        <div class="grid">
+          <article class="card"><h4>✂️ Pruning &amp; Crown Care</h4><p>Health-first trimming, deadwood removal, and structural balance.</p></article>
+          <article class="card"><h4>🪓 Controlled Removals</h4><p>Tight-space sectional takedowns with rigging and lowering—precision work.</p></article>
+          <article class="card"><h4>🌩️ Storm Damage &amp; Hazard Cleanup</h4><p>Emergency response, hangers cleared, broken limbs secured, and debris hauled.</p></article>
+          <article class="card"><h4>🧹 Brush &amp; Haul-Away</h4><p>Clean work sites every time—chip, stack, or full removal.</p></article>
+        </div>
+      </section>
 
-    <!-- QUOTE -->
-    <section class="quote-wrap" id="booking">
-  <h2 class="quote-title">Request a quote</h2>
-  <form id="quoteForm" class="quote-card" novalidate>
-    <div class="qgrid">
-      <div class="field">
-        <label class="label" for="name">Name</label>
-        <input id="name" name="name" class="input" type="text" placeholder="Jane Doe" required>
-      </div>
-      <div class="field">
-        <label class="label" for="phone">Phone</label>
-        <input id="phone" name="phone" class="input" type="tel" placeholder="(573) 555-0123" required>
-      </div>
+      <section class="sect" id="process">
+        <h3>Our process</h3>
+        <div class="steps">
+          <div class="step"><span class="num">1</span><h4>Walk-through</h4><p class="muted">We listen, assess trees, and discuss options on-site.</p></div>
+          <div class="step"><span class="num">2</span><h4>Clear quote</h4><p class="muted">Written scope, price, and timing—no surprises.</p></div>
+          <div class="step"><span class="num">3</span><h4>Safe execution</h4><p class="muted">Professional rigging, sectional removals, careful protection of your property.</p></div>
+          <div class="step"><span class="num">4</span><h4>Clean finish</h4><p class="muted">Brush/wood handled as requested. We leave it tidy.</p></div>
+        </div>
+      </section>
 
-      <!-- NEW: Email (same styling) -->
-      <div class="field">
-        <label class="label" for="email">Email</label>
-        <input id="email" name="email" class="input" type="email" placeholder="you@example.com">
-      </div>
+      <section class="sect" id="jobs">
+        <h3>Recent jobs</h3>
+        <div class="thumbs">
+          <figure><img src="images/1.jpg" alt="Job 1"><figcaption>Tornado cleanup</figcaption></figure>
+          <figure><img src="images/2.jpg" alt="Job 2"><figcaption>Tornado cleanup</figcaption></figure>
+          <figure><img src="images/3.jpg" alt="Job 3"><figcaption>Crane Job</figcaption></figure>
+          <figure><img src="images/4.jpg" alt="Job 4"><figcaption>Storm cleanup</figcaption></figure>
+          <figure><img src="images/5.jpg" alt="Job 5"><figcaption>Tornado cleanup</figcaption></figure>
+        </div>
+      </section>
 
-      <div class="field span-2">
-        <label class="label" for="address">Address</label>
-        <input id="address" name="address" class="input" type="text" placeholder="Street • City • ZIP — e.g., Valles Mines, MO 63087">
-      </div>
-      <div class="field">
-        <label class="label" for="service">Service</label>
-        <select id="service" name="service" class="select" required>
-          <option value="" selected>Choose…</option>
-          <option>Pruning & Crown Care</option>
-          <option>Controlled Removal</option>
-          <option>Storm Damage & Hazard Cleanup</option>
-          <option>Brush & Haul-Away</option>
-        </select>
-      </div>
-      <div class="field span-2">
-        <label class="label" for="details">Details</label>
-        <textarea id="details" name="details" class="textarea" placeholder="Trees, access, timing…"></textarea>
-      </div>
-      <div class="actions span-2">
-        <button class="btnP" type="submit">Send request</button>
-        <a class="btnS" href="tel:+15739153370">Call</a>
-        <a class="btnS" href="sms:+15739153370">Text</a>
-      </div>
-      <div id="quoteStatus" class="help span-2">Local to Valles Mines, MO. References on request.</div>
+      <section class="sect" id="reviews">
+        <h3>Reviews</h3>
+        <div id="reviewsHeader" class="rating-badge" aria-live="polite">Average: —</div>
+        <div id="reviewsViewport" class="quotes" style="margin-top:10px" aria-live="polite" aria-busy="false"></div>
+        <div class="reviews-controls">
+          <button id="reviews-more" type="button" class="btn-more" aria-label="Show more reviews (cycles)">Show more reviews</button>
+        </div>
+
+        <form id="reviewForm" class="quote-card" autocomplete="off">
+          <div class="qgrid">
+            <div class="field">
+              <label class="label" for="rname">Your name</label>
+              <input id="rname" name="name" class="input" type="text" placeholder="Jane D." required>
+            </div>
+            <div class="field">
+              <label class="label" for="rstars">Rating</label>
+              <select id="rstars" name="stars" class="select" required>
+                <option value="5" selected>★★★★★</option>
+                <option value="4">★★★★☆</option>
+                <option value="3">★★★☆☆</option>
+                <option value="2">★★☆☆☆</option>
+                <option value="1">★☆☆☆☆</option>
+              </select>
+            </div>
+            <div class="field span-2">
+              <label class="label" for="rtext">Review</label>
+              <textarea id="rtext" name="text" class="textarea" placeholder="How did we do?" required></textarea>
+            </div>
+            <div class="actions span-2">
+              <button class="btnP" type="submit">Post review</button>
+            </div>
+            <div id="reviewStatus" class="help span-2"></div>
+          </div>
+        </form>
+      </section>
+
+      <section class="sect faqs" id="faq">
+        <h3>FAQ</h3>
+        <details><summary>Are you insured?</summary><p>Yes. We carry full liability insurance and can provide proof on request.</p></details>
+        <details><summary>Do you handle tight spaces?</summary><p>Yes—sectional removals with rigging and controlled lowering where equipment can’t reach.</p></details>
+        <details><summary>What about cleanup?</summary><p>We can chip, stack, or haul away brush/logs depending on your preference.</p></details>
+        <details><summary>Do you accept credit or debit cards?</summary><p>Yes, we accept both credit and debit card payments. Please note that a 3.5% processing fee applies to all card transactions.</p></details>
+      </section>
+
+      <section class="quote-wrap" id="booking">
+        <h2 class="quote-title">Request a quote</h2>
+        <form id="quoteForm" class="quote-card" novalidate>
+          <div class="qgrid">
+            <div class="field">
+              <label class="label" for="name">Name</label>
+              <input id="name" name="name" class="input" type="text" placeholder="Jane Doe" required>
+            </div>
+            <div class="field">
+              <label class="label" for="phone">Phone</label>
+              <input id="phone" name="phone" class="input" type="tel" placeholder="(573) 555-0123" required>
+            </div>
+            <div class="field">
+              <label class="label" for="email">Email</label>
+              <input id="email" name="email" class="input" type="email" placeholder="you@example.com">
+            </div>
+            <div class="field span-2">
+              <label class="label" for="address">Address</label>
+              <input id="address" name="address" class="input" type="text" placeholder="Street • City • ZIP — e.g., Valles Mines, MO 63087">
+            </div>
+            <div class="field">
+              <label class="label" for="service">Service</label>
+              <select id="service" name="service" class="select" required>
+                <option value="" selected>Choose…</option>
+                <option>Pruning & Crown Care</option>
+                <option>Controlled Removal</option>
+                <option>Storm Damage & Hazard Cleanup</option>
+                <option>Brush & Haul-Away</option>
+              </select>
+            </div>
+            <div class="field span-2">
+              <label class="label" for="details">Details</label>
+              <textarea id="details" name="details" class="textarea" placeholder="Trees, access, timing…"></textarea>
+            </div>
+            <div class="actions span-2">
+              <button class="btnP" type="submit">Send request</button>
+              <a class="btnS" href="tel:+15739153370">Call</a>
+              <a class="btnS" href="sms:+15739153370">Text</a>
+            </div>
+            <div id="quoteStatus" class="help span-2">Local to Valles Mines, MO. References on request.</div>
+          </div>
+        </form>
+      </section>
+
+      <footer>
+        &copy; <span id="yr"></span> Tree Trimming Services &amp; More LLC •
+        <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </footer>
     </div>
-  </form>
-</section>
-
-    <footer>
-      &copy; <span id="yr"></span> Tree Trimming Services &amp; More LLC •
-      <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener noreferrer">Facebook</a>
-    </footer>
   </div>
 
-  <!-- sticky mobile actions -->
   <div class="sticky-call" role="navigation" aria-label="Quick actions">
     <a class="btnP" href="tel:+15739153370">📞 Call</a>
     <a class="btnS" href="sms:+15739153370">💬 Text</a>
@@ -468,7 +582,6 @@
         </div>
       </div>
 
-      <!-- Login -->
       <div id="adminLoginView">
         <p class="help" style="margin-top:0">Enter admin password to manage reviews, view analytics, and send updates.</p>
         <div class="login-grid">
@@ -478,7 +591,6 @@
         <div id="adminLoginMsg" class="help"></div>
       </div>
 
-      <!-- Dashboard -->
       <div id="adminDashView" class="dash hidden">
         <section>
           <h4 style="margin:0 0 8px 0">Key metrics</h4>
@@ -524,339 +636,328 @@
   </div>
 
   <script>
-  // ===== CONFIG =====
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwuM5eDFWxQyWejA-WyPCYlt_dk6s4luG9wO1iM_d7UzOdEEu4V1v6asSZG1m896Q9e/exec'; // your /exec
-  document.getElementById('yr').textContent = new Date().getFullYear();
+    // ===== CONFIG =====
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwuM5eDFWxQyWejA-WyPCYlt_dk6s4luG9wO1iM_d7UzOdEEu4V1v6asSZG1m896Q9e/exec';
+    document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // ===== Fixed nav =====
-  const btn = document.getElementById('menubtn');
-  const drop = document.getElementById('dropmenu');
-  function updateNavSpacer() {
-    const spacer = document.getElementById('nav-spacer');
-    const base = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navH')) || 64;
-    const extra = drop.classList.contains('open') ? (drop.scrollHeight + 8) : 0;
-    spacer.style.height = (base + extra) + 'px';
-  }
-  const closeMenu = () => { drop.classList.remove('open'); btn.setAttribute('aria-expanded','false'); updateNavSpacer(); };
-  btn.addEventListener('click', ()=>{ const open = drop.classList.toggle('open'); btn.setAttribute('aria-expanded', String(open)); updateNavSpacer(); });
-  drop.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', (e)=>{ e.preventDefault(); const el = document.getElementById(a.getAttribute('href').slice(1)); closeMenu(); setTimeout(()=>{ el?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50); }));
-  document.addEventListener('click', (e)=>{ if(!drop.contains(e.target) && e.target !== btn) closeMenu(); });
-  addEventListener('resize', updateNavSpacer); addEventListener('orientationchange', updateNavSpacer);
-
-  // ===== Carousel =====
-  const imgs = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg','images/5.jpg'];
-  const cEl = document.getElementById('gallery'); const imgEl = document.getElementById('carousel-img'); let i = 0;
-  imgs.forEach(src => { const im = new Image(); im.src = src; });
-  setInterval(()=>{ cEl.classList.add('fading'); setTimeout(()=>{ i=(i+1)%imgs.length; imgEl.src=imgs[i]; imgEl.alt='Tree work photo '+(i+1); cEl.classList.remove('fading'); },220); },4000);
-
-  // ===== Helpers =====
-  const escapeHtml = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const safeDate = t => { try{return new Date(t).toLocaleDateString()}catch{return ''} };
-
-  // ===== JSONP helper =====
-  function jsonp(params){
-    return new Promise((resolve,reject)=>{
-      const cb = 'cb_' + Math.random().toString(36).slice(2);
-      const q = new URLSearchParams(Object.fromEntries(Object.entries(params).map(([k,v])=>[k, String(v ?? '')])));
-      q.set('callback', cb);
-      const s = document.createElement('script');
-      s.src = `${GAS_URL}?${q.toString()}`;
-      s.onerror = ()=>{ cleanup(); reject(new Error('JSONP network error')); };
-      function cleanup(){ delete window[cb]; s.remove(); }
-      window[cb] = (data)=>{ try{ resolve(data); } finally { cleanup(); } };
-      document.body.appendChild(s);
-    });
-  }
-
-  // ===== Reviews (PUBLIC LIST — 3-at-a-time, never disables, cycles, preserves page) =====
-  const reviewsHeaderEl   = document.getElementById('reviewsHeader');
-  const reviewsViewportEl = document.getElementById('reviewsViewport');
-  const reviewsMoreBtn    = document.getElementById('reviews-more');
-
-  const PAGE_SIZE = 3;
-  let publicReviews = [];
-  let page = 0;
-
-  function updateReviewsHeader(list){
-    const nums = (Array.isArray(list)?list:[]).map(r => Number(r.stars)||0).filter(n => n>0);
-    const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
-    reviewsHeaderEl.innerHTML =
-      `<span>Average: ${avg ? avg.toFixed(1) : '—'}</span>
-       <span>${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</span>
-       <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
-  }
-
-  function renderPublicPage(){
-    reviewsViewportEl.setAttribute('aria-busy','true');
-    reviewsViewportEl.innerHTML = '';
-
-    const start = page * PAGE_SIZE;
-    const end   = Math.min(start + PAGE_SIZE, publicReviews.length);
-    const slice = publicReviews.slice(start, end);
-
-    if (!slice.length){
-      reviewsViewportEl.innerHTML = '<div class="help">No reviews yet — be the first!</div>';
-      // Only disable if there are zero total reviews (no content to show at all)
-      if (publicReviews.length === 0) {
-        reviewsMoreBtn.disabled = true;
-        reviewsMoreBtn.setAttribute('aria-disabled','true');
-      } else {
-        reviewsMoreBtn.disabled = false;
-        reviewsMoreBtn.removeAttribute('aria-disabled');
-      }
-      reviewsViewportEl.setAttribute('aria-busy','false');
-      return;
+    // ===== Fixed nav =====
+    const btn = document.getElementById('menubtn');
+    const drop = document.getElementById('dropmenu');
+    function updateNavSpacer() {
+      const spacer = document.getElementById('nav-spacer');
+      const baseNav = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navH')) || 64;
+      const promoH  = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--promoH')) || 54;
+      const extra = drop.classList.contains('open') ? (drop.scrollHeight + 8) : 0;
+      spacer.style.height = (promoH + baseNav + extra) + 'px';
     }
+    const closeMenu = () => { drop.classList.remove('open'); btn.setAttribute('aria-expanded','false'); updateNavSpacer(); };
+    btn.addEventListener('click', ()=>{ const open = drop.classList.toggle('open'); btn.setAttribute('aria-expanded', String(open)); updateNavSpacer(); });
+    drop.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const el = document.getElementById(a.getAttribute('href').slice(1));
+      closeMenu();
+      setTimeout(()=>{ el?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
+    }));
+    document.addEventListener('click', (e)=>{ if(!drop.contains(e.target) && e.target !== btn) closeMenu(); });
+    addEventListener('resize', updateNavSpacer); addEventListener('orientationchange', updateNavSpacer);
 
-    // Ensure button is enabled when there is content to cycle
-    reviewsMoreBtn.disabled = false;
-    reviewsMoreBtn.removeAttribute('aria-disabled');
+    // ===== Carousel =====
+    const imgs = ['images/1.jpg','images/2.jpg','images/3.jpg','images/4.jpg','images/5.jpg'];
+    const cEl = document.getElementById('gallery'); const imgEl = document.getElementById('carousel-img'); let i = 0;
+    imgs.forEach(src => { const im = new Image(); im.src = src; });
+    setInterval(()=>{ cEl.classList.add('fading'); setTimeout(()=>{ i=(i+1)%imgs.length; imgEl.src=imgs[i]; imgEl.alt='Tree work photo '+(i+1); cEl.classList.remove('fading'); },220); },4000);
 
-    slice.forEach(r => {
-      const card = document.createElement('div');
-      card.className = 'quote';
-      card.setAttribute('data-id', r.id || '');
-      card.innerHTML = `
-        <div>${'★'.repeat(+r.stars)}${'☆'.repeat(5-+r.stars)}</div>
-        <div style="margin-top:6px">${escapeHtml(r.text)}</div>
-        <div class="by">— ${escapeHtml(r.name)}
-          <span style="color:var(--muted);font-weight:400">• ${safeDate(r.timestamp)}
-            <span class="src-tag">${r.source === 'facebook' ? 'Facebook' : 'Website'}</span>
-          </span>
-        </div>`;
-      reviewsViewportEl.appendChild(card);
-    });
+    // ===== Helpers =====
+    const escapeHtml = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const safeDate = t => { try{return new Date(t).toLocaleDateString()}catch{return ''} };
 
-    reviewsViewportEl.setAttribute('aria-busy','false');
-  }
-
-  function renderReviewsPublic(list){
-    const prevPage = page;
-    publicReviews = Array.isArray(list) ? list.slice() : [];
-
-    // Clamp page to stay valid after updates (preserve where reader is)
-    const totalPages = Math.max(1, Math.ceil(publicReviews.length / PAGE_SIZE));
-    page = Math.min(prevPage, totalPages - 1);
-
-    updateReviewsHeader(publicReviews);
-    renderPublicPage();
-  }
-
-  // Button now cycles: always shows next trio; after last page, wraps to first
-  reviewsMoreBtn.addEventListener('click', ()=>{
-    const totalPages = Math.ceil(publicReviews.length / PAGE_SIZE);
-    page = (page < totalPages - 1) ? page + 1 : 0;  // wrap
-    renderPublicPage();
-  });
-
-  async function loadReviews(){
-    try{
-      const data = await jsonp({action:'list'});
-      renderReviewsPublic(Array.isArray(data)?data:[]);
-    }catch{
-      reviewsViewportEl.innerHTML = '<div class="help">Couldn’t load reviews.</div>';
-      // leave button as-is to avoid locking it
-    }
-  }
-
- // ===== Quote form =====
-document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const status = document.getElementById('quoteStatus');
-  status.textContent = 'Sending request...';
-  try{
-    const ok = await jsonp({
-      action:'quote',
-      name:(fd.get('name')||'').toString().trim(),
-      phone:(fd.get('phone')||'').toString().trim(),
-      email:(fd.get('email')||'').toString().trim(),   // <-- ADD THIS
-      address:(fd.get('address')||'').toString().trim(),
-      service:fd.get('service'),
-      details:(fd.get('details')||'').toString().trim()
-    });
-    if(ok?.ok || ok?.success){ status.textContent = 'Request sent! We’ll reach out shortly.'; e.target.reset(); }
-    else{ status.textContent = 'Couldn’t send request.'; }
-  }catch{ status.textContent = 'Network error.'; }
-});
-
-  // ===== Reviews form =====
-  document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const status = document.getElementById('reviewStatus');
-    status.textContent = 'Posting...';
-    try{
-      const ok = await jsonp({
-        action:'add',
-        name:(fd.get('name')||'').toString().trim(),
-        stars:fd.get('stars'),
-        text:(fd.get('text')||'').toString().trim()
+    // ===== JSONP helper =====
+    function jsonp(params){
+      return new Promise((resolve,reject)=>{
+        const cb = 'cb_' + Math.random().toString(36).slice(2);
+        const q = new URLSearchParams(Object.fromEntries(Object.entries(params).map(([k,v])=>[k, String(v ?? '')])));
+        q.set('callback', cb);
+        const s = document.createElement('script');
+        s.src = `${GAS_URL}?${q.toString()}`;
+        s.onerror = ()=>{ cleanup(); reject(new Error('JSONP network error')); };
+        function cleanup(){ delete window[cb]; s.remove(); }
+        window[cb] = (data)=>{ try{ resolve(data); } finally { cleanup(); } };
+        document.body.appendChild(s);
       });
-      if(ok?.ok || ok?.success){
-        status.textContent = 'Thanks for the review!';
-        e.target.reset();
-        await loadReviews(); // reload list, preserves current page
-      } else {
-        status.textContent = 'Couldn’t post review.';
-      }
-    }catch{ status.textContent = 'Network error.'; }
-  });
-
-  // ===== Admin modal & auth (JSONP) =====
-  const adminModal = document.getElementById('adminModal');
-  const adminOpenBtn = document.getElementById('adminOpen');
-  const adminCloseBtn = document.getElementById('adminClose');
-  const adminLogoutBtn = document.getElementById('adminLogout');
-  const adminLoginView = document.getElementById('adminLoginView');
-  const adminDashView = document.getElementById('adminDashView');
-  const adminLoginBtn = document.getElementById('adminLoginBtn');
-  const adminLoginMsg = document.getElementById('adminLoginMsg');
-  const adminPass = document.getElementById('adminPass');
-  let adminOpen = false;
-
-  function isAuthed(){ return !!localStorage.getItem('adminToken'); }
-  function setAuthed(token){
-    if(token){ localStorage.setItem('adminToken', token); }
-    adminLoginView.classList.add('hidden');
-    adminDashView.classList.remove('hidden');
-    adminLogoutBtn.classList.remove('hidden');
-  }
-  function clearAuthed(){
-    localStorage.removeItem('adminToken');
-    adminLoginView.classList.remove('hidden');
-    adminDashView.classList.add('hidden');
-    adminLogoutBtn.classList.add('hidden');
-  }
-
-  function showModal(open){
-    adminModal.classList.toggle('open', open);
-    adminModal.setAttribute('aria-hidden', String(!open));
-    adminOpen = open;
-    document.body.classList.toggle('modal-open', open); // lock background scroll
-    if (open) {
-      const card = adminModal.querySelector('.modal-card');
-      if (card && !card.hasAttribute('tabindex')) card.setAttribute('tabindex','-1');
-      setTimeout(()=> card?.focus({preventScroll:true}), 0);
     }
-  }
 
-  document.addEventListener('touchmove', (e)=>{
-    if (adminOpen && !adminModal.contains(e.target)) e.preventDefault();
-  }, { passive:false });
+    // ===== Reviews =====
+    const reviewsHeaderEl   = document.getElementById('reviewsHeader');
+    const reviewsViewportEl = document.getElementById('reviewsViewport');
+    const reviewsMoreBtn    = document.getElementById('reviews-more');
+    const PAGE_SIZE = 3;
+    let publicReviews = [];
+    let page = 0;
 
-  adminOpenBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMenu(); openAdmin(); });
-  adminCloseBtn?.addEventListener('click', ()=>{ showModal(false); stopAdminTimer(); });
-  adminModal.addEventListener('click', (e)=>{ if(e.target===adminModal){ showModal(false); stopAdminTimer(); } });
-  adminLogoutBtn.addEventListener('click', ()=>{ clearAuthed(); });
+    function updateReviewsHeader(list){
+      const nums = (Array.isArray(list)?list:[]).map(r => Number(r.stars)||0).filter(n => n>0);
+      const avg = nums.length ? (nums.reduce((a,b)=>a+b,0)/nums.length) : 0;
+      reviewsHeaderEl.innerHTML =
+        `<span>Average: ${avg ? avg.toFixed(1) : '—'}</span>
+         <span>${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</span>
+         <span style="color:var(--muted);font-weight:600">(${nums.length})</span>`;
+    }
 
-  async function openAdmin(){
-    showModal(true);
-    adminLoginMsg.textContent = '';
-    if(isAuthed()){ await adminRefresh(); } else { clearAuthed(); }
-    adminPass.focus();
-    startAdminTimer();
-  }
+    function renderPublicPage(){
+      reviewsViewportEl.setAttribute('aria-busy','true');
+      reviewsViewportEl.innerHTML = '';
+      const start = page * PAGE_SIZE;
+      const end   = Math.min(start + PAGE_SIZE, publicReviews.length);
+      const slice = publicReviews.slice(start, end);
 
-  adminLoginBtn.addEventListener('click', async ()=>{
-    const pwd = adminPass.value.trim();
-    if(!pwd){ adminLoginMsg.textContent = 'Enter a password.'; return; }
-    adminLoginMsg.textContent = 'Checking...';
-    try{
-      const data = await jsonp({action:'login', password: pwd});
-      if((data?.ok || data?.success) && (data?.token)){
-        setAuthed(data.token); adminPass.value=''; adminLoginMsg.textContent=''; await adminRefresh();
-      }else{
-        adminLoginMsg.textContent = 'Invalid password.';
-      }
-    }catch{ adminLoginMsg.textContent = 'Network error.'; }
-  });
-
-  async function adminFetch(action, body={}){
-    return jsonp(Object.assign({}, body, {action, token: (localStorage.getItem('adminToken')||'')}));
-  }
-
-  async function adminDeleteReview(id){
-    const res = await adminFetch('deleteReview', { id });
-    if(!(res?.ok || res?.success)) throw new Error(res?.error || 'Delete failed');
-    return res;
-  }
-
-  async function adminRefresh(){
-    // analytics
-    const aRes = await adminFetch('analytics');
-    const a = aRes?.data || aRes || {};
-    document.getElementById('k_totalReviews').textContent = a?.totalReviews ?? '—';
-    document.getElementById('k_avgRating').textContent   = a?.avgRating ? Number(a.avgRating).toFixed(2) : '—';
-    document.getElementById('k_reviewsMonth').textContent= a?.reviewsThisMonth ?? '—';
-    document.getElementById('k_totalQuotes').textContent = a?.totalQuotes ?? '—';
-    document.getElementById('k_quotesMonth').textContent = a?.quotesThisMonth ?? '—';
-
-    // recent quotes table
-    const tbody = document.querySelector('#quotesTable tbody');
-    tbody.innerHTML = (a?.recentQuotes||[]).map(q=>`
-      <tr>
-        <td data-th="Date">${safeDate(q.timestamp)}</td>
-        <td data-th="Name">${escapeHtml(q.name||'')}</td>
-        <td data-th="Phone">${escapeHtml(q.phone||'')}</td>
-        <td data-th="Service">${escapeHtml(q.service||'')}</td>
-        <td data-th="City/ZIP">${escapeHtml(q.cityzip||'')}</td>
-        <td data-th="Details">${escapeHtml(q.details||'')}</td>
-      </tr>
-    `).join('');
-
-    // admin reviews WITH delete buttons
-    const rBox = document.getElementById('adminReviews');
-    const r = await jsonp({action:'list'}).catch(()=>[]);
-    rBox.innerHTML = (r||[]).map(rv=>`
-      <div class="quote" data-id="${rv.id ?? ''}">
-        <div class="row-actions" style="position:absolute; top:10px; right:10px">
-          ${rv.source==='facebook' ? '' : `<button type="button" class="danger" data-del="${rv.id ?? ''}">Delete</button>`}
-        </div>
-        <div>${'★'.repeat(+rv.stars)}${'☆'.repeat(5-+rv.stars)}</div>
-        <div style="margin-top:6px">${escapeHtml(rv.text)}</div>
-        <div class="by">— ${escapeHtml(rv.name)} <span style="color:var(--muted);font-weight:400">• ${safeDate(rv.timestamp)} <span class="src-tag">${rv.source==='facebook'?'Facebook':'Website'}</span></span></div>
-      </div>
-    `).join('') || '<div class="help">No reviews.</div>';
-
-    rBox.querySelectorAll('button[data-del]').forEach(b=>{
-      b.addEventListener('click', async (ev)=>{
-        ev.preventDefault();
-        ev.stopPropagation();
-        const id = b.getAttribute('data-del');
-        if(!id) return;
-        if(!confirm('Delete this review?')) return;
-        try{
-          const res = await adminDeleteReview(id);
-          if(res){ await adminRefresh(); await loadReviews(); }
-        }catch(err){
-          alert('Delete failed: ' + (err?.message || err));
+      if (!slice.length){
+        reviewsViewportEl.innerHTML = '<div class="help">No reviews yet — be the first!</div>';
+        if (publicReviews.length === 0) {
+          reviewsMoreBtn.disabled = true;
+          reviewsMoreBtn.setAttribute('aria-disabled','true');
+        } else {
+          reviewsMoreBtn.disabled = false;
+          reviewsMoreBtn.removeAttribute('aria-disabled');
         }
+        reviewsViewportEl.setAttribute('aria-busy','false');
+        return;
+      }
+
+      reviewsMoreBtn.disabled = false;
+      reviewsMoreBtn.removeAttribute('aria-disabled');
+
+      slice.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'quote';
+        card.setAttribute('data-id', r.id || '');
+        card.innerHTML = `
+          <div>${'★'.repeat(+r.stars)}${'☆'.repeat(5-+r.stars)}</div>
+          <div style="margin-top:6px">${escapeHtml(r.text)}</div>
+          <div class="by">— ${escapeHtml(r.name)}
+            <span style="color:var(--muted);font-weight:400">• ${safeDate(r.timestamp)}
+              <span class="src-tag">${r.source === 'facebook' ? 'Facebook' : 'Website'}</span>
+            </span>
+          </div>`;
+        reviewsViewportEl.appendChild(card);
       });
-    });
-  }
 
-  // ===== Timers: live refresh =====
-  let pubTimer = null;
-  function startPublicTimer(){ if (!pubTimer) pubTimer = setInterval(loadReviews, 15000); }
-  function stopPublicTimer(){ if (pubTimer){ clearInterval(pubTimer); pubTimer = null; } }
-
-  let adminTimer = null;
-  function startAdminTimer(){
-    if (!adminTimer){
-      adminTimer = setInterval(()=>{
-        if (adminOpen && isAuthed()) adminRefresh();
-      }, 10000);
+      reviewsViewportEl.setAttribute('aria-busy','false');
     }
-  }
-  function stopAdminTimer(){ if (adminTimer){ clearInterval(adminTimer); adminTimer = null; } }
 
-  // Init
-  updateNavSpacer();
-  loadReviews();
-  startPublicTimer();
-</script>
+    function renderReviewsPublic(list){
+      const prevPage = page;
+      publicReviews = Array.isArray(list) ? list.slice() : [];
+      const totalPages = Math.max(1, Math.ceil(publicReviews.length / PAGE_SIZE));
+      page = Math.min(prevPage, totalPages - 1);
+      updateReviewsHeader(publicReviews);
+      renderPublicPage();
+    }
+
+    reviewsMoreBtn.addEventListener('click', ()=>{
+      const totalPages = Math.ceil(publicReviews.length / PAGE_SIZE);
+      page = (page < totalPages - 1) ? page + 1 : 0;
+      renderPublicPage();
+    });
+
+    async function loadReviews(){
+      try{
+        const data = await jsonp({action:'list'});
+        renderReviewsPublic(Array.isArray(data)?data:[]);
+      }catch{
+        reviewsViewportEl.innerHTML = '<div class="help">Couldn’t load reviews.</div>';
+      }
+    }
+
+    // ===== Quote form =====
+    document.getElementById('quoteForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const status = document.getElementById('quoteStatus');
+      status.textContent = 'Sending request...';
+      try{
+        const ok = await jsonp({
+          action:'quote',
+          name:(fd.get('name')||'').toString().trim(),
+          phone:(fd.get('phone')||'').toString().trim(),
+          email:(fd.get('email')||'').toString().trim(),
+          address:(fd.get('address')||'').toString().trim(),
+          service:fd.get('service'),
+          details:(fd.get('details')||'').toString().trim()
+        });
+        if(ok?.ok || ok?.success){ status.textContent = 'Request sent! We’ll reach out shortly.'; e.target.reset(); }
+        else{ status.textContent = 'Couldn’t send request.'; }
+      }catch{ status.textContent = 'Network error.'; }
+    });
+
+    // ===== Reviews form =====
+    document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const status = document.getElementById('reviewStatus');
+      status.textContent = 'Posting...';
+      try{
+        const ok = await jsonp({
+          action:'add',
+          name:(fd.get('name')||'').toString().trim(),
+          stars:fd.get('stars'),
+          text:(fd.get('text')||'').toString().trim()
+        });
+        if(ok?.ok || ok?.success){
+          status.textContent = 'Thanks for the review!';
+          e.target.reset();
+          await loadReviews();
+        } else {
+          status.textContent = 'Couldn’t post review.';
+        }
+      }catch{ status.textContent = 'Network error.'; }
+    });
+
+    // ===== Admin modal (kept same as your prior build) =====
+    const adminModal = document.getElementById('adminModal');
+    const adminOpenBtn = document.getElementById('adminOpen');
+    const adminCloseBtn = document.getElementById('adminClose');
+    const adminLogoutBtn = document.getElementById('adminLogout');
+    const adminLoginView = document.getElementById('adminLoginView');
+    const adminDashView = document.getElementById('adminDashView');
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminLoginMsg = document.getElementById('adminLoginMsg');
+    const adminPass = document.getElementById('adminPass');
+    let adminOpen = false;
+
+    function isAuthed(){ return !!localStorage.getItem('adminToken'); }
+    function setAuthed(token){
+      if(token){ localStorage.setItem('adminToken', token); }
+      adminLoginView.classList.add('hidden');
+      adminDashView.classList.remove('hidden');
+      adminLogoutBtn.classList.remove('hidden');
+    }
+    function clearAuthed(){
+      localStorage.removeItem('adminToken');
+      adminLoginView.classList.remove('hidden');
+      adminDashView.classList.add('hidden');
+      adminLogoutBtn.classList.add('hidden');
+    }
+
+    function showModal(open){
+      adminModal.classList.toggle('open', open);
+      adminModal.setAttribute('aria-hidden', String(!open));
+      adminOpen = open;
+      document.body.classList.toggle('modal-open', open);
+      if (open) {
+        const card = adminModal.querySelector('.modal-card');
+        if (card && !card.hasAttribute('tabindex')) card.setAttribute('tabindex','-1');
+        setTimeout(()=> card?.focus({preventScroll:true}), 0);
+      }
+    }
+
+    document.addEventListener('touchmove', (e)=>{
+      if (adminOpen && !adminModal.contains(e.target)) e.preventDefault();
+    }, { passive:false });
+
+    adminOpenBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMenu(); openAdmin(); });
+    adminCloseBtn?.addEventListener('click', ()=>{ showModal(false); stopAdminTimer(); });
+    adminModal.addEventListener('click', (e)=>{ if(e.target===adminModal){ showModal(false); stopAdminTimer(); } });
+    adminLogoutBtn.addEventListener('click', ()=>{ clearAuthed(); });
+
+    async function openAdmin(){
+      showModal(true);
+      adminLoginMsg.textContent = '';
+      if(isAuthed()){ await adminRefresh(); } else { clearAuthed(); }
+      adminPass.focus();
+      startAdminTimer();
+    }
+
+    adminLoginBtn.addEventListener('click', async ()=>{
+      const pwd = adminPass.value.trim();
+      if(!pwd){ adminLoginMsg.textContent = 'Enter a password.'; return; }
+      adminLoginMsg.textContent = 'Checking...';
+      try{
+        const data = await jsonp({action:'login', password: pwd});
+        if((data?.ok || data?.success) && (data?.token)){
+          setAuthed(data.token); adminPass.value=''; adminLoginMsg.textContent=''; await adminRefresh();
+        }else{
+          adminLoginMsg.textContent = 'Invalid password.';
+        }
+      }catch{ adminLoginMsg.textContent = 'Network error.'; }
+    });
+
+    async function adminFetch(action, body={}){
+      return jsonp(Object.assign({}, body, {action, token: (localStorage.getItem('adminToken')||'')}));
+    }
+
+    async function adminDeleteReview(id){
+      const res = await adminFetch('deleteReview', { id });
+      if(!(res?.ok || res?.success)) throw new Error(res?.error || 'Delete failed');
+      return res;
+    }
+
+    async function adminRefresh(){
+      const aRes = await adminFetch('analytics');
+      const a = aRes?.data || aRes || {};
+      document.getElementById('k_totalReviews').textContent = a?.totalReviews ?? '—';
+      document.getElementById('k_avgRating').textContent   = a?.avgRating ? Number(a.avgRating).toFixed(2) : '—';
+      document.getElementById('k_reviewsMonth').textContent= a?.reviewsThisMonth ?? '—';
+      document.getElementById('k_totalQuotes').textContent = a?.totalQuotes ?? '—';
+      document.getElementById('k_quotesMonth').textContent = a?.quotesThisMonth ?? '—';
+
+      const tbody = document.querySelector('#quotesTable tbody');
+      tbody.innerHTML = (a?.recentQuotes||[]).map(q=>`
+        <tr>
+          <td data-th="Date">${safeDate(q.timestamp)}</td>
+          <td data-th="Name">${escapeHtml(q.name||'')}</td>
+          <td data-th="Phone">${escapeHtml(q.phone||'')}</td>
+          <td data-th="Service">${escapeHtml(q.service||'')}</td>
+          <td data-th="City/ZIP">${escapeHtml(q.cityzip||'')}</td>
+          <td data-th="Details">${escapeHtml(q.details||'')}</td>
+        </tr>
+      `).join('');
+
+      const rBox = document.getElementById('adminReviews');
+      const r = await jsonp({action:'list'}).catch(()=>[]);
+      rBox.innerHTML = (r||[]).map(rv=>`
+        <div class="quote" data-id="${rv.id ?? ''}">
+          <div class="row-actions" style="position:absolute; top:10px; right:10px">
+            ${rv.source==='facebook' ? '' : `<button type="button" class="danger" data-del="${rv.id ?? ''}">Delete</button>`}
+          </div>
+          <div>${'★'.repeat(+rv.stars)}${'☆'.repeat(5-+rv.stars)}</div>
+          <div style="margin-top:6px">${escapeHtml(rv.text)}</div>
+          <div class="by">— ${escapeHtml(rv.name)} <span style="color:var(--muted);font-weight:400">• ${safeDate(rv.timestamp)} <span class="src-tag">${rv.source==='facebook'?'Facebook':'Website'}</span></span></div>
+        </div>
+      `).join('') || '<div class="help">No reviews.</div>';
+
+      rBox.querySelectorAll('button[data-del]').forEach(b=>{
+        b.addEventListener('click', async (ev)=>{
+          ev.preventDefault();
+          ev.stopPropagation();
+          const id = b.getAttribute('data-del');
+          if(!id) return;
+          if(!confirm('Delete this review?')) return;
+          try{
+            const res = await adminDeleteReview(id);
+            if(res){ await adminRefresh(); await loadReviews(); }
+          }catch(err){
+            alert('Delete failed: ' + (err?.message || err));
+          }
+        });
+      });
+    }
+
+    let pubTimer = null;
+    function startPublicTimer(){ if (!pubTimer) pubTimer = setInterval(loadReviews, 15000); }
+    let adminTimer = null;
+    function startAdminTimer(){
+      if (!adminTimer){
+        adminTimer = setInterval(()=>{
+          if (adminOpen && isAuthed()) adminRefresh();
+        }, 10000);
+      }
+    }
+    function stopAdminTimer(){ if (adminTimer){ clearInterval(adminTimer); adminTimer = null; } }
+
+    // Init
+    updateNavSpacer();
+    loadReviews();
+    startPublicTimer();
+  </script>
 </body>
 </html>
-
-
