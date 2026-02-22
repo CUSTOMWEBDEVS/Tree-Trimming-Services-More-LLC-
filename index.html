@@ -27,7 +27,7 @@
       --maxw:min(1600px, 96vw);
 
       --navH:64px; --carouselMax:min(70vh,620px);
-      --promoH:54px; /* promo banner baseline height */
+    
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -49,86 +49,6 @@
       max-width:var(--maxw);
       margin:0 auto;
       padding:0 clamp(12px, 2vw, 28px);
-    }
-
-    /* ===== Promo Banner (animated) ===== */
-    .promo{
-      position:fixed;
-      top:0; left:0; right:0;
-      z-index:1100;
-      background:linear-gradient(90deg, rgba(143,99,255,.25), rgba(90,69,201,.22), rgba(143,99,255,.25));
-      border-bottom:1px solid var(--line);
-      backdrop-filter: blur(10px);
-      overflow:hidden;
-    }
-    .promo::before{
-      content:"";
-      position:absolute; inset:-40px;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,.18), transparent 55%),
-        radial-gradient(circle at 80% 60%, rgba(143,99,255,.25), transparent 60%),
-        linear-gradient(120deg, transparent 0%, rgba(255,255,255,.10) 45%, transparent 65%);
-      transform: translateX(-30%);
-      animation: promoSheen 6s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes promoSheen{
-      0%{ transform: translateX(-30%) }
-      50%{ transform: translateX(30%) }
-      100%{ transform: translateX(-30%) }
-    }
-    .promo-inner{
-      max-width:var(--maxw);
-      margin:0 auto;
-      padding:10px 12px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      position:relative;
-    }
-    .promo-badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(13,15,21,.55);
-      font-weight:900;
-      letter-spacing:.3px;
-      white-space:nowrap;
-    }
-    .promo-badge .spark{
-      width:10px;height:10px;border-radius:50%;
-      background:radial-gradient(circle at 30% 30%, #fff, #cfc7ff 60%, #8f63ff);
-      box-shadow:0 0 16px rgba(143,99,255,.55);
-      animation: promoPulse 1.6s ease-in-out infinite;
-    }
-    @keyframes promoPulse{
-      0%,100%{ transform:scale(1); opacity:.95 }
-      50%{ transform:scale(1.35); opacity:1 }
-    }
-    .promo-text{
-      font-weight:850;
-      color:#f6f5ff;
-      text-shadow:0 10px 40px rgba(0,0,0,.45);
-      line-height:1.2;
-    }
-    .promo-text strong{
-      color:#ffffff;
-      background:linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.06));
-      border:1px solid rgba(255,255,255,.18);
-      padding:2px 8px;
-      border-radius:999px;
-      white-space:nowrap;
-    }
-    .promo small{
-      display:block;
-      margin-top:2px;
-      color:rgba(241,241,241,.82);
-      font-weight:650;
     }
 
     /* ===== Fixed navbar (always visible) ===== */
@@ -351,16 +271,6 @@
 
 <body>
 
-  <!-- ===== Promo Banner ===== -->
-  <div class="promo" role="region" aria-label="Limited time offer">
-    <div class="promo-inner">
-      <span class="promo-badge"><span class="spark"></span> Limited Time</span>
-      <div class="promo-text">
-        From now through the end of January — <strong>$200 OFF</strong> any quote with a successful booking through the website.
-        <small>*Discount applied after booking confirmation.</small>
-      </div>
-    </div>
-  </div>
 
   <!-- Fixed nav -->
   <nav class="nav" role="navigation" aria-label="Main">
@@ -478,34 +388,6 @@
         <div class="reviews-controls">
           <button id="reviews-more" type="button" class="btn-more" aria-label="Show more reviews (cycles)">Show more reviews</button>
         </div>
-
-        <form id="reviewForm" class="quote-card" autocomplete="off">
-          <div class="qgrid">
-            <div class="field">
-              <label class="label" for="rname">Your name</label>
-              <input id="rname" name="name" class="input" type="text" placeholder="Jane D." required>
-            </div>
-            <div class="field">
-              <label class="label" for="rstars">Rating</label>
-              <select id="rstars" name="stars" class="select" required>
-                <option value="5" selected>★★★★★</option>
-                <option value="4">★★★★☆</option>
-                <option value="3">★★★☆☆</option>
-                <option value="2">★★☆☆☆</option>
-                <option value="1">★☆☆☆☆</option>
-              </select>
-            </div>
-            <div class="field span-2">
-              <label class="label" for="rtext">Review</label>
-              <textarea id="rtext" name="text" class="textarea" placeholder="How did we do?" required></textarea>
-            </div>
-            <div class="actions span-2">
-              <button class="btnP" type="submit">Post review</button>
-            </div>
-            <div id="reviewStatus" class="help span-2"></div>
-          </div>
-        </form>
-      </section>
 
       <section class="sect faqs" id="faq">
         <h3>FAQ</h3>
@@ -789,28 +671,6 @@
       }catch{ status.textContent = 'Network error.'; }
     });
 
-    // ===== Reviews form =====
-    document.getElementById('reviewForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const status = document.getElementById('reviewStatus');
-      status.textContent = 'Posting...';
-      try{
-        const ok = await jsonp({
-          action:'add',
-          name:(fd.get('name')||'').toString().trim(),
-          stars:fd.get('stars'),
-          text:(fd.get('text')||'').toString().trim()
-        });
-        if(ok?.ok || ok?.success){
-          status.textContent = 'Thanks for the review!';
-          e.target.reset();
-          await loadReviews();
-        } else {
-          status.textContent = 'Couldn’t post review.';
-        }
-      }catch{ status.textContent = 'Network error.'; }
-    });
 
     // ===== Admin modal (kept same as your prior build) =====
     const adminModal = document.getElementById('adminModal');
