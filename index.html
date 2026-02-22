@@ -37,6 +37,28 @@
     a{color:#cfc7ff;text-decoration:none} a:hover{text-decoration:underline}
     .break{word-wrap:break-word;overflow-wrap:break-word}
 
+
+    /* Standout Google review link */
+.greview-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-left:10px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,#6f54e9,var(--ac2));
+  color:#fff;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 10px 28px rgba(0,0,0,.35);
+  transform:translateY(-1px);
+}
+.greview-link:hover{ text-decoration:none; filter:brightness(1.05); }
+.greview-link:focus-visible{ outline:none; box-shadow: var(--ring); }
+.greview-link small{ font-weight:800; opacity:.9; }
+
+
     /* ===== Full-bleed layout while keeping content readable ===== */
     .wrap{
       max-width:none;
@@ -127,6 +149,7 @@
     .rating-badge{display:inline-flex;align-items:center;gap:8px;background:#0f1118;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:800}
     .src-tag{padding:2px 6px;border:1px solid var(--line);border-radius:999px;background:#0f1118;margin-left:6px;font-size:.8rem}
 
+    
     /* show-more controls */
     .reviews-controls{ text-align:center; margin-top:10px; }
     .btn-more{
@@ -383,8 +406,20 @@
 
       <section class="sect" id="reviews">
         <h3>Reviews</h3>
-        <div id="reviewsHeader" class="rating-badge" aria-live="polite">Average: —</div>
-        <div id="reviewsViewport" class="quotes" style="margin-top:10px" aria-live="polite" aria-busy="false"></div>
+<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+  <div id="reviewsHeader" class="rating-badge" aria-live="polite">Average: —</div>
+
+  <a
+    class="greview-link"
+    href="https://www.google.com/search?q=Tree+trimming+services+%26+more+llc+website+reviews&oq=tree+&gs_lcrp=EgZjaHJvbWUqBggBEEUYOzIGCAAQRRg5MgYIARBFGDsyBggCEEUYPDIGCAMQRRg8MgYIBBBFGEEyBggFEEUYPDIGCAYQRRhBMgYIBxBFGEHSAQg0MTExajBqN6gCALACAA&sourceid=chrome&ie=UTF-8&lqi=CjFUcmVlIHRyaW1taW5nIHNlcnZpY2VzICYgbW9yZSBsbGMgd2Vic2l0ZSByZXZpZXdzIgI4AUj98uCs0quAgAhaRRAAEAEQAhADEAQQBRAGGAAYARgCGAMYBBgFIil0cmVlIHRyaW1taW5nIHNlcnZpY2VzICYgbW9yZSBsbGMgd2Vic2l0ZZIBDHRyZWVfc2VydmljZZoBJENoZERTVWhOTUc5blMwVk1VSEkwVEhaV2VrbFlSMjVSUlJBQuABAPoBBQiEAxBE#lkt=LocalPoiReviews&rlimm=4670986652985596008&lrd=0x87d8f9b77b86f057:0x40d2ad9ce9cc1868,3,,,,"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Leave a Google review (opens in a new tab)"
+  >
+    ⭐ Leave a review
+    <small>on Google</small>
+  </a>
+</div>        <div id="reviewsViewport" class="quotes" style="margin-top:10px" aria-live="polite" aria-busy="false"></div>
         <div class="reviews-controls">
           <button id="reviews-more" type="button" class="btn-more" aria-label="Show more reviews (cycles)">Show more reviews</button>
         </div>
@@ -444,6 +479,7 @@
       <footer>
         &copy; <span id="yr"></span> Tree Trimming Services &amp; More LLC •
         <a href="https://www.facebook.com/treetrimmingservicesandmoreLLC2015" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://www.google.com/search?q=Tree+trimming+services+%26+more+llc+website+reviews&oq=tree+&gs_lcrp=EgZjaHJvbWUqBggBEEUYOzIGCAAQRRg5MgYIARBFGDsyBggCEEUYPDIGCAMQRRg8MgYIBBBFGEEyBggFEEUYPDIGCAYQRRhBMgYIBxBFGEHSAQg0MTExajBqN6gCALACAA&sourceid=chrome&ie=UTF-8&lqi=CjFUcmVlIHRyaW1taW5nIHNlcnZpY2VzICYgbW9yZSBsbGMgd2Vic2l0ZSByZXZpZXdzIgI4AUj98uCs0quAgAhaRRAAEAEQAhADEAQQBRAGGAAYARgCGAMYBBgFIil0cmVlIHRyaW1taW5nIHNlcnZpY2VzICYgbW9yZSBsbGMgd2Vic2l0ZZIBDHRyZWVfc2VydmljZZoBJENoZERTVWhOTUc5blMwVk1VSEkwVEhaV2VrbFlSMjVSUlJBQuABAPoBBQiEAxBE#lkt=LocalPoiReviews&rlimm=4670986652985596008&lrd=0x87d8f9b77b86f057:0x40d2ad9ce9cc1868,3,,,," target="_blank" rel="noopener noreferrer">Leave a Google Review</a>
       </footer>
     </div>
   </div>
